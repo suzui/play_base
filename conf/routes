@@ -1,0 +1,14 @@
+# This file defines all module routes (Higher priority routes first)
+#
+# import these routes in the main app as :
+# *     /                       module:play_base
+#
+# ~~~~
+
+*		/?					  	                back.Application.index
+*		/{action}								back.Application.{action}
+*		/auth/{action}							back.AuthController.{action}
+*		/person/{action}						back.PersonController.{action}
+
+
+GET     /public/                                staticDir:public
