@@ -11,17 +11,17 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.security.*;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 
 public class CodeUtils {
-	private static String message = "guochenfan";
+	private static String message = "message";
 	private static String encrypt;
 	private static String decrypt;
 	private static String secret = "123456";
 	private static KeyGenerator keygen;
-
+	
 	public static String md5(String message) {
 		encrypt = DigestUtils.md5Hex(message);
 		try {
@@ -30,7 +30,7 @@ public class CodeUtils {
 		}
 		return encrypt;
 	}
-
+	
 	public static String sha(String message) {
 		encrypt = DigestUtils.sha1Hex(message);
 		System.err.println("sha encode:" + encrypt);
@@ -42,13 +42,53 @@ public class CodeUtils {
 		}
 		return encrypt;
 	}
-
+	
+	public static String sha256(String message) {
+		encrypt = DigestUtils.sha256Hex(message);
+		System.err.println("sha encode:" + encrypt);
+		try {
+			encrypt = ByteUtils.toHexAscii(MessageDigest.getInstance("sha-256").digest(message.getBytes()));
+			System.err.println("sha encode:" + encrypt);
+		} catch (NoSuchAlgorithmException e) {
+			System.err.println("sha encode error:" + e.getMessage());
+		}
+		return encrypt;
+	}
+	
+	public static String signRSA(String privatekey, String message) {
+		try {
+			PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(new BASE64Decoder().decodeBuffer(privatekey));
+			PrivateKey privateKey = KeyFactory.getInstance("RSA").generatePrivate(pkcs8EncodedKeySpec);
+			Signature signature = Signature.getInstance("SHA256withRSA");
+			signature.initSign(privateKey);
+			signature.update(message.getBytes());
+			encrypt = new BASE64Encoder().encode(signature.sign());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return encrypt;
+	}
+	
+	public static boolean verifyRSA(String publickey, String message, String sign) {
+		try {
+			X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(new BASE64Decoder().decodeBuffer(publickey));
+			PublicKey publicKey = KeyFactory.getInstance("RSA").generatePublic(x509EncodedKeySpec);
+			Signature signature = Signature.getInstance("SHA256withRSA");
+			signature.initVerify(publicKey);
+			signature.update(message.getBytes());
+			return signature.verify(new BASE64Decoder().decodeBuffer(sign));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	public static String base64Encode(String message) {
 		encrypt = new BASE64Encoder().encode(message.getBytes());
 		System.err.println("base64 encode:" + encrypt);
 		return encrypt;
 	}
-
+	
 	public static String base64Decode(String encrypt) {
 		try {
 			decrypt = new String(new BASE64Decoder().decodeBuffer(encrypt));
@@ -58,17 +98,17 @@ public class CodeUtils {
 		}
 		return decrypt;
 	}
-	/*
-	 * SecureRandom 实现完全隨操作系统本身的内部状态，除非调用方在调用 getInstance 方法之后又调用了 setSeed 方法；该实现在
+    /*
+     * SecureRandom 实现完全隨操作系统本身的内部状态，除非调用方在调用 getInstance 方法之后又调用了 setSeed 方法；该实现在
 	 * windows 上每次生成的 key 都相同，但是在 solaris 或部分 linux 系统上则不同。
-	 * 
-	 * 
+	 *
+	 *
 	 * 加密完byte[] 后，需要将加密了的byte[] 转换成base64保存，如： BASE64Encoder base64encoder = new
 	 * BASE64Encoder(); String encode=base64encoder.encode(bytes)；
 	 * 解密前，需要将加密后的字符串从base64转回来再解密，如： BASE64Decoder base64decoder = new
 	 * BASE64Decoder(); byte[] encodeByte = base64decoder.decodeBuffer(str);
 	 */
-
+	
 	public static String aesEncode(String secret, String message) {
 		try {
 			// 1.构造密钥生成器，指定为AES算法,不区分大小写
@@ -105,7 +145,7 @@ public class CodeUtils {
 		}
 		return encrypt;
 	}
-
+	
 	public static String aesDecode(String secret, String encrypt) {
 		try {
 			// 1.构造密钥生成器，指定为AES算法,不区分大小写
@@ -126,8 +166,8 @@ public class CodeUtils {
 			cipher.init(Cipher.DECRYPT_MODE, key);
 			// 8.将加密并编码后的内容解码成字节数组
 			byte[] byte_content = new BASE64Decoder().decodeBuffer(encrypt);
-			/*
-			 * 解密
+            /*
+             * 解密
 			 */
 			byte[] byte_decode = cipher.doFinal(byte_content);
 			decrypt = new String(byte_decode, "utf-8");
@@ -135,10 +175,10 @@ public class CodeUtils {
 		} catch (Exception e) {
 			System.err.println("aes decode error:" + e.getMessage());
 		}
-
+		
 		return decrypt;
 	}
-
+	
 	// http://stackoverflow.com/questions/29151211/how-to-decrypt-an-encrypted-aes-256-string-from-cryptojs-using-java
 	// openssl enc -aes-128-ecb -in plain.txt -a -out encrypt.txt -pass
 	// pass:123456
@@ -157,7 +197,7 @@ public class CodeUtils {
 		message = "yechenfan";
 		encrypt = aesEncode(secret, message);
 		decrypt = aesDecode(secret, encrypt);
-
+		
 	}
-
+	
 }
