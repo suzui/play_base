@@ -25,6 +25,7 @@ import javassist.Modifier;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.LocalVariableAttribute;
 import javassist.bytecode.MethodInfo;
+import play.Logger;
 import play.Play;
 import play.mvc.Before;
 import play.mvc.Controller;
@@ -52,10 +53,11 @@ public class DocController extends Controller {
             }
             Map<String, List<String[]>> enums = new LinkedHashMap<>();
             String frameworkPath = Play.frameworkPath.getAbsolutePath();
+            Logger.error("docframeworkPath:"+frameworkPath);
             String applicationPath=Play.applicationPath.getAbsolutePath();
+            Logger.error("docapplicationPath:"+applicationPath);
             String[] enumModules = {frameworkPath +"/modules/play_base", applicationPath.substring(0,applicationPath.lastIndexOf("_"))+"_common"};
             for (String enumModule : enumModules) {
-                System.err.println(enumModule);
                 for (String filename :new File(enumModule+"/app/enums").list()) {
                     if(!filename.endsWith(".java")){
                         continue;
