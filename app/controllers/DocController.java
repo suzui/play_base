@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -50,9 +51,11 @@ public class DocController extends Controller {
                 codes += (value[0] + " " + value[1] + "\n");
             }
             Map<String, List<String[]>> enums = new LinkedHashMap<>();
-            String[] enumModules = {Play.configuration.getProperty("module.base"), Play.configuration.getProperty("module.common")};
+            String frameworkPath = Play.frameworkPath.getAbsolutePath();
+            String applicationPath=Play.applicationPath.getAbsolutePath();
+            String[] enumModules = {frameworkPath +"/modules/play_base", applicationPath.substring(0,applicationPath.lastIndexOf("_"))+"_common"};
             for (String enumModule : enumModules) {
-                for (String filename : Play.getFile(enumModule+"/app/enums").list()) {
+                for (String filename :new File(enumModule+"/app/enums").list()) {
                     if(!filename.endsWith(".java")){
                         continue;
                     }
