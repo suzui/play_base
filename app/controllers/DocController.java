@@ -53,9 +53,7 @@ public class DocController extends Controller {
             }
             Map<String, List<String[]>> enums = new LinkedHashMap<>();
             String frameworkPath = Play.frameworkPath.getAbsolutePath();
-            Logger.error("docframeworkPath:"+frameworkPath);
             String applicationPath=Play.applicationPath.getAbsolutePath();
-            Logger.error("docapplicationPath:"+applicationPath);
             String[] enumModules = {frameworkPath +"/modules/play_base", applicationPath.substring(0,applicationPath.lastIndexOf("_"))+"_common"};
             for (String enumModule : enumModules) {
                 for (String filename :new File(enumModule+"/app/enums").list()) {
