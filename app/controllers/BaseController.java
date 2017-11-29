@@ -3,6 +3,9 @@ package controllers;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.google.gson.Gson;
+import jobs.ApiJob;
+import models.api.Api;
 import org.apache.commons.lang.StringUtils;
 
 import jobs.UpdateLoginInfoJob;
@@ -11,6 +14,7 @@ import models.person.Person;
 import play.Logger;
 import play.Play;
 import play.cache.Cache;
+import play.db.jpa.JPA;
 import play.mvc.After;
 import play.mvc.Before;
 import play.mvc.Catch;
@@ -23,8 +27,11 @@ import play.mvc.Http.Response;
 import play.mvc.Scope.Session;
 import play.mvc.Util;
 import play.mvc.With;
+import vos.ApiVO;
 import vos.Result;
 import vos.Result.StatusCode;
+
+import javax.persistence.EntityManager;
 
 @With(DocController.class)
 public class BaseController extends Controller {
@@ -36,19 +43,32 @@ public class BaseController extends Controller {
     private static final String BASE_URL = Play.configuration.getProperty("application.baseUrl");
     
     @Before(priority = 0)
+    static void api() {
+        final Request request = Request.current();
+        ApiVO apiVO = new ApiVO();
+        apiVO.url = request.url;
+        apiVO.action = request.action;
+        apiVO.method = request.method;
+        apiVO.header = request.headers.entrySet().stream()
+                .map(e -> e.getKey() + ":" + e.getValue()).collect(Collectors.toList()) + "";
+        apiVO.body = String.format("", request.body);
+        apiVO.param = request.params.allSimple().entrySet().stream()
+                .map(e -> e.getKey() + ":" + e.getValue()).collect(Collectors.toList()) + "";
+        Cache.add(request.hashCode() + "", apiVO);
+    }
+    
+    @Before(priority = 1)
     static void requestInfo() {
         Logger.info("[requestInfo start]:================");
-        final Request request = Request.current();
         Logger.info("[requestInfo header]:%s", request.headers.entrySet().stream()
                 .map(e -> e.getKey() + ":" + e.getValue()).collect(Collectors.toList()));
         Logger.info("[requestInfo action]:%s,%s,%s,%s", request.isAjax(), request.method, request.url, request.action);
         Logger.info("[requestInfo end]:================");
     }
     
-    @Before(priority = 1)
+    @Before(priority = 2)
     static void randomseed() {
         Logger.info("[randomseed start]:================");
-        final Request request = Request.current();
         if (request != null && "post".equalsIgnoreCase(request.method)) {
             final Header randomseed = request.headers.get("randomseed");
             if (randomseed != null) {
@@ -63,10 +83,9 @@ public class BaseController extends Controller {
         Logger.info("[randomseed end]:================");
     }
     
-    @Before(priority = 2)
+    @Before(priority = 3)
     static void params() {
         Logger.info("[params start]:================");
-        final Request request = Request.current();
         request.params.put(VO, "");
         Logger.info("[params]:%s", request.params.allSimple().entrySet().stream()
                 .map(e -> e.getKey() + ":" + e.getValue()).collect(Collectors.toList()));
@@ -76,20 +95,22 @@ public class BaseController extends Controller {
     @Catch
     static void exception(Throwable throwable) {
         Logger.info("[exception start]:================");
+        ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
+        apiVO.exception = throwable.getMessage();
+        Cache.add(request.hashCode() + "", apiVO);
         Logger.info("[exception]:%s", throwable);
         Logger.info("[exception end]:================");
-        if (Play.mode.isProd()) {
-            renderJSON(Result.failed());
-        }
+        renderJSON(Result.failed());
     }
     
     @After
     static void status() {
-        if (!request.params._contains(DOC)) {
-            Logger.info("[status start]:================");
-            Logger.info("[status]:%s", response.status);
-            Logger.info("[status end]:================");
-        }
+        Logger.info("[status start]:================");
+        Logger.info("[status]:%s", response.status);
+        ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
+        apiVO.status = response.status + "";
+        Cache.add(request.hashCode() + "", apiVO);
+        Logger.info("[status end]:================");
     }
     
     @Finally
@@ -98,6 +119,10 @@ public class BaseController extends Controller {
             Logger.info("[finish start]:================");
             Logger.info("[finish]:%s", response.out);
             Logger.info("[finish end]:================");
+            ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
+            apiVO.result = response.out + "";
+            Cache.add(request.hashCode() + "", apiVO);
+            new ApiJob(request.hashCode() + "").now();
         }
     }
     
@@ -116,6 +141,9 @@ public class BaseController extends Controller {
         if (token == null) {
             renderJSON(Result.failed(StatusCode.SYSTEM_TOKEN_UNVALID));
         }
+        ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
+        apiVO.personId = token.person.id;
+        Cache.add(request.hashCode() + "", apiVO);
         Logger.info("[accesstoken]:%s,%s,%s", token.person.id, token.person.name, token.person.username);
         final Map<String, Header> headers = request.headers;
         final String appVersion = headers.get("appversion") == null ? null : headers.get("appversion").value();

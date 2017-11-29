@@ -18,7 +18,7 @@ import java.util.Map.Entry;
 
 @Global
 public class DataBinder implements TypeBinder<OneData> {
-    public static final Gson GSON = new Gson();
+    private static final Gson GSON = new Gson();
     
     @Override
     public Object bind(String name, Annotation[] annotations, String value, Class actualClass, Type genericType) {
