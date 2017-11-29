@@ -5,7 +5,7 @@ import models.api.Api;
 
 import java.io.Serializable;
 
-public class ApiVO extends OneData implements Serializable{
+public class ApiVO extends OneData implements Serializable {
     
     @DataField(name = "apiId", enable = false)
     public Long apiId;
@@ -13,12 +13,12 @@ public class ApiVO extends OneData implements Serializable{
     public String url;
     @DataField(name = "action", enable = false)
     public String action;
-    @DataField(name = "请求方式", enable = false)
+    @DataField(name = "method", enable = false)
     public String method;
-    @DataField(name = "header内容", enable = false)
-    public String header;
-    @DataField(name = "body内容", enable = false)
+    @DataField(name = "body", enable = false)
     public String body;
+    @DataField(name = "header", enable = false)
+    public String header;
     @DataField(name = "请求参数", enable = false)
     public String param;
     @DataField(name = "返回状态", enable = false)
@@ -44,8 +44,8 @@ public class ApiVO extends OneData implements Serializable{
         this.url = api.url;
         this.action = api.action;
         this.method = api.method;
-        this.header = api.header;
         this.body = api.body;
+        this.header = api.header;
         this.param = api.param;
         this.status = api.status;
         this.exception = api.exception;

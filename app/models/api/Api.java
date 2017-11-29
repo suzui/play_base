@@ -20,9 +20,9 @@ public class Api extends BaseModel {
     public String action;
     public String method;
     @Column(length = 1000)
-    public String header;
-    @Column(length = 1000)
     public String body;
+    @Column(length = 1000)
+    public String header;
     @Column(length = 1000)
     public String param;
     public String status;
@@ -49,8 +49,8 @@ public class Api extends BaseModel {
         this.url = apiVO.url != null ? apiVO.url : url;
         this.action = apiVO.action != null ? apiVO.action : action;
         this.method = apiVO.method != null ? apiVO.method : method;
-        this.header = apiVO.header != null ? apiVO.header : header;
         this.body = apiVO.body != null ? apiVO.body : body;
+        this.header = apiVO.header != null ? apiVO.header : header;
         this.param = apiVO.param != null ? apiVO.param : param;
         this.status = apiVO.status != null ? apiVO.status : status;
         this.exception = apiVO.exception != null ? apiVO.exception : exception;

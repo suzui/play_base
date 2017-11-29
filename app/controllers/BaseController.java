@@ -49,9 +49,9 @@ public class BaseController extends Controller {
         apiVO.url = request.url;
         apiVO.action = request.action;
         apiVO.method = request.method;
+        apiVO.body = String.format("", request.body);
         apiVO.header = request.headers.entrySet().stream()
                 .map(e -> e.getKey() + ":" + e.getValue()).collect(Collectors.toList()) + "";
-        apiVO.body = String.format("", request.body);
         apiVO.param = request.params.allSimple().entrySet().stream()
                 .map(e -> e.getKey() + ":" + e.getValue()).collect(Collectors.toList()) + "";
         Cache.add(request.hashCode() + "", apiVO);
@@ -97,7 +97,8 @@ public class BaseController extends Controller {
         Logger.info("[exception start]:================");
         ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
         apiVO.exception = throwable.getMessage();
-        Cache.add(request.hashCode() + "", apiVO);
+        apiVO.status = response.status + "";
+        Cache.replace(request.hashCode() + "", apiVO);
         Logger.info("[exception]:%s", throwable);
         Logger.info("[exception end]:================");
         renderJSON(Result.failed());
@@ -109,7 +110,7 @@ public class BaseController extends Controller {
         Logger.info("[status]:%s", response.status);
         ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
         apiVO.status = response.status + "";
-        Cache.add(request.hashCode() + "", apiVO);
+        Cache.replace(request.hashCode() + "", apiVO);
         Logger.info("[status end]:================");
     }
     
@@ -121,7 +122,7 @@ public class BaseController extends Controller {
             Logger.info("[finish end]:================");
             ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
             apiVO.result = response.out + "";
-            Cache.add(request.hashCode() + "", apiVO);
+            Cache.replace(request.hashCode() + "", apiVO);
             new ApiJob(request.hashCode() + "").now();
         }
     }
@@ -143,7 +144,7 @@ public class BaseController extends Controller {
         }
         ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
         apiVO.personId = token.person.id;
-        Cache.add(request.hashCode() + "", apiVO);
+        Cache.replace(request.hashCode() + "", apiVO);
         Logger.info("[accesstoken]:%s,%s,%s", token.person.id, token.person.name, token.person.username);
         final Map<String, Header> headers = request.headers;
         final String appVersion = headers.get("appversion") == null ? null : headers.get("appversion").value();
