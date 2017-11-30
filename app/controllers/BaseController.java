@@ -40,7 +40,7 @@ public class BaseController extends Controller {
     private static final String DOC = "doc";
     private static final String CURRENT_PERSON_ID = "currentPersonId";
     private static final String KEEP_PERSON_ID = "keepPersonId";
-    private static final String BASE_URL = Play.configuration.getProperty("application.baseUrl");
+    public static final String BASE_URL = Play.configuration.getProperty("application.baseUrl");
     
     @Before(priority = 0)
     static void api() {
