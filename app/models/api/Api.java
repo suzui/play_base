@@ -19,11 +19,11 @@ public class Api extends BaseModel {
     public String url;
     public String action;
     public String method;
-    @Column(length = 1000)
+    @Lob
     public String body;
-    @Column(length = 1000)
+    @Lob
     public String header;
-    @Column(length = 1000)
+    @Lob
     public String param;
     public String status;
     @Lob

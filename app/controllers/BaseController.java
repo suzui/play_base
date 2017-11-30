@@ -106,12 +106,14 @@ public class BaseController extends Controller {
     
     @After
     static void status() {
-        Logger.info("[status start]:================");
-        Logger.info("[status]:%s", response.status);
-        ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
-        apiVO.status = response.status + "";
-        Cache.replace(request.hashCode() + "", apiVO);
-        Logger.info("[status end]:================");
+        if (!request.params._contains(DOC)) {
+            Logger.info("[status start]:================");
+            Logger.info("[status]:%s", response.status);
+            ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
+            apiVO.status = response.status + "";
+            Cache.replace(request.hashCode() + "", apiVO);
+            Logger.info("[status end]:================");
+        }
     }
     
     @Finally
@@ -119,11 +121,11 @@ public class BaseController extends Controller {
         if (!request.params._contains(DOC)) {
             Logger.info("[finish start]:================");
             Logger.info("[finish]:%s", response.out);
-            Logger.info("[finish end]:================");
             ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
             apiVO.result = response.out + "";
             Cache.replace(request.hashCode() + "", apiVO);
             new ApiJob(request.hashCode() + "").now();
+            Logger.info("[finish end]:================");
         }
     }
     
