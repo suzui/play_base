@@ -77,4 +77,9 @@ public class BaseModel extends Model {
     public static Boolean convert(int b) {
         return BooleanUtils.toBooleanObject(b, 1, 0, -1);
     }
+    
+    public static Boolean withNull(long v) {
+        return v == -1;
+    }
+    
 }
