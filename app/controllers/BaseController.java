@@ -3,18 +3,15 @@ package controllers;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.google.gson.Gson;
 import jobs.ApiJob;
-import models.api.Api;
+import models.token.BasePerson;
 import org.apache.commons.lang.StringUtils;
 
 import jobs.UpdateLoginInfoJob;
-import models.person.AccessToken;
-import models.person.Person;
+import models.token.AccessToken;
 import play.Logger;
 import play.Play;
 import play.cache.Cache;
-import play.db.jpa.JPA;
 import play.mvc.After;
 import play.mvc.Before;
 import play.mvc.Catch;
@@ -27,11 +24,9 @@ import play.mvc.Http.Response;
 import play.mvc.Scope.Session;
 import play.mvc.Util;
 import play.mvc.With;
-import vos.ApiVO;
+import vos.back.ApiVO;
 import vos.Result;
 import vos.Result.StatusCode;
-
-import javax.persistence.EntityManager;
 
 @With(DocController.class)
 public class BaseController extends Controller {
@@ -94,14 +89,16 @@ public class BaseController extends Controller {
     
     @Catch
     static void exception(Throwable throwable) {
-        Logger.info("[exception start]:================");
-        ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
-        apiVO.exception = throwable.getMessage();
-        apiVO.status = response.status + "";
-        Cache.replace(request.hashCode() + "", apiVO);
-        Logger.info("[exception]:%s", throwable);
-        Logger.info("[exception end]:================");
-        renderJSON(Result.failed());
+        if (!request.params._contains(DOC)) {
+            Logger.info("[exception start]:================");
+            ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
+            apiVO.exception = throwable.getMessage();
+            apiVO.status = response.status + "";
+            Cache.replace(request.hashCode() + "", apiVO);
+            Logger.info("[exception]:%s", throwable);
+            Logger.info("[exception end]:================");
+            renderJSON(Result.failed());
+        }
     }
     
     @After
@@ -197,7 +194,7 @@ public class BaseController extends Controller {
     }
     
     @Util
-    protected static Person getCurrPerson() {
+    protected static <T extends BasePerson> T getCurrPerson() {
         String personId = getPersonIdFromSession();
         if (personId == null) {
             personId = getPersonIdFromCookie();
@@ -205,7 +202,7 @@ public class BaseController extends Controller {
         if (personId == null) {
             return null;
         }
-        return Person.findByID(Long.parseLong(personId));
+        return BasePerson.findByID(Long.parseLong(personId));
     }
     
     @Util
@@ -225,7 +222,7 @@ public class BaseController extends Controller {
     }
     
     @Util
-    protected static Person getPersonByToken() {
+    protected static <T extends BasePerson> T getPersonByToken() {
         String token = getToken();
         return token == null ? null : AccessToken.findPersonByAccesstoken(token);
     }

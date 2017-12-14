@@ -37,7 +37,11 @@ public class DataBinder implements TypeBinder<OneData> {
                 } catch (NoSuchFieldException nsfe) {
                     continue;
                 }
-                if (!String.class.isAssignableFrom((Class<?>) field.getGenericType())) {
+                Type type = field.getType();
+                if (List.class.isAssignableFrom((Class<?>) type)) {
+                    continue;
+                }
+                if (!String.class.isAssignableFrom((Class<?>) type)) {
                     continue;
                 }
             }

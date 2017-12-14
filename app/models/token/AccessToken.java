@@ -1,4 +1,4 @@
-package models.person;
+package models.token;
 
 import enums.ClientType;
 import models.BaseModel;
@@ -15,7 +15,7 @@ public class AccessToken extends BaseModel {
     
     public String accesstoken;
     @ManyToOne
-    public Person person;
+    public BasePerson person;
     public String appVersion;
     public String appType;
     public String osVersion;
@@ -25,7 +25,7 @@ public class AccessToken extends BaseModel {
     public String pushToken;
     public Boolean notify = true;
     
-    public static AccessToken add(Person person) {
+    public static AccessToken add(BasePerson person) {
         AccessToken at = findByPerson(person);
         if (at != null) {
             return at;
@@ -63,15 +63,15 @@ public class AccessToken extends BaseModel {
         return AccessToken.find(defaultSql("accesstoken=?"), accesstoken).first();
     }
     
-    public static AccessToken findByPerson(Person person) {
-        return AccessToken.find(defaultSql("person=? "), person).first();
+    public static AccessToken findByPerson(BasePerson person) {
+        return find(defaultSql("person=? "), person).first();
     }
     
-    public static AccessToken findByPersonAndClientType(Person person, ClientType clientType) {
+    public static AccessToken findByPersonAndClientType(BasePerson person, ClientType clientType) {
         return AccessToken.find(defaultSql("person=? and clientType=?"), person, clientType).first();
     }
     
-    public static Person findPersonByAccesstoken(String accesstoken) {
+    public static <T extends BasePerson> T findPersonByAccesstoken(String accesstoken) {
         return AccessToken
                 .find("select at.person from AccessToken at where at.deleted=false and at.accesstoken=?", accesstoken)
                 .first();

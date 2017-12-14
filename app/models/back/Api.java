@@ -1,9 +1,10 @@
-package models.api;
+package models.back;
 
 import models.BaseModel;
+import models.token.BasePerson;
 import models.person.Person;
 import org.apache.commons.lang.StringUtils;
-import vos.ApiVO;
+import vos.back.ApiVO;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +33,7 @@ public class Api extends BaseModel {
     public String result;
     
     @ManyToOne
-    public Person person;
+    public BasePerson person;
     
     public static Api init() {
         Api api = new Api();
@@ -63,7 +64,7 @@ public class Api extends BaseModel {
         this.logicDelete();
     }
     
-    public static Api findByID(long id) {
+    public static Api findByID(Long id) {
         return Api.find(defaultSql("id=?"), id).first();
     }
     
@@ -97,7 +98,7 @@ public class Api extends BaseModel {
         List<String> hqls = new ArrayList<>();
         List<Object> params = new ArrayList<>();
         if (StringUtils.isNotBlank(apiVO.search)) {
-            hqls.add("concat_ws(',',enName,zhName) like ?");
+            hqls.add("concat_ws(',',name) like ?");
             params.add("%" + apiVO.search + "%");
         }
         return new Object[]{hqls, params};

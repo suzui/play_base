@@ -1,9 +1,9 @@
 package jobs;
 
-import models.api.Api;
+import models.back.Api;
 import play.cache.Cache;
 import play.jobs.Job;
-import vos.ApiVO;
+import vos.back.ApiVO;
 
 public class ApiJob extends Job {
     

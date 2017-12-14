@@ -1,38 +1,39 @@
-package vos;
+package vos.back;
 
 import annotations.DataField;
-import models.api.Api;
+import models.back.Api;
+import vos.OneData;
 
 import java.io.Serializable;
 
 public class ApiVO extends OneData implements Serializable {
     
-    @DataField(name = "apiId", enable = false)
+    @DataField(name = "apiId")
     public Long apiId;
-    @DataField(name = "url", enable = false)
+    @DataField(name = "url")
     public String url;
-    @DataField(name = "action", enable = false)
+    @DataField(name = "action")
     public String action;
-    @DataField(name = "method", enable = false)
+    @DataField(name = "method")
     public String method;
-    @DataField(name = "body", enable = false)
+    @DataField(name = "body")
     public String body;
-    @DataField(name = "header", enable = false)
+    @DataField(name = "header")
     public String header;
-    @DataField(name = "请求参数", enable = false)
+    @DataField(name = "请求参数")
     public String param;
-    @DataField(name = "返回状态", enable = false)
+    @DataField(name = "返回状态")
     public String status;
-    @DataField(name = "异常报告", enable = false)
+    @DataField(name = "异常报告")
     public String exception;
-    @DataField(name = "返回结果", enable = false)
+    @DataField(name = "返回结果")
     public String result;
     
-    @DataField(name = "用户id", enable = false)
+    @DataField(name = "用户id")
     public Long personId;
-    @DataField(name = "用户姓名", enable = false)
+    @DataField(name = "用户姓名")
     public String personName;
-    @DataField(name = "用户账号", enable = false)
+    @DataField(name = "用户账号")
     public String personUsername;
     
     public ApiVO() {

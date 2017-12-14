@@ -94,8 +94,8 @@ public class OneData extends Data {
                     continue;
                 }
                 Type type = f.getType();
-                Type genericType = f.getGenericType();
                 if (List.class.isAssignableFrom((Class<?>) type)) {
+                    Type genericType = f.getGenericType();
                     List<Object> list = new ArrayList<>();
                     ParameterizedType pt = (ParameterizedType) genericType;
                     Type one = pt.getActualTypeArguments()[0];
