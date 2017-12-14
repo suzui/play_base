@@ -55,6 +55,10 @@ public class Admin extends BasePerson {
         this.logicDelete();
     }
     
+    public static Admin findByUsername(String username) {
+        return Admin.find(defaultSql("username=?"), username).first();
+    }
+    
     public static List<Admin> fetchByIds(List<Long> ids) {
         if (ids == null || ids.isEmpty()) {
             return Collections.EMPTY_LIST;
