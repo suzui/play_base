@@ -1,6 +1,7 @@
 package models.token;
 
 import models.BaseModel;
+import models.person.Person;
 import org.apache.commons.lang.StringUtils;
 import play.data.validation.MaxSize;
 import play.data.validation.MinSize;
@@ -47,8 +48,20 @@ public abstract class BasePerson extends BaseModel {
         return StringUtils.equalsIgnoreCase(password, this.password);
     }
     
+    
+    public static <T extends BasePerson> T findByUsername(String username) {
+        return BasePerson.find(defaultSql("username=?"), username).first();
+    }
+    
+    public static <T extends BasePerson> T findByPhone(String phone) {
+        return BasePerson.find(defaultSql("phone=?"), phone).first();
+    }
+    
+    public static <T extends BasePerson> T findByEmail(String email) {
+        return BasePerson.find(defaultSql("email=?"), email).first();
+    }
+    
     public static <T extends BasePerson> T findByID(Long id) {
         return BasePerson.find(defaultSql("id=?"), id).first();
     }
-    
 }

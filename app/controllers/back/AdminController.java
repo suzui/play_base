@@ -1,14 +1,12 @@
 package controllers.back;
 
-import binders.PasswordBinder;
 import models.back.Admin;
 import models.back.Auth;
 import models.back.AuthAdmin;
-import play.data.binding.As;
-import vos.back.AdminVO;
-import vos.back.AuthVO;
 import vos.PageData;
 import vos.Result;
+import vos.back.AdminVO;
+import vos.back.AuthVO;
 
 import java.util.List;
 import java.util.stream.Collectors;

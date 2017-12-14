@@ -35,12 +35,12 @@ public class Admin extends BasePerson {
     
     public static void init() {
         if (fetchAll().isEmpty()) {
-            AdminVO adminVO = new AdminVO();
-            adminVO.username = "admin";
-            adminVO.name = "超级管理员";
-            adminVO.password = CodeUtils.md5("123456");
-            adminVO.origin = 1;
-            add(adminVO);
+            Admin admin = new Admin();
+            admin.username = "admin";
+            admin.name = "超级管理员";
+            admin.password = CodeUtils.md5("123456");
+            admin.origin = true;
+            admin.save();
         }
     }
     
@@ -53,10 +53,6 @@ public class Admin extends BasePerson {
             return;
         }
         this.logicDelete();
-    }
-    
-    public static Admin findByUsername(String username) {
-        return Admin.find(defaultSql("username=?"), username).first();
     }
     
     public static List<Admin> fetchByIds(List<Long> ids) {
