@@ -24,6 +24,7 @@ import play.mvc.Http.Response;
 import play.mvc.Scope.Session;
 import play.mvc.Util;
 import play.mvc.With;
+import utils.ApiQueue;
 import vos.back.ApiVO;
 import vos.Result;
 import vos.Result.StatusCode;
@@ -120,8 +121,8 @@ public class BaseController extends Controller {
             Logger.info("[finish]:%s", response.out);
             ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
             apiVO.result = response.out + "";
-            Cache.replace(request.hashCode() + "", apiVO);
-            new ApiJob(request.hashCode() + "").now();
+            Cache.safeDelete(request.hashCode()+"");
+            ApiQueue.getInstance().add(apiVO);
             Logger.info("[finish end]:================");
         }
     }

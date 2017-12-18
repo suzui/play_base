@@ -38,7 +38,7 @@ public class HttpClientUtils {
                     map.add(e.getKey(), e.getValue());
                 }
             }
-            Response response = client.preparePost(url).setQueryParams(map).execute().get();
+            Response response = client.preparePost(url).setQueryParams(map).setRequestTimeout(5*60*1000).execute().get();
             return response.getResponseBody("utf8");
         } catch (Exception e) {
             Logger.error(e, e.getMessage());

@@ -9,6 +9,7 @@
 *		/{action}								back.Application.{action}
 *		/admin/{action}						    back.AdminController.{action}
 *		/auth/{action}							back.AuthController.{action}
+*		/api/{action}							back.ApiController.{action}
 
 
 GET     /public/                                staticDir:public

@@ -56,7 +56,7 @@ public class Api extends BaseModel {
         this.status = apiVO.status != null ? apiVO.status : status;
         this.exception = apiVO.exception != null ? apiVO.exception : exception;
         this.result = apiVO.result != null ? apiVO.result : result;
-        this.person = apiVO.personId != null ? Person.findByID(apiVO.personId) : person;
+        this.person = apiVO.personId != null ? BasePerson.findByID(apiVO.personId) : person;
         this.save();
     }
     

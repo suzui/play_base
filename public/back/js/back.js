@@ -27,6 +27,8 @@ element.on('nav(nav)', function (elem) {
         admin_tab();
     } else if (nav_type == 'auth') {
         auth_tab();
+    } else if (nav_type == 'api') {
+        api_tab();
     }
 });
 
