@@ -11,6 +11,7 @@
 *		/auth/{action}							back.AuthController.{action}
 *		/api/{action}							back.ApiController.{action}
 *		/pro/{action}							back.ProController.{action}
+*		/config/{action}						back.ConfigController.{action}
 
 
 GET     /public/                                staticDir:public

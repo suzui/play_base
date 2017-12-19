@@ -4,7 +4,6 @@
         {field: 'location', title: '位置路径', align: 'center'},
         {field: 'git', title: 'git地址', align: 'center'},
         {field: 'branch', title: 'git分支', align: 'center'},
-        {field: 'shell', title: 'shell脚本', align: 'center'},
         {field: 'url', title: '网址', align: 'center'},
         {title: '操作', align: 'center', toolbar: '#pro_toolbar'}
     ]
@@ -13,9 +12,6 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="update">更新</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
-<script id="pro_avatar_templet" type="text/html">
-    <img src="{{d.avatar}}" width="30px">
 </script>
 <script id="pro_tab" type="text/html">
     <div>
@@ -98,25 +94,6 @@
                         </button>
                         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</script>
-<script id="pro_password_form" type="text/html">
-    <div class="layui-fluid" style="margin: 10px">
-        <div class="layui-form layui-form-pane">
-            <div class="layui-form-item">
-                <label class="layui-form-label">新密码</label>
-                <div class="layui-input-inline">
-                    <input type="password" class="layui-input" name="password" lay-verify="required">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <input type="hidden" name="proId" value="{{d.proId}}">
-                    <button class="layui-btn" lay-submit lay-filter="pro_password">保存</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
         </div>

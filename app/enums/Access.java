@@ -9,7 +9,7 @@ public enum Access implements BaseEnum {
     ADMIN(101, "管理员"), AUTH(102, "权限管理"),
     API(103, "接口管理"), PRO(104, "项目管理"),
     STATISTICS(105, "统计管理"), LOG(106, "日志管理"),
-    SYSTEM(110, "系统设置");
+    CONFIG(110, "系统设置");
     
     private int code;
     private String intro;

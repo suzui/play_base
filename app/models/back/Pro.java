@@ -3,6 +3,7 @@ package models.back;
 import models.BaseModel;
 import org.apache.commons.lang.StringUtils;
 import play.Play;
+import utils.ConfigUtils;
 import utils.ShellUtils;
 import vos.back.ProVO;
 
@@ -39,7 +40,7 @@ public class Pro extends BaseModel {
     
     public int update() {
         String shell = Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/update.sh";
-        return ShellUtils.exec(shell, "suzui", "password", this.location, this.branch);
+        return ShellUtils.exec(shell, ConfigUtils.user, ConfigUtils.password, this.location, this.branch);
     }
     
     
