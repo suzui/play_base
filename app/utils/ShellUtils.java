@@ -3,7 +3,6 @@ package utils;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
 
-import java.io.File;
 import java.io.InputStream;
 
 public class ShellUtils {
@@ -19,7 +18,7 @@ public class ShellUtils {
             }
             Logger.info("[shell start]:================");
             Logger.info("[shell param]:%s", StringUtils.join(params, ","));
-            Process process = Runtime.getRuntime().exec(cmd, null, new File(shell).getParentFile());
+            Process process = Runtime.getRuntime().exec(cmd);
             InputStream inputStream = process.getInputStream();
             String read = IOUtils.read(inputStream);
             Logger.info("[shell read]:%s", read);
