@@ -11,7 +11,8 @@ var E = window.wangEditor;
 
 var area_8_6 = ['800px', '600px'], area_7_6 = ['700px', '600px'], area_6_6 = ['600px', '600px'],
     area_8_5 = ['800px', '500px'], area_7_5 = ['700px', '500px'], area_6_5 = ['600px', '500px'],
-    area_8_4 = ['800px', '400px'], area_7_4 = ['700px', '400px'], area_6_4 = ['600px', '400px'];
+    area_8_4 = ['800px', '400px'], area_7_4 = ['700px', '400px'], area_6_4 = ['600px', '400px'],
+    area_8_3 = ['800px', '300px'], area_7_3 = ['700px', '300px'], area_6_3 = ['600px', '300px'];
 
 var ACCESS = JSON.parse($('#access').val());
 
@@ -23,13 +24,7 @@ var editor = null;
 element.on('nav(nav)', function (elem) {
     nav_name = elem.text();
     nav_type = elem.attr("data");
-    if (nav_type == 'admin') {
-        admin_tab();
-    } else if (nav_type == 'auth') {
-        auth_tab();
-    } else if (nav_type == 'api') {
-        api_tab();
-    }
+    window[nav_type + '_tab']();
 });
 
 var table_param = function (id, data) {

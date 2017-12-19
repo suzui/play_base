@@ -10,7 +10,7 @@ public class ApiJob extends Job {
     @Override
     public void doJob() throws Exception {
         ApiVO apiVO = ApiQueue.getInstance().poll();
-        if (apiVO != null&&!apiVO.url.contains("/back/")) {
+        if (apiVO != null) {
             Api.add(apiVO);
         }
     }

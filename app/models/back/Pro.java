@@ -2,6 +2,8 @@ package models.back;
 
 import models.BaseModel;
 import org.apache.commons.lang.StringUtils;
+import play.Play;
+import utils.ShellUtils;
 import vos.back.ProVO;
 
 import javax.persistence.Entity;
@@ -34,6 +36,12 @@ public class Pro extends BaseModel {
         this.url = proVO.url != null ? proVO.url : url;
         this.save();
     }
+    
+    public int update() {
+        String shell = Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/update.sh";
+        return ShellUtils.exec(shell, "suzui", "password", this.location, this.branch);
+    }
+    
     
     public void del() {
         this.logicDelete();

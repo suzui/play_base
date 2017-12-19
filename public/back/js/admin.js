@@ -30,7 +30,6 @@ form.on('submit(admin_form)', function () {
 form.on('submit(admin_add)', function (data) {
     var param = data.field;
     param['intro'] = editor.txt.html();
-    param['password'] = CryptoJS.MD5("Message").toString(CryptoJS.enc.Hex);
     $.post('/back/admin/add', param, function (result, status) {
         admin_table();
     });
@@ -75,6 +74,7 @@ table.on('tool(admin_table)', function (obj) {
         });
         form.on('submit(admin_password)', function (data) {
             var param = data.field;
+            param['password'] = CryptoJS.MD5(param.password).toString(CryptoJS.enc.Hex);
             $.post('/back/admin/password', param, function (result, status) {
             });
         });

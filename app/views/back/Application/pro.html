@@ -1,0 +1,124 @@
+<script id="pro">
+    var pro_table_title = [
+        {field: 'name', title: '名称', align: 'center'},
+        {field: 'location', title: '位置路径', align: 'center'},
+        {field: 'git', title: 'git地址', align: 'center'},
+        {field: 'branch', title: 'git分支', align: 'center'},
+        {field: 'shell', title: 'shell脚本', align: 'center'},
+        {field: 'url', title: '网址', align: 'center'},
+        {title: '操作', align: 'center', toolbar: '#pro_toolbar'}
+    ]
+</script>
+<script id="pro_toolbar" type="text/html">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="update">更新</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script id="pro_avatar_templet" type="text/html">
+    <img src="{{d.avatar}}" width="30px">
+</script>
+<script id="pro_tab" type="text/html">
+    <div>
+        <div class="layui-row">
+            <div class="layui-col-md4 layui-col-md-offset8">
+                <div class="layui-form">
+                    <div class="layui-form-item">
+                        <div class="layui-input-inline">
+                            <input type="text" name="search" placeholder="项目名" autocomplete="on" class="layui-input">
+                        </div>
+                        <div class="layui-btn-group">
+                            <button class="layui-btn" lay-submit lay-filter="pro_search">查询</button>
+                            <button class="layui-btn" lay-submit lay-filter="pro_form">新增</button>
+                            <button class="layui-btn layui-btn-danger" lay-submit lay-filter="pro_list_del">删除
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md12">
+                <table id="pro_table" lay-filter="pro_table"></table>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="pro_form" type="text/html">
+    <div class="layui-fluid" style="margin: 10px">
+        <div class="layui-form layui-form-pane">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" lay-verify="required" name="name" value="{{d.name}}">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">位置路径</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" lay-verify="required" name="location"
+                               value="{{d.location}}">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">git地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" lay-verify="required" name="git" value="{{d.git}}">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">git分支</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" lay-verify="required" name="branch" value="{{d.branch}}">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">网址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" lay-verify="url" name="url" value="{{d.url}}">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">shell脚本</label>
+                <div class="layui-input-block">
+                    <textarea class="layui-textarea" name="shell">{{d.shell}}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <div class="layui-input-inline"></div>
+                </div>
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="hidden" name="proId" value="{{d.proId}}">
+                        <button class="layui-btn" lay-submit lay-filter="{{d.proId==''?'pro_add':'pro_edit'}}">保存
+                        </button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="pro_password_form" type="text/html">
+    <div class="layui-fluid" style="margin: 10px">
+        <div class="layui-form layui-form-pane">
+            <div class="layui-form-item">
+                <label class="layui-form-label">新密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" class="layui-input" name="password" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <input type="hidden" name="proId" value="{{d.proId}}">
+                    <button class="layui-btn" lay-submit lay-filter="pro_password">保存</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
