@@ -18,6 +18,7 @@ public class Admin extends BasePerson {
     
     public static Admin add(AdminVO adminVO) {
         Admin admin = new Admin();
+        admin.username = adminVO.username;
         admin.edit(adminVO);
         return admin;
     }
