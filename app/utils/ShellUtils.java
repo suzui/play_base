@@ -1,5 +1,6 @@
 package utils;
 
+import org.apache.commons.lang.StringUtils;
 import play.Logger;
 
 import java.io.File;
@@ -8,16 +9,16 @@ import java.io.InputStream;
 public class ShellUtils {
     
     
-    public static int exec(String shell, String... fields) {
+    public static int exec(String shell, String... params) {
         int status = -1;
         try {
-            String[] cmd = new String[fields.length + 1];
+            String[] cmd = new String[params.length + 1];
             cmd[0] = shell;
-            for (int i = 0; i < fields.length; i++) {
-                cmd[i + 1] = fields[i];
+            for (int i = 0; i < params.length; i++) {
+                cmd[i + 1] = params[i];
             }
             Logger.info("[shell start]:================");
-            Logger.info("[shell cmd]:%s", shell, fields);
+            Logger.info("[shell param]:%s", StringUtils.join(params, ","));
             Process process = Runtime.getRuntime().exec(cmd, null, new File(shell).getParentFile());
             InputStream inputStream = process.getInputStream();
             String read = IOUtils.read(inputStream);
