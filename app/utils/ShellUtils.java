@@ -16,10 +16,13 @@ public class ShellUtils {
             for (int i = 0; i < fields.length; i++) {
                 cmd[i + 1] = fields[i];
             }
+            Logger.info("[shell start]:================");
+            Logger.info("[shell cmd]:%s", shell, fields);
             Process process = Runtime.getRuntime().exec(cmd, null, new File(shell).getParentFile());
             InputStream inputStream = process.getInputStream();
             String read = IOUtils.read(inputStream);
-            Logger.info("shell:%s", read);
+            Logger.info("[shell read]:%s", read);
+            Logger.info("[shell end]:================");
             status = process.waitFor();
         } catch (Exception e) {
             e.printStackTrace();
