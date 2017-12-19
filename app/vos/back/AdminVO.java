@@ -30,7 +30,7 @@ public class AdminVO extends OneData {
     @DataField(name = "初始管理员")
     public Integer origin;
     @DataField(name = "已有权限代码")
-    public List<String> codes;
+    public List<Integer> codes;
     
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @DataField(name = "密码")
@@ -58,8 +58,7 @@ public class AdminVO extends OneData {
     }
     
     public AdminVO codes(List<Auth> auths) {
-        Set<String> set = auths.stream().flatMap(a -> Arrays.stream(StringUtils.split(a.codes, ",")))
-                .collect(Collectors.toSet());
+        Set<Integer> set = auths.stream().flatMap(a -> Arrays.stream(StringUtils.split(a.codes, ","))).map(c -> Integer.parseInt(c)).collect(Collectors.toSet());
         this.codes = new ArrayList<>(set);
         return this;
     }

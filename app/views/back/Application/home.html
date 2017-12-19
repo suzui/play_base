@@ -34,7 +34,7 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="nav">
             #{list access, as:'a'}
-                #{if a.code!=100&&(admin.origin==1||admin.codes.contains("100")||admin.codes.contains(a.code))}
+                #{if a.code!=100&&(admin.origin==1||admin.codes.contains(100)||admin.codes.contains(a.code))}
                     <li class="layui-nav-item" data="${a.name}"><a
                             href="javascript:;">${a.intro}</a></li>
                 #{/if}

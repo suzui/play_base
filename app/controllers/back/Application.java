@@ -41,6 +41,7 @@ public class Application extends BackController {
     public static void home() {
         Admin currAdmin = getCurrPerson();
         AdminVO admin = new AdminVO(currAdmin).codes(AuthAdmin.fetchAuthByAdmin(currAdmin));
+        System.err.println(admin.codes);
         List<AccessVO> access = AccessVO.init();
         render(admin, access);
     }
