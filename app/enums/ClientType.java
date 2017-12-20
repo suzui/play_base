@@ -16,9 +16,9 @@ public enum ClientType implements BaseEnum {
     }
     
     public static ClientType convert(int code) {
-        for (ClientType clientType : ClientType.values()) {
-            if (clientType.code == code) {
-                return clientType;
+        for (ClientType type : ClientType.values()) {
+            if (type.code == code) {
+                return type;
             }
         }
         return ClientType.WEB;
