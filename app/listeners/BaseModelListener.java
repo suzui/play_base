@@ -1,4 +1,4 @@
-package jpaListeners;
+package listeners;
 
 import models.BaseModel;
 

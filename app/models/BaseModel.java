@@ -1,6 +1,6 @@
 package models;
 
-import jpaListeners.BaseModelListener;
+import listeners.BaseModelListener;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import play.db.jpa.Model;
