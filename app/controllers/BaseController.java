@@ -223,7 +223,7 @@ public class BaseController extends Controller {
     }
     
     @Util
-    protected static <T extends BasePerson> T getPersonByToken() {
+    public static <T extends BasePerson> T getPersonByToken() {
         String token = getToken();
         return token == null ? null : AccessToken.findPersonByAccesstoken(token);
     }

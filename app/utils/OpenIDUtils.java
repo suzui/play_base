@@ -8,6 +8,8 @@ import vos.OneData;
 import java.text.DecimalFormat;
 import java.util.*;
 
+import static java.lang.System.err;
+
 public class OpenIDUtils {
     public static String gen(long userID, long appID) {
         // 补位到12位
@@ -112,22 +114,24 @@ public class OpenIDUtils {
     };
     
     public static void main(String[] args) {
-        DateUtils.ceiling(new Date(System.currentTimeMillis()), Calendar.DAY_OF_MONTH);
-        OneData one1 = new OneData(1l);
-        OneData one2 = new OneData(2l);
-        OneData one3 = new OneData(3l);
-        //new Thread( () -> System.out.println("In Java8, Lambda expression rocks !!") ).start();
-        String[] a = new String[]{"1", "2", "3"};
-        List<OneData> l = new ArrayList<>();
-        l.add(one1);
-        l.add(one2);
-        l.add(one3);
-        for(OneData one :l){
-           one= new OneData(4l);
-        }
-        for(OneData one :l){
-            System.err.println(one.id);
-        }
+        //DateUtils.ceiling(new Date(System.currentTimeMillis()), Calendar.DAY_OF_MONTH);
+        //OneData one1 = new OneData(1l);
+        //OneData one2 = new OneData(2l);
+        //OneData one3 = new OneData(3l);
+        ////new Thread( () -> System.out.println("In Java8, Lambda expression rocks !!") ).start();
+        //String[] a = new String[]{"1", "2", "3"};
+        //List<OneData> l = new ArrayList<>();
+        //l.add(one1);
+        //l.add(one2);
+        //l.add(one3);
+        //for(OneData one :l){
+        //   one= new OneData(4l);
+        //}
+        //for(OneData one :l){
+        //    System.err.println(one.id);
+        //}
+        
+        err.println(gen(1l,2l));
         
         
     }
