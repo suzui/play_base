@@ -2,7 +2,9 @@ package vos;
 
 import annotations.DataField;
 
-public class AccessTokenVO extends OneData {
+import java.io.Serializable;
+
+public class AccessTokenVO extends OneData implements Serializable{
     
     @DataField(name = "token", enable = false)
     public String accesstoken;

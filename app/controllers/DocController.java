@@ -27,6 +27,7 @@ import javassist.bytecode.LocalVariableAttribute;
 import javassist.bytecode.MethodInfo;
 import play.Logger;
 import play.Play;
+import play.classloading.ApplicationClasses;
 import play.mvc.Before;
 import play.mvc.Controller;
 import utils.JSONUtils;
@@ -53,11 +54,11 @@ public class DocController extends Controller {
             }
             Map<String, List<String[]>> enums = new LinkedHashMap<>();
             String frameworkPath = Play.frameworkPath.getAbsolutePath();
-            String applicationPath=Play.applicationPath.getAbsolutePath();
-            String[] enumModules = {frameworkPath +"/modules/play_base", applicationPath.substring(0,applicationPath.lastIndexOf("_"))+"_common"};
+            String applicationPath = Play.applicationPath.getAbsolutePath();
+            String[] enumModules = {frameworkPath + "/modules/play_base", applicationPath.substring(0, applicationPath.lastIndexOf("_")) + "_common"};
             for (String enumModule : enumModules) {
-                for (String filename :new File(enumModule+"/app/enums").list()) {
-                    if(!filename.endsWith(".java")){
+                for (String filename : new File(enumModule + "/app/enums").list()) {
+                    if (!filename.endsWith(".java")) {
                         continue;
                     }
                     Class<?> clazz = Class.forName("enums." + filename.replace(".java", ""));
@@ -128,12 +129,12 @@ public class DocController extends Controller {
             } else {
                 Parameter[] parameters = method.getParameters();
                 if (parameters.length > 0) {
-                    Class controller = request.controllerClass;
                     String methodName = method.getName();
+                    Class controller = request.controllerClass;
                     ClassPool pool = ClassPool.getDefault();
                     ClassClassPath ccPath = new ClassClassPath(controller);
                     pool.insertClassPath(ccPath);
-                    String localPath = Play.getFile("tmp/classes").getAbsolutePath();
+                    String localPath = Play.getFile(Play.mode.isProd() ? "precompiled/java" : "tmp/classes").getAbsolutePath();
                     pool.insertClassPath(localPath);
                     CtClass cc = pool.get(controller.getName());
                     CtMethod cm = cc.getDeclaredMethod(methodName);

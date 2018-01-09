@@ -90,6 +90,7 @@ public class BaseController extends Controller {
     
     @Catch
     static void exception(Throwable throwable) {
+        throwable.printStackTrace();
         if (!request.params._contains(DOC)) {
             Logger.info("[exception start]:================");
             ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");

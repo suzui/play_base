@@ -10,6 +10,7 @@ import java.util.List;
 
 public class TextUtils {
     public static void main(String[] args) {
+        
         File file = new File("log");
         LineIterator it = null;
         try {
