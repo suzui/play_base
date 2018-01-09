@@ -46,6 +46,7 @@ public class Result {
         public static final Object[] PERSON_PASSWORD_ERROR = {40108, "密码错误"};
         public static final Object[] PERSON_CAPTCHA_ERROR = {40109, "验证码错误"};
         public static final Object[] PERSON_ACCOUNT_NOTEXIST = {40110, "用户不存在"};
+        public static final Object[] PERSON_ACCOUNT_BINDED = {40111, "账号已被绑定"};
     }
     
     public Result() {
