@@ -29,7 +29,7 @@ public abstract class BasePerson extends BaseModel {
     public Long firstLoginTime;
     public Long lastLoginTime;
     public Integer loginAmount;
-    
+   
     public static boolean isPhoneLegal(String phone) {
         String regExp = "^((13[0-9])|(15[0-9])|(18[0-9])|(17[0-9]))\\d{8}$";
         return StringUtils.isNotBlank(phone) && phone.matches(regExp);

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 
 public class CodeUtils {
     private static String message = "message";
@@ -97,14 +98,14 @@ public class CodeUtils {
     }
     /*
      * SecureRandom 实现完全隨操作系统本身的内部状态，除非调用方在调用 getInstance 方法之后又调用了 setSeed 方法；该实现在
-	 * windows 上每次生成的 key 都相同，但是在 solaris 或部分 linux 系统上则不同。
-	 *
-	 *
-	 * 加密完byte[] 后，需要将加密了的byte[] 转换成base64保存，如： BASE64Encoder base64encoder = new
-	 * BASE64Encoder(); String encode=base64encoder.encode(bytes)；
-	 * 解密前，需要将加密后的字符串从base64转回来再解密，如： BASE64Decoder base64decoder = new
-	 * BASE64Decoder(); byte[] encodeByte = base64decoder.decodeBuffer(str);
-	 */
+     * windows 上每次生成的 key 都相同，但是在 solaris 或部分 linux 系统上则不同。
+     *
+     *
+     * 加密完byte[] 后，需要将加密了的byte[] 转换成base64保存，如： BASE64Encoder base64encoder = new
+     * BASE64Encoder(); String encode=base64encoder.encode(bytes)；
+     * 解密前，需要将加密后的字符串从base64转回来再解密，如： BASE64Decoder base64decoder = new
+     * BASE64Decoder(); byte[] encodeByte = base64decoder.decodeBuffer(str);
+     */
     
     public static String aesEncode(String secret, String message) {
         String encrypt = null;
@@ -168,7 +169,7 @@ public class CodeUtils {
             byte[] byte_content = new BASE64Decoder().decodeBuffer(encrypt);
             /*
              * 解密
-			 */
+             */
             byte[] byte_decode = cipher.doFinal(byte_content);
             decrypt = new String(byte_decode, "utf-8");
             System.err.println("aes decode:" + decrypt);
@@ -183,16 +184,5 @@ public class CodeUtils {
     // openssl enc -aes-128-ecb -in plain.txt -a -out encrypt.txt -pass
     // pass:123456
     // enc -aes-128-cbc -in encrypt.txt -d -a -out plain1.txt -pass pass:123456
-    public static void main(String[] args) throws NoSuchAlgorithmException {
-        md5(message);
-        sha(message);
-        encrypt = base64Encode(message);
-        decrypt = base64Decode(encrypt);
-        base64Encode("Salted__");
-        encrypt = aesEncode(secret, message);
-        decrypt = aesDecode(secret, encrypt);
-        message = "yechenfan";
-        encrypt = aesEncode(secret, message);
-        decrypt = aesDecode(secret, encrypt);
-    }
+    
 }
