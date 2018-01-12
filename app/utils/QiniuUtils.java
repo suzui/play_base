@@ -25,7 +25,7 @@ public class QiniuUtils {
         String bucket = Play.configuration.getProperty("qiniu.bucket");
         Auth auth = Auth.create(accessKey, secretKey);
         String upToken = auth.uploadToken(bucket, null, 86400, null);
-        Cache.set(UPTOKENKEY, QiniuUtils.upToken());
+        Cache.set(UPTOKENKEY, upToken);
         return upToken;
     }
     
