@@ -88,7 +88,7 @@ public class BaseController extends Controller {
         Logger.info("[params end]:================");
     }
     
-    @Catch
+    //@Catch
     static void exception(Throwable throwable) {
         throwable.printStackTrace();
         if (!request.params._contains(DOC)) {
