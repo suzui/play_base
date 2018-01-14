@@ -28,8 +28,8 @@ public class QRCodeUtils {
         try {
             
             
-            int width = 300; // 图像宽度
-            int height = 300; // 图像高度
+            int width = 250; // 图像宽度
+            int height = 250; // 图像高度
             String format = "jpg";// 图像类型
             Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
             hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");//编码
@@ -43,8 +43,8 @@ public class QRCodeUtils {
             BufferedImage image = ImageIO.read(new File(filePath));
             Graphics2D g = image.createGraphics();
             //logo起始位置，此目的是为logo居中显示
-            int w = width / 6;
-            int h = height / 6;
+            int w = width / 5;
+            int h = height / 5;
             int x = (width - w) / 2;
             int y = (height - h) / 2;
             //绘制图
