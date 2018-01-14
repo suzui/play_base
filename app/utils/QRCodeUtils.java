@@ -28,12 +28,12 @@ public class QRCodeUtils {
         try {
             
             
-            int width = 200; // 图像宽度
-            int height = 200; // 图像高度
+            int width = 300; // 图像宽度
+            int height = 300; // 图像高度
             String format = "jpg";// 图像类型
             Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
             hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");//编码
-            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);//容错
+            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);//容错
             BitMatrix bitMatrix = new MultiFormatWriter().encode(content,
                     BarcodeFormat.QR_CODE, width, height, hints);// 生成矩阵
             Path path = FileSystems.getDefault().getPath(filePath);
@@ -43,13 +43,12 @@ public class QRCodeUtils {
             BufferedImage image = ImageIO.read(new File(filePath));
             Graphics2D g = image.createGraphics();
             //logo起始位置，此目的是为logo居中显示
-            int w = width / 4;
-            int h = height / 4;
+            int w = width / 6;
+            int h = height / 6;
             int x = (width - w) / 2;
             int y = (height - h) / 2;
             //绘制图
             BufferedImage logo = ImageIO.read(new File(logoPath));
-            //g.drawImage(logo, x, y, w, h, null);
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.drawImage(
                     logo.getScaledInstance(w, h, Image.SCALE_SMOOTH),
@@ -70,7 +69,7 @@ public class QRCodeUtils {
     }
     
     public static File gen(String content) {
-        String filePath = "tmp/" + RandomStringUtils.randomNumeric(16) + ".jpg";
+        String filePath = "tmp/mcshcode" + RandomStringUtils.randomNumeric(16) + ".jpg";
         String logoPath = "public/images/logo/logo50_50.jpg";
         gen(filePath, logoPath, content);
         return new File(filePath);

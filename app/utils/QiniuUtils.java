@@ -55,7 +55,4 @@ public class QiniuUtils {
         }
     }
     
-    public static void main(String[] args) {
-        upload(QRCodeUtils.gen("xxx"));
-    }
 }
