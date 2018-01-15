@@ -31,10 +31,7 @@ import play.classloading.ApplicationClasses;
 import play.mvc.Before;
 import play.mvc.Controller;
 import utils.JSONUtils;
-import vos.Data;
-import vos.OneData;
-import vos.PageData;
-import vos.Result;
+import vos.*;
 
 public class DocController extends Controller {
     private static final String ID = "Id";
@@ -46,12 +43,15 @@ public class DocController extends Controller {
             return;
         }
         try {
-            String codes = "";
-            Class<Result.StatusCode> statusCode = Result.StatusCode.class;
-            for (Field field : statusCode.getDeclaredFields()) {
+            List<String> codes = new ArrayList<>();
+            Class<StatusCode> statusCode = StatusCode.class;
+            for (Field field : statusCode.getFields()) {
                 Object[] value = (Object[]) field.get(statusCode);
-                codes += (value[0] + " " + value[1] + "\n");
+                //codes += (value[0] + " " + value[1] + "\n");
+                codes.add(value[0] + " " + value[1]+"\n");
             }
+            Collections.sort(codes);
+            
             Map<String, List<String[]>> enums = new LinkedHashMap<>();
             String frameworkPath = Play.frameworkPath.getAbsolutePath();
             String applicationPath = Play.applicationPath.getAbsolutePath();

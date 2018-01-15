@@ -467,7 +467,8 @@
 #{/if}
 
 <h3>状态码</h3>
-<div><pre><code class="language-none">${codes}</code></pre>
+<div>
+    <pre><code class="language-none">#{list items:codes, as:'code'}${code}#{/list}</code></pre>
 </div>
 
 <h3>枚举表</h3>
