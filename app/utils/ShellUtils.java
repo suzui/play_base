@@ -17,6 +17,7 @@ public class ShellUtils {
                 cmd[i + 1] = params[i];
             }
             Logger.info("[shell start]:================");
+            Logger.info("[shell shell]:%s", shell);
             Logger.info("[shell param]:%s", StringUtils.join(params, ","));
             Process process = Runtime.getRuntime().exec(cmd);
             InputStream inputStream = process.getInputStream();
