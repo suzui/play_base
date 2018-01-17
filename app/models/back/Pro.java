@@ -66,7 +66,7 @@ public class Pro extends BaseModel {
         Object[] data = data(proVO);
         List<String> hqls = (List<String>) data[0];
         List<Object> params = (List<Object>) data[1];
-        return Pro.find(defaultSql(StringUtils.join(hqls, " and ")) + proVO.condition(), params.toArray())
+        return Pro.find(defaultSql(StringUtils.join(hqls, " and ")) + proVO.condition, params.toArray())
                 .fetch(proVO.page, proVO.size);
     }
     

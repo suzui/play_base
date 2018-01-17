@@ -50,7 +50,10 @@ public class OneData extends Data {
     public String condition;
     
     public OneData() {
-    
+        System.out.println("one");
+        this.page = 1;
+        this.size = Integer.MAX_VALUE;
+        this.condition = " order by id ";
     }
     
     public OneData(long id) {
@@ -72,14 +75,10 @@ public class OneData extends Data {
         return StringUtils.equals(Lang.get(), "en") ? en : zh;
     }
     
-    
     public void condition(String condition) {
-        this.condition = " " + condition;
+        this.condition = " " + condition + " ";
     }
     
-    public String condition() {
-        return StringUtils.isBlank(this.condition) ? " order by id" : this.condition;
-    }
     
     public Map<Object, Object> doc() {
         Map<Object, Object> map = new LinkedHashMap<>();

@@ -59,7 +59,7 @@ public class Auth extends BaseModel {
         Object[] data = data(authVO);
         List<String> hqls = (List<String>) data[0];
         List<Object> params = (List<Object>) data[1];
-        return Auth.find(defaultSql(StringUtils.join(hqls, " and ")) + authVO.condition(), params.toArray())
+        return Auth.find(defaultSql(StringUtils.join(hqls, " and ")) + authVO.condition, params.toArray())
                 .fetch(authVO.page, authVO.size);
     }
     

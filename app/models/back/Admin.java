@@ -75,7 +75,7 @@ public class Admin extends BasePerson {
         Object[] data = data(adminVO);
         List<String> hqls = (List<String>) data[0];
         List<Object> params = (List<Object>) data[1];
-        return Admin.find(defaultSql(StringUtils.join(hqls, " and ")) + adminVO.condition(), params.toArray())
+        return Admin.find(defaultSql(StringUtils.join(hqls, " and ")) + adminVO.condition, params.toArray())
                 .fetch(adminVO.page, adminVO.size);
     }
     

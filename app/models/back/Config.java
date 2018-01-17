@@ -75,7 +75,7 @@ public class Config extends BaseModel {
         Object[] data = data(configVO);
         List<String> hqls = (List<String>) data[0];
         List<Object> params = (List<Object>) data[1];
-        return Config.find(defaultSql(StringUtils.join(hqls, " and ")) + configVO.condition(), params.toArray())
+        return Config.find(defaultSql(StringUtils.join(hqls, " and ")) + configVO.condition, params.toArray())
                 .fetch(configVO.page, configVO.size);
     }
     

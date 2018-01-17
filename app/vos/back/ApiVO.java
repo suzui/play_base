@@ -36,14 +36,10 @@ public class ApiVO extends OneData implements Serializable {
     public String personName;
     @DataField(name = "用户账号")
     public String personUsername;
-    
-    
-    public String condition() {
-        return StringUtils.isBlank(this.condition) ? " order by id desc" : this.condition;
-    }
+
     
     public ApiVO() {
-    
+        this.condition = " order by id desc ";
     }
     
     public ApiVO(Api api) {

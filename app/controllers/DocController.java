@@ -48,7 +48,7 @@ public class DocController extends Controller {
             for (Field field : statusCode.getFields()) {
                 Object[] value = (Object[]) field.get(statusCode);
                 //codes += (value[0] + " " + value[1] + "\n");
-                codes.add(value[0] + " " + value[1]+"\n");
+                codes.add(value[0] + " " + value[1] + "\n");
             }
             Collections.sort(codes);
             
@@ -91,6 +91,9 @@ public class DocController extends Controller {
             if (one != null) {
                 if (StringUtils.isNotBlank(am.param())) {
                     for (String p : StringUtils.split(am.param(), ",")) {
+                        if (StringUtils.isBlank(p)) {
+                            continue;
+                        }
                         String _p = p.replace("-", "").replace("+", "");
                         Object[] o = new Object[6];
                         Field f = one.getField(_p);

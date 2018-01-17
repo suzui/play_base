@@ -83,7 +83,7 @@ public class Api extends BaseModel {
         Object[] data = data(apiVO);
         List<String> hqls = (List<String>) data[0];
         List<Object> params = (List<Object>) data[1];
-        return Api.find(defaultSql(StringUtils.join(hqls, " and ")) + apiVO.condition(), params.toArray())
+        return Api.find(defaultSql(StringUtils.join(hqls, " and ")) + apiVO.condition, params.toArray())
                 .fetch(apiVO.page, apiVO.size);
     }
     
