@@ -50,7 +50,6 @@ public class OneData extends Data {
     public String condition;
     
     public OneData() {
-        System.out.println("one");
         this.page = 1;
         this.size = Integer.MAX_VALUE;
         this.condition = " order by id ";
@@ -106,6 +105,8 @@ public class OneData extends Data {
                         list.add(((Class<OneData>) one).newInstance().doc());
                     }
                     map.put(f.getName(), list);
+                } else if (this.getClass().isAssignableFrom((Class<?>) type)) {
+                    map.put(f.getName(), new HashMap<>());
                 } else if (OneData.class.isAssignableFrom((Class<?>) type)) {
                     map.put(f.getName(), ((Class<OneData>) type).newInstance().doc());
                 } else {
