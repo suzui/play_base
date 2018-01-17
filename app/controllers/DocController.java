@@ -76,7 +76,6 @@ public class DocController extends Controller {
                 }
             }
             
-            
             String url = request.url;
             Method method = request.invokedMethod;
             ActionMethod am = method.getAnnotation(ActionMethod.class);
