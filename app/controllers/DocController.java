@@ -34,7 +34,6 @@ import utils.JSONUtils;
 import vos.*;
 
 public class DocController extends Controller {
-    private static final String ID = "Id";
     private static final String DOC = "doc";
     
     @Before(priority = -1)
@@ -115,7 +114,7 @@ public class DocController extends Controller {
                         if (df == null) {
                             continue;
                         }
-                        if (!f.getName().endsWith(ID) && !df.enable()) {
+                        if (!df.enable()) {
                             continue;
                         }
                         Object[] o = new Object[6];

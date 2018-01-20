@@ -26,6 +26,7 @@ public abstract class BasePerson extends BaseModel {
     public String avatar;
     @Column(length = 1000)
     public String intro;
+    public Long birthday;
     public Long firstLoginTime;
     public Long lastLoginTime;
     public Integer loginAmount;
