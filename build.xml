@@ -2,7 +2,7 @@
 
 <project name="play_base" default="build" basedir=".">
 
-    <target name="check" unless="play.path">
+    <target name="checking" unless="play.path">
         <fail message="Please specify Play framework path using -Dplay.path=/path/to/framework/home" />
     </target>
 
@@ -39,7 +39,7 @@
         <delete dir="tmp" />
     </target>
 
-    <target name="compile" depends="check">
+    <target name="compile" depends="checking">
         <mkdir dir="tmp/classes" />
         <javac srcdir="src" destdir="tmp/classes" target="1.5" debug="true">
             <classpath refid="project.classpath" />

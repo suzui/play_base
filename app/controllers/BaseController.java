@@ -150,7 +150,7 @@ public class BaseController extends Controller {
         final Map<String, Header> headers = request.headers;
         final String appVersion = headers.get("appversion") == null ? null : headers.get("appversion").value();
         final String appType = headers.get("apptype") == null ? null : headers.get("apptype").value();
-        final String osVersion = headers.get("osversion") == null ? null : headers.get("osVersion").value();
+        final String osVersion = headers.get("osversion") == null ? null : headers.get("osversion").value();
         final String clientType = headers.get("clienttype") == null ? null : headers.get("clienttype").value();
         final String deviceToken = headers.get("devicetoken") == null ? null : headers.get("devicetoken").value();
         if (token.person.lastLoginTime == null || System.currentTimeMillis() - token.person.lastLoginTime > 10 * 60 * 1000) {
