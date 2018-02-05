@@ -29,6 +29,7 @@ public class OneData extends Data {
     @DataField(name = "更新时间")
     public Long updateTime;
     @JsonInclude(Include.NON_NULL)
+    @DataField(name = "是否删除")
     public Integer deleted;
     @JsonInclude(Include.NON_NULL)
     @DataField(name = "模糊搜索")
