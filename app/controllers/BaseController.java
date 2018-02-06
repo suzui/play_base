@@ -122,7 +122,7 @@ public class BaseController extends Controller {
             Logger.info("[finish]:%s", response.out);
             ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
             apiVO.result = response.out + "";
-            Cache.safeDelete(request.hashCode()+"");
+            Cache.safeDelete(request.hashCode() + "");
             ApiQueue.getInstance().add(apiVO);
             Logger.info("[finish end]:================");
         }
@@ -154,7 +154,7 @@ public class BaseController extends Controller {
         final String clientType = headers.get("clienttype") == null ? null : headers.get("clienttype").value();
         final String deviceToken = headers.get("devicetoken") == null ? null : headers.get("devicetoken").value();
         if (token.person.lastLoginTime == null || System.currentTimeMillis() - token.person.lastLoginTime > 10 * 60 * 1000) {
-            new UpdateLoginInfoJob(accesstoken, appVersion, appType, osVersion, clientType, deviceToken);
+            new UpdateLoginInfoJob(accesstoken, appVersion, appType, osVersion, clientType, deviceToken).now();
         }
         Logger.info("[accesstoken end]:================");
     }
