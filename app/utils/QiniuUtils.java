@@ -21,15 +21,16 @@ public class QiniuUtils {
     public final static String BUCKET = Play.configuration.getProperty("qiniu.bucket");
     public final static String DOMAIN = Play.configuration.getProperty("qiniu.domain");
     
-    public static String upToken() {
-        Object uptoken = Cache.get(UPTOKENKEY);
-        if (uptoken != null) {
-            return (String) uptoken;
-        }
+    public static String initUpToken() {
         Auth auth = Auth.create(ACCESSKEY, SECRETKEY);
         String upToken = auth.uploadToken(BUCKET, null, 86400, null);
         Cache.set(UPTOKENKEY, upToken);
         return upToken;
+    }
+    
+    public static String upToken() {
+        Object uptoken = Cache.get(UPTOKENKEY);
+        return (String) uptoken;
     }
     
     public static String upload(File file) {
