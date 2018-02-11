@@ -11,13 +11,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Target(METHOD)
 public @interface ActionMethod {
-
-	String name() default "";
-
-	String param() default "";
-
-	String except() default "";
-
-	Class<? extends Data>[] clazz() default {};
-
+    
+    String name() default "";
+    
+    String param() default "";
+    
+    String except() default "";
+    
+    String required() default "";
+    
+    Class<? extends Data>[] clazz() default {};
+    
 }

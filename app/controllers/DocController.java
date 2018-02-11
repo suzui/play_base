@@ -46,7 +46,6 @@ public class DocController extends Controller {
             Class<StatusCode> statusCode = StatusCode.class;
             for (Field field : statusCode.getFields()) {
                 Object[] value = (Object[]) field.get(statusCode);
-                //codes += (value[0] + " " + value[1] + "\n");
                 codes.add(value[0] + " " + value[1] + "\n");
             }
             Collections.sort(codes);
@@ -81,8 +80,8 @@ public class DocController extends Controller {
             String api = am.name();
             List<Object[]> param = new ArrayList<>();
             Class one = null;
-            if (request.invokedMethod.getParameterCount() > 0) {
-                Type type = request.invokedMethod.getParameterTypes()[0];
+            if (method.getParameterCount() > 0) {
+                Type type = method.getParameterTypes()[0];
                 if (OneData.class.isAssignableFrom((Class<?>) type)) {
                     one = (Class<OneData>) type;
                 }
@@ -121,7 +120,7 @@ public class DocController extends Controller {
                         o[0] = f.getName();
                         o[1] = df.name();
                         o[2] = f.getType().getSimpleName();
-                        o[3] = "是";
+                        o[3] = am.required().contains(f.getName()) ? "是" : "否";
                         o[4] = df.demo();
                         o[5] = df.comment();
                         param.add(o);
