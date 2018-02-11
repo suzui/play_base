@@ -111,7 +111,7 @@ public class OneData extends Data {
                 } else if (OneData.class.isAssignableFrom((Class<?>) type)) {
                     map.put(f.getName(), ((Class<OneData>) type).newInstance().doc());
                 } else {
-                    map.put(f.getName(), StringUtils.join(Arrays.asList(df.name(), f.getType().getSimpleName(), df.demo(), df.comment()), "|"));
+                    map.put(f.getName(), StringUtils.join(Arrays.asList(df.name(), f.getType().getSimpleName(), df.demo(), df.comment()), "|").replace("||", ""));
                 }
             }
         } catch (Exception e) {
