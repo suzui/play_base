@@ -1,9 +1,13 @@
 package models;
 
+import controllers.BaseController;
 import listeners.BaseModelListener;
+import models.token.AccessToken;
+import models.token.BasePerson;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import play.db.jpa.Model;
+import play.mvc.Util;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
@@ -80,6 +84,10 @@ public class BaseModel extends Model {
     
     public static Boolean withNull(long v) {
         return v == -1;
+    }
+
+    public static <T extends BasePerson> T getPersonByToken() {
+        return BaseController.getPersonByToken();
     }
     
 }
