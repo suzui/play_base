@@ -79,6 +79,11 @@ public class OneData extends Data {
         this.condition = " " + condition + " ";
     }
     
+    public void clean() {
+        this.page = null;
+        this.size = null;
+        this.condition = null;
+    }
     
     public Map<Object, Object> doc() {
         Map<Object, Object> map = new LinkedHashMap<>();
