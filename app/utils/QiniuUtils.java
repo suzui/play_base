@@ -30,6 +30,9 @@ public class QiniuUtils {
     
     public static String upToken() {
         Object uptoken = Cache.get(UPTOKENKEY);
+        if (uptoken == null) {
+            uptoken = initUpToken();
+        }
         return (String) uptoken;
     }
     
