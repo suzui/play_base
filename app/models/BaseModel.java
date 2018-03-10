@@ -7,6 +7,7 @@ import models.token.BasePerson;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import play.db.jpa.Model;
+import play.mvc.Scope;
 import play.mvc.Util;
 
 import javax.persistence.EntityListeners;
@@ -85,7 +86,11 @@ public class BaseModel extends Model {
     public static Boolean withNull(long v) {
         return v == -1;
     }
-
+    
+    public static Long getSource() {
+        return Long.parseLong(Scope.Session.current().get("source"));
+    }
+    
     public static <T extends BasePerson> T getPersonByToken() {
         return BaseController.getPersonByToken();
     }
