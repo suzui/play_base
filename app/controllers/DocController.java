@@ -104,7 +104,7 @@ public class DocController extends Controller {
                         o[5] = df.comment();
                         param.add(o);
                     }
-                } else {
+                } else if (StringUtils.isNotBlank(am.except())) {
                     for (Field f : one.getDeclaredFields()) {
                         if (am.except().contains(f.getName())) {
                             continue;

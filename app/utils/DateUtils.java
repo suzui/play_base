@@ -34,9 +34,8 @@ public class DateUtils {
         if (StringUtils.isBlank(date)) {
             return null;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
         try {
-            return sdf.parse(date);
+            return org.apache.commons.lang.time.DateUtils.parseDate(date, new String[]{format});
         } catch (ParseException e) {
             return null;
         }
