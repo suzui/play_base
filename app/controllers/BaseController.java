@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import jobs.ApiJob;
+import models.content.Notice;
 import models.token.BasePerson;
 import org.apache.commons.lang.StringUtils;
 
@@ -12,6 +13,7 @@ import models.token.AccessToken;
 import play.Logger;
 import play.Play;
 import play.cache.Cache;
+import play.db.jpa.JPA;
 import play.mvc.After;
 import play.mvc.Before;
 import play.mvc.Catch;
@@ -25,9 +27,13 @@ import play.mvc.Scope.Session;
 import play.mvc.Util;
 import play.mvc.With;
 import utils.ApiQueue;
+import vos.NoticeVO;
 import vos.back.ApiVO;
 import vos.Result;
 import vos.Result.StatusCode;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 @With(DocController.class)
 public class BaseController extends Controller {
@@ -90,6 +96,10 @@ public class BaseController extends Controller {
     
     @Catch
     static void exception(Throwable throwable) {
+        EntityTransaction transaction = JPA.em().getTransaction();
+        if (transaction.isActive()) {
+            transaction.rollback();
+        }
         throwable.printStackTrace();
         if (!request.params._contains(DOC)) {
             Logger.info("[exception start]:================");
