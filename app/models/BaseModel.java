@@ -2,13 +2,11 @@ package models;
 
 import controllers.BaseController;
 import listeners.BaseModelListener;
-import models.token.AccessToken;
 import models.token.BasePerson;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import play.db.jpa.Model;
-import play.mvc.Scope;
-import play.mvc.Util;
+import play.mvc.Scope.Session;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
@@ -88,7 +86,7 @@ public class BaseModel extends Model {
     }
     
     public static Long getSource() {
-        return Long.parseLong(Scope.Session.current().get("source"));
+        return Long.parseLong(Session.current().get("source"));
     }
     
     public static <T extends BasePerson> T getPersonByToken() {

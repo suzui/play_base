@@ -54,7 +54,7 @@ public class OneData extends Data {
     public OneData() {
         this.page = 1;
         this.size = Integer.MAX_VALUE;
-        this.condition = " order by id";
+        this.condition = " order by id ";
     }
     
     public OneData(long id) {
