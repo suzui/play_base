@@ -1,39 +1,27 @@
 package controllers;
 
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import jobs.ApiJob;
-import models.content.Notice;
-import models.token.BasePerson;
-import org.apache.commons.lang.StringUtils;
-
 import jobs.UpdateLoginInfoJob;
 import models.token.AccessToken;
+import models.token.BasePerson;
+import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.Play;
 import play.cache.Cache;
 import play.db.jpa.JPA;
-import play.mvc.After;
-import play.mvc.Before;
-import play.mvc.Catch;
-import play.mvc.Controller;
-import play.mvc.Finally;
+import play.mvc.*;
 import play.mvc.Http.Cookie;
 import play.mvc.Http.Header;
 import play.mvc.Http.Request;
 import play.mvc.Http.Response;
 import play.mvc.Scope.Session;
-import play.mvc.Util;
-import play.mvc.With;
 import utils.ApiQueue;
-import vos.NoticeVO;
-import vos.back.ApiVO;
 import vos.Result;
 import vos.Result.StatusCode;
+import vos.back.ApiVO;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @With(DocController.class)
 public class BaseController extends Controller {
