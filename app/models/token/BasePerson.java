@@ -18,6 +18,7 @@ public abstract class BasePerson extends BaseModel {
     @MinSize(2)
     @MaxSize(10)
     public String username;
+    public String zone;
     public String phone;
     public String email;
     public String password;
@@ -30,7 +31,7 @@ public abstract class BasePerson extends BaseModel {
     public Long firstLoginTime;
     public Long lastLoginTime;
     public Integer loginAmount;
-   
+    
     public static boolean isPhoneLegal(String phone) {
         String regExp = "^((13[0-9])|(15[0-9])|(18[0-9])|(17[0-9]))\\d{8}$";
         return StringUtils.isNotBlank(phone) && phone.matches(regExp);
