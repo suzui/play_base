@@ -67,6 +67,10 @@ public class AccessToken extends BaseModel {
         return find(defaultSql("person=? "), person).first();
     }
     
+    public static AccessToken findByPerson(Long personId) {
+        return find(defaultSql("person.id=? "), personId).first();
+    }
+    
     public static AccessToken findByPersonAndClientType(BasePerson person, ClientType clientType) {
         return AccessToken.find(defaultSql("person=? and clientType=?"), person, clientType).first();
     }
