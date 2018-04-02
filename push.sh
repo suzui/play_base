@@ -1,3 +1,3 @@
 git add -A;
-git commit -m "m";
+git commit -m "mobile";
 git push;
