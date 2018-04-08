@@ -1,7 +1,6 @@
 package utils;
 
 import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -13,7 +12,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,12 +20,17 @@ import java.util.List;
 
 public class ExcelUtils {
     
+    
     public static List<List<String>> read(File file) {
+        return read(file, 0);
+    }
+    
+    public static List<List<String>> read(File file, int sheetIndex) {
         List<List<String>> lists = new ArrayList<>();
         try {
             InputStream input = new FileInputStream(file);
             Workbook wb = file.getName().endsWith("xlsx") ? new XSSFWorkbook(input) : new HSSFWorkbook(input);
-            Sheet sheet = wb.getSheetAt(0);
+            Sheet sheet = wb.getSheetAt(sheetIndex);
             Iterator<Row> rows = sheet.rowIterator();
             int column = sheet.getRow(0).getLastCellNum();
             while (rows.hasNext()) {
@@ -52,7 +55,7 @@ public class ExcelUtils {
                                     list.add(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date));
                                 }
                             } else {
-                                list.add(new DecimalFormat("#").format(cell.getNumericCellValue()));
+                                list.add(new DecimalFormat("#.##").format(cell.getNumericCellValue()));
                             }
                             break;
                         case HSSFCell.CELL_TYPE_BOOLEAN:
