@@ -1,7 +1,6 @@
 package models.token;
 
 import models.BaseModel;
-import models.person.Person;
 import org.apache.commons.lang.StringUtils;
 import play.data.validation.MaxSize;
 import play.data.validation.MinSize;
@@ -10,6 +9,7 @@ import play.data.validation.Required;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Person")
@@ -32,6 +32,21 @@ public abstract class BasePerson extends BaseModel {
     public Long lastLoginTime;
     public Integer loginAmount;
     
+    public Long ssoId;
+    public String accesstoken = UUID.randomUUID().toString();
+    
+    public void updateToken() {
+        this.accesstoken = UUID.randomUUID().toString();
+        this.save();
+    }
+    
+    public String accesstoken() {
+        if (this.accesstoken == null) {
+            this.updateToken();
+        }
+        return this.accesstoken;
+    }
+    
     public static boolean isPhoneLegal(String phone) {
         String regExp = "^((13[0-9])|(15[0-9])|(18[0-9])|(17[0-9]))\\d{8}$";
         return StringUtils.isNotBlank(phone) && phone.matches(regExp);
@@ -53,4 +68,5 @@ public abstract class BasePerson extends BaseModel {
     public static <T extends BasePerson> T findByID(Long id) {
         return BasePerson.find(defaultSql("id=?"), id).first();
     }
+    
 }
