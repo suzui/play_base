@@ -41,9 +41,9 @@ public class SSOUtils {
     }
     
     
-    public static PersonResult login(String username, String password) {
+    public static PersonResult login(String username,String type, String password) {
         HttpResponse response = WS.url(HOST + "/user/login").setParameter("secret", SECRET).
-                setParameter("username", username).setParameter("password", password).get();
+                setParameter("username", username).setParameter("type", type).setParameter("password", password).get();
         if (response.success()) {
             try {
                 return mapper.readValue(response.getString(), PersonResult.class);
