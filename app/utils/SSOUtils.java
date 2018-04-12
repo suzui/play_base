@@ -40,9 +40,23 @@ public class SSOUtils {
     
     }
     
+    
     public static PersonResult login(String username, String password) {
         HttpResponse response = WS.url(HOST + "/user/login").setParameter("secret", SECRET).
                 setParameter("username", username).setParameter("password", password).get();
+        if (response.success()) {
+            try {
+                return mapper.readValue(response.getString(), PersonResult.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+    
+    public static PersonResult info(String ssoId) {
+        HttpResponse response = WS.url(HOST + "/user/info").setParameter("secret", SECRET).
+                setParameter("personId", ssoId).get();
         if (response.success()) {
             try {
                 return mapper.readValue(response.getString(), PersonResult.class);
