@@ -6,10 +6,7 @@ import play.data.validation.MaxSize;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -25,6 +22,7 @@ public abstract class BasePerson extends SSOModel {
     public String password;
     public String number;
     public String name;
+    public String nickname;
     public String avatar;
     @Column(length = 1000)
     public String intro;
@@ -36,6 +34,7 @@ public abstract class BasePerson extends SSOModel {
     @ManyToOne
     public BaseOrganize root;//组织root
     
+    @Transient
     public String accesstoken;
     
     public void updateToken() {
