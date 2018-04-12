@@ -83,7 +83,7 @@ public class AccessToken extends BaseModel {
     }
     
     public List<AccessToken> fetchOthers() {
-        return AccessToken.find(defaultSql("person=? and appType=? and clientType<>'100' and id<>? "), this.person, this.appType, this.clientType, this.id).fetch();
+        return AccessToken.find(defaultSql("person=? and appType=? and clientType<>'100' and id<>? "), this.person, this.appType, this.id).fetch();
     }
     
 }
