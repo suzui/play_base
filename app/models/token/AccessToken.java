@@ -1,5 +1,6 @@
 package models.token;
 
+import enums.ClientType;
 import models.BaseModel;
 import models.person.Person;
 import org.apache.commons.lang.RandomStringUtils;
@@ -10,7 +11,6 @@ import utils.SSOUtils;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 public class AccessToken extends BaseModel {
@@ -45,7 +45,9 @@ public class AccessToken extends BaseModel {
         this.person.loginAmount++;
         this.person.save();
         this.save();
-        this.fetchOthers().forEach(at -> at.del());
+        if (!(ClientType.WEB.code() + "").equals(this.clientType)) {
+            this.fetchOthers().forEach(at -> at.del());
+        }
     }
     
     public void pushToken(String pushToken) {
@@ -81,6 +83,10 @@ public class AccessToken extends BaseModel {
     
     public static <T extends BasePerson> T findPersonByAccesstoken(String accesstoken) {
         return (T) findByAccesstoken(accesstoken).person;
+    }
+    
+    public static AccessToken findMobile(Person person, String appType) {
+        return AccessToken.find(defaultSql("person=? and appType=? and clientType<>'100' "), person, appType).first();
     }
     
     public List<AccessToken> fetchOthers() {
