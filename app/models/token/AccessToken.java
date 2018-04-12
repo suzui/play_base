@@ -1,7 +1,11 @@
 package models.token;
 
 import models.BaseModel;
+import models.person.Person;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
+import results.sso.PersonResult;
+import utils.SSOUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -53,15 +57,33 @@ public class AccessToken extends BaseModel {
     }
     
     public static AccessToken findByAccesstoken(String accesstoken) {
-        return AccessToken.find(defaultSql("accesstoken=?"), accesstoken).first();
-    }
-    
-    public List<AccessToken> fetchOthers() {
-        return AccessToken.find(defaultSql("person=? and appType=? and clientType=? and id<>? "), this.person, this.appType, this.clientType, this.id).fetch();
+        if (StringUtils.isBlank(accesstoken)) {
+            return null;
+        }
+        if (accesstoken.length() != 56) {
+            return AccessToken.find(defaultSql("accesstoken = ?"), accesstoken).first();
+        }
+        AccessToken at = AccessToken.find(defaultSql("accesstoken=?"), accesstoken.substring(37)).first();
+        if (at != null) {
+            return at;
+        }
+        PersonResult personResult = SSOUtils.verify(accesstoken);
+        if (personResult == null || !personResult.succ()) {
+            return null;
+        }
+        Person person = Person.findBySsoId(personResult.data.personId);
+        at = new AccessToken();
+        at.person = person;
+        at.accesstoken = accesstoken;
+        return at.save();
     }
     
     public static <T extends BasePerson> T findPersonByAccesstoken(String accesstoken) {
         return (T) findByAccesstoken(accesstoken).person;
+    }
+    
+    public List<AccessToken> fetchOthers() {
+        return AccessToken.find(defaultSql("person=? and appType=? and clientType<>'100' and id<>? "), this.person, this.appType, this.clientType, this.id).fetch();
     }
     
 }

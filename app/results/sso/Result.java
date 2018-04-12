@@ -17,4 +17,8 @@ public class Result {
     
     }
     
+    public boolean succ() {
+        return "succ".equals(this.status);
+    }
+    
 }

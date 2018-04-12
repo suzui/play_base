@@ -23,6 +23,7 @@ public abstract class BasePerson extends SSOModel {
     public String number;
     public String name;
     public String nickname;
+    public String pinyin;
     public String avatar;
     @Column(length = 1000)
     public String intro;
@@ -69,6 +70,10 @@ public abstract class BasePerson extends SSOModel {
     
     public static <T extends BasePerson> T findByID(Long id) {
         return BasePerson.find(defaultSql("id=?"), id).first();
+    }
+    
+    public static <T extends BasePerson> T findBySsoId(Long ssoId) {
+        return BasePerson.find(defaultSql("ssoId=?"), ssoId).first();
     }
     
 }
