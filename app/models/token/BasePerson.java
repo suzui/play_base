@@ -1,6 +1,6 @@
 package models.token;
 
-import models.BaseModel;
+import models.SSOModel;
 import org.apache.commons.lang.StringUtils;
 import play.data.validation.MaxSize;
 import play.data.validation.MinSize;
@@ -8,12 +8,13 @@ import play.data.validation.Required;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
 @Table(name = "Person")
-public abstract class BasePerson extends BaseModel {
+public abstract class BasePerson extends SSOModel {
     @Required
     @MinSize(2)
     @MaxSize(10)
@@ -32,8 +33,10 @@ public abstract class BasePerson extends BaseModel {
     public Long lastLoginTime;
     public Integer loginAmount;
     
-    public Long ssoId;
-    public String accesstoken = UUID.randomUUID().toString();
+    @ManyToOne
+    public BaseOrganize root;//组织root
+    
+    public String accesstoken;
     
     public void updateToken() {
         this.accesstoken = UUID.randomUUID().toString();

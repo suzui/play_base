@@ -151,7 +151,7 @@ public class BaseController extends Controller {
         final String osVersion = headers.get("osversion") == null ? null : headers.get("osversion").value();
         final String clientType = headers.get("clienttype") == null ? null : headers.get("clienttype").value();
         final String deviceToken = headers.get("devicetoken") == null ? null : headers.get("devicetoken").value();
-        if (token.person.lastLoginTime == null || System.currentTimeMillis() - token.person.lastLoginTime > 10 * 60 * 1000) {
+        if (token.person.lastLoginTime == null || System.currentTimeMillis() - token.person.lastLoginTime > 1 * 60 * 1000) {
             new UpdateLoginInfoJob(accesstoken, appVersion, appType, osVersion, clientType, deviceToken).now();
         }
         Logger.info("[accesstoken end]:================");

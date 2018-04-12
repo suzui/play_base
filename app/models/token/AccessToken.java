@@ -1,14 +1,11 @@
 package models.token;
 
-import enums.ClientType;
 import models.BaseModel;
 import org.apache.commons.lang.RandomStringUtils;
-import utils.CodeUtils;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
+import java.util.List;
 
 @Entity
 public class AccessToken extends BaseModel {
@@ -19,20 +16,15 @@ public class AccessToken extends BaseModel {
     public String appVersion;
     public String appType;
     public String osVersion;
-    @Enumerated(EnumType.STRING)
-    public ClientType clientType;
+    public String clientType;
     public String deviceToken;
     public String pushToken;
     public Boolean notify = true;
     
     public static AccessToken add(BasePerson person) {
-        AccessToken at = findByPerson(person);
-        if (at != null) {
-            return at;
-        }
-        at = new AccessToken();
+        AccessToken at = new AccessToken();
         at.person = person;
-        at.accesstoken = CodeUtils.md5(person.id + RandomStringUtils.random(6) + System.currentTimeMillis());
+        at.accesstoken = RandomStringUtils.random(6) + "-" + System.currentTimeMillis();
         return at.save();
     }
     
@@ -40,7 +32,7 @@ public class AccessToken extends BaseModel {
         this.appVersion = appVersion;
         this.appType = appType;
         this.osVersion = osVersion;
-        this.clientType = ClientType.convert(clientType);
+        this.clientType = clientType;
         this.deviceToken = deviceToken;
         this.person.firstLoginTime = this.person.firstLoginTime == null ? System.currentTimeMillis() : this.person.firstLoginTime;
         this.person.lastLoginTime = System.currentTimeMillis();
@@ -48,6 +40,7 @@ public class AccessToken extends BaseModel {
         this.person.loginAmount++;
         this.person.save();
         this.save();
+        this.fetchOthers().forEach(at -> at.del());
     }
     
     public void pushToken(String pushToken) {
@@ -63,22 +56,12 @@ public class AccessToken extends BaseModel {
         return AccessToken.find(defaultSql("accesstoken=?"), accesstoken).first();
     }
     
-    public static AccessToken findByPerson(BasePerson person) {
-        return find(defaultSql("person=? "), person).first();
-    }
-    
-    public static AccessToken findByPerson(Long personId) {
-        return find(defaultSql("person.id=? "), personId).first();
-    }
-    
-    public static AccessToken findByPersonAndClientType(BasePerson person, ClientType clientType) {
-        return AccessToken.find(defaultSql("person=? and clientType=?"), person, clientType).first();
+    public List<AccessToken> fetchOthers() {
+        return AccessToken.find(defaultSql("person=? and appType=? and clientType=? and id<>? "), this.person, this.appType, this.clientType, this.id).fetch();
     }
     
     public static <T extends BasePerson> T findPersonByAccesstoken(String accesstoken) {
-        return AccessToken
-                .find("select at.person from AccessToken at where at.deleted=false and at.accesstoken=?", accesstoken)
-                .first();
+        return (T) findByAccesstoken(accesstoken).person;
     }
     
 }

@@ -15,6 +15,7 @@ public class SSOUtils {
     public static final String HOST = Play.configuration.getProperty("sso.host");
     public static final String MASTER = Play.configuration.getProperty("sso.master");
     public static final ObjectMapper mapper = new ObjectMapper();
+    
     static {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
@@ -33,6 +34,10 @@ public class SSOUtils {
             }
         }
         return null;
+    }
+    
+    public static void organizeIncrease(long updateTime) {
+    
     }
     
     public static PersonResult login(String username, String password) {
