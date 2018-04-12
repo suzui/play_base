@@ -10,6 +10,7 @@ import utils.SSOUtils;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class AccessToken extends BaseModel {
@@ -28,7 +29,7 @@ public class AccessToken extends BaseModel {
     public static AccessToken add(BasePerson person) {
         AccessToken at = new AccessToken();
         at.person = person;
-        at.accesstoken = RandomStringUtils.random(6) + "-" + System.currentTimeMillis();
+        at.accesstoken = RandomStringUtils.randomAlphabetic(6) + "-" + System.currentTimeMillis();
         return at.save();
     }
     
@@ -63,7 +64,7 @@ public class AccessToken extends BaseModel {
         if (accesstoken.length() != 56) {
             return AccessToken.find(defaultSql("accesstoken = ?"), accesstoken).first();
         }
-        AccessToken at = AccessToken.find(defaultSql("accesstoken=?"), accesstoken.substring(37)).first();
+        AccessToken at = AccessToken.find(defaultSql("accesstoken = ?"), accesstoken.substring(36)).first();
         if (at != null) {
             return at;
         }
