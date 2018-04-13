@@ -96,6 +96,10 @@ public class SSOUtils {
         return null;
     }
     
+    public static PersonResult info(Long ssoId) {
+        return info(ssoId + "");
+    }
+    
     public static PersonResult info(String ssoId) {
         try {
             HttpResponse response = WS.url(HOST + "/user/info").setParameter("secret", SECRET)
