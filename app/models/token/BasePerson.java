@@ -6,8 +6,10 @@ import play.data.validation.MaxSize;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
 
-import javax.persistence.*;
-import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "Person")
@@ -16,18 +18,18 @@ public abstract class BasePerson extends SSOModel {
     @MinSize(2)
     @MaxSize(10)
     public String username;//用户名
-    public String zone;//手机地区
+    public String password;//密码
+    public String zone;//地区
     public String phone;//手机
     public String email;//邮箱
-    public String password;//密码
-    public String number;//工号
     public String name;//姓名
+    public String number;//工号
     public String nickname;//昵称
     public String pinyin;//拼音
     public String avatar;//头像
+    public Long birthday;//出生日期
     @Column(length = 1000)
     public String intro;//简介
-    public Long birthday;//出生日期
     public Long firstLoginTime;//首次登录时间
     public Long lastLoginTime;//最后登录时间
     public Integer loginAmount;//登录次数
