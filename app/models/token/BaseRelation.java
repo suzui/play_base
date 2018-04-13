@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Relation")
-public class BaseRelation extends SSOModel {
+public abstract class BaseRelation extends SSOModel {
     
     @ManyToOne
     public BaseOrganize organize;//组织
