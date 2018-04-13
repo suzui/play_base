@@ -7,7 +7,7 @@ public class PersonResult extends Result {
     
     public PersonData data;
     
-    public class PersonData {
+    public static class PersonData {
         @DataField(name = "用户id")
         public Long personId;
         @DataField(name = "用户名")
@@ -67,11 +67,11 @@ public class PersonResult extends Result {
             this.avatar = person.avatar;
             this.birthday = person.birthday;
             this.intro = person.intro;
+            this.sex = person.sex.code();
             this.organizeId = person.organize.ssoId;
         }
         
-        public PersonData complete(Integer sex, Integer type) {
-            this.sex = sex;
+        public PersonData type(Integer type) {
             this.type = type;
             return this;
         }

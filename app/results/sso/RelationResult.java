@@ -7,7 +7,7 @@ public class RelationResult extends Result {
     
     public RelationData data;
     
-    public class RelationData {
+    public static class RelationData {
         @DataField(name = "关系id")
         public Long relationId;
         @DataField(name = "用户id")

@@ -7,7 +7,7 @@ public class OrganizeResult extends Result {
     
     public OrganizeData data;
     
-    public class OrganizeData {
+    public static class OrganizeData {
         @DataField(name = "组织id")
         public Long organizeId;
         @DataField(name = "组织名称")
