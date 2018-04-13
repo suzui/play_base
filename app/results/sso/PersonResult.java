@@ -37,8 +37,8 @@ public class PersonResult extends Result {
         public Integer sex;
         @DataField(name = "类型")
         public Integer type;
-        @DataField(name = "组织rootId")
-        public Long rootId;
+        @DataField(name = "机构Id")
+        public Long organizeId;
         
         @DataField(name = "accesstoken")
         public String accesstoken;
