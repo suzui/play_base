@@ -35,7 +35,7 @@ public abstract class BasePerson extends SSOModel {
     public Integer loginAmount;//登录次数
     
     @ManyToOne
-    public BaseOrganize root;//组织root
+    public BaseOrganize organize;//机构
     
     public static boolean isPhoneLegal(String phone) {
         String regExp = "^((13[0-9])|(15[0-9])|(18[0-9])|(17[0-9]))\\d{8}$";

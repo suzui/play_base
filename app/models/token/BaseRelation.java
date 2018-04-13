@@ -17,6 +17,4 @@ public abstract class BaseRelation extends SSOModel {
     
     public Double rank;//关系排序
     
-    @ManyToOne
-    public BaseOrganize root;//组织root
 }
