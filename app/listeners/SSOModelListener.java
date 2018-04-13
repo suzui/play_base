@@ -1,7 +1,6 @@
 package listeners;
 
 import models.SSOModel;
-import models.token.AccessToken;
 import models.token.BaseOrganize;
 import models.token.BasePerson;
 import models.token.BaseRelation;
@@ -10,7 +9,6 @@ import results.sso.PersonResult;
 import results.sso.RelationResult;
 import utils.SSOUtils;
 
-import javax.persistence.Access;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
