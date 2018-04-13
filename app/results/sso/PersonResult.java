@@ -1,6 +1,7 @@
 package results.sso;
 
 import annotations.DataField;
+import models.token.BasePerson;
 
 public class PersonResult extends Result {
     
@@ -49,6 +50,30 @@ public class PersonResult extends Result {
         public Integer deleted;
         
         public PersonData() {
+        
+        }
+        
+        public PersonData(BasePerson person) {
+            this.personId = person.ssoId;
+            this.username = person.username;
+            this.password = person.password;
+            this.zone = person.zone;
+            this.phone = person.phone;
+            this.email = person.email;
+            this.name = person.name;
+            this.number = person.number;
+            this.nickname = person.nickname;
+            this.pinyin = person.pinyin;
+            this.avatar = person.avatar;
+            this.birthday = person.birthday;
+            this.intro = person.intro;
+            this.organizeId = person.organize.ssoId;
+        }
+        
+        public PersonData complete(Integer sex, Integer type) {
+            this.sex = sex;
+            this.type = type;
+            return this;
         }
     }
     

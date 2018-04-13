@@ -1,6 +1,7 @@
 package results.sso;
 
 import annotations.DataField;
+import models.token.BaseOrganize;
 
 public class OrganizeResult extends Result {
     
@@ -22,6 +23,14 @@ public class OrganizeResult extends Result {
         public Integer deleted;
         
         public OrganizeData() {
+        
+        }
+        
+        public OrganizeData(BaseOrganize organize) {
+            this.organizeId = organize.ssoId;
+            this.name = organize.name;
+            this.parentId = organize.parent.ssoId;
+            this.rank = organize.rank;
         }
     }
     
