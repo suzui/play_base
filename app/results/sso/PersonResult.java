@@ -11,6 +11,8 @@ public class PersonResult extends Result {
         public Long personId;
         @DataField(name = "用户名")
         public String username;
+        @DataField(name = "zone")
+        public String zone;
         @DataField(name = "手机号")
         public String phone;
         @DataField(name = "邮箱")
@@ -21,10 +23,10 @@ public class PersonResult extends Result {
         public String name;
         @DataField(name = "头像")
         public String avatar;
-        @DataField(name = "备注")
-        public String remark;
         @DataField(name = "简介")
         public String intro;
+        @DataField(name = "备注")
+        public String remark;
         @DataField(name = "座机")
         public String landline;
         @DataField(name = "办公地点")

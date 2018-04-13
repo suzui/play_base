@@ -30,6 +30,8 @@ public class AccessToken extends BaseModel {
         AccessToken at = new AccessToken();
         at.person = person;
         at.accesstoken = RandomStringUtils.randomAlphabetic(6) + "-" + System.currentTimeMillis();
+        at.person.loginAmount = at.person.loginAmount == null ? 0 : at.person.loginAmount;
+        at.person.loginAmount++;
         return at.save();
     }
     
@@ -41,8 +43,6 @@ public class AccessToken extends BaseModel {
         this.deviceToken = deviceToken;
         this.person.firstLoginTime = this.person.firstLoginTime == null ? System.currentTimeMillis() : this.person.firstLoginTime;
         this.person.lastLoginTime = System.currentTimeMillis();
-        this.person.loginAmount = this.person.loginAmount == null ? 0 : this.person.loginAmount;
-        this.person.loginAmount++;
         this.person.save();
         this.save();
         if (!(ClientType.WEB.code() + "").equals(this.clientType)) {
