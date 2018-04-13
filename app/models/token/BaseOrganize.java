@@ -18,4 +18,11 @@ public abstract class BaseOrganize extends SSOModel {
     @ManyToOne
     public BaseOrganize root;//组织root
     
+    public static <T extends BaseOrganize> T findByID(Long id) {
+        return BaseOrganize.find(defaultSql("id=?"), id).first();
+    }
+    
+    public static <T extends BaseOrganize> T findBySsoId(Long ssoId) {
+        return BaseOrganize.find(defaultSql("ssoId=?"), ssoId).first();
+    }
 }
