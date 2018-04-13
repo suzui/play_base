@@ -48,6 +48,19 @@ public class SSOUtils {
         return null;
     }
     
+    public static OrganizeResult organizeAdd(long ssoUpdate) {
+        HttpResponse response = WS.url(HOST + "/data/organize/add").setParameter("secret", SECRET).setParameter("updateTime", ssoUpdate).post();
+        if (response.success()) {
+            try {
+                OrganizeResult result = mapper.readValue(response.getString(), OrganizeResult.class);
+                return result;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+    
     public static PersonsResult personIncrease(long ssoUpdate) {
         HttpResponse response = WS.url(HOST + "/data/person/increase").setParameter("secret", SECRET)
                 .setParameter("updateTime", ssoUpdate).post();
