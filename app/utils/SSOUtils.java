@@ -5,8 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import play.Play;
 import play.libs.WS;
 import play.libs.WS.HttpResponse;
-import results.sso.AppResult;
-import results.sso.PersonResult;
+import results.sso.*;
 
 import java.io.IOException;
 
@@ -23,7 +22,7 @@ public class SSOUtils {
     public static String SECRET;
     
     public static AppResult auth() {
-        HttpResponse response = WS.url(HOST + "/source/app/auth").setParameter("master", MASTER).get();
+        HttpResponse response = WS.url(HOST + "/source/app/auth").setParameter("master", MASTER).post();
         if (response.success()) {
             try {
                 AppResult result = mapper.readValue(response.getString(), AppResult.class);
@@ -36,14 +35,50 @@ public class SSOUtils {
         return null;
     }
     
-    public static void organizeIncrease(long updateTime) {
-    
+    public static OrganizesResult organizeIncrease(long ssoUpdate) {
+        HttpResponse response = WS.url(HOST + "/data/organize/increase").setParameter("secret", SECRET).setParameter("updateTime", ssoUpdate).post();
+        if (response.success()) {
+            try {
+                OrganizesResult result = mapper.readValue(response.getString(), OrganizesResult.class);
+                return result;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
     
+    public static PersonsResult personIncrease(long ssoUpdate) {
+        HttpResponse response = WS.url(HOST + "/data/person/increase").setParameter("secret", SECRET)
+                .setParameter("updateTime", ssoUpdate).post();
+        if (response.success()) {
+            try {
+                PersonsResult result = mapper.readValue(response.getString(), PersonsResult.class);
+                return result;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
     
-    public static PersonResult login(String username,String type, String password) {
-        HttpResponse response = WS.url(HOST + "/user/login").setParameter("secret", SECRET).
-                setParameter("username", username).setParameter("type", type).setParameter("password", password).get();
+    public static RelationsResult relationIncrease(long ssoUpdate) {
+        HttpResponse response = WS.url(HOST + "/data/relation/increase").setParameter("secret", SECRET)
+                .setParameter("updateTime", ssoUpdate).post();
+        if (response.success()) {
+            try {
+                RelationsResult result = mapper.readValue(response.getString(), RelationsResult.class);
+                return result;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+    
+    public static PersonResult login(String username, Integer type, String password) {
+        HttpResponse response = WS.url(HOST + "/user/login").setParameter("secret", SECRET)
+                .setParameter("username", username).setParameter("type", type).setParameter("password", password).post();
         if (response.success()) {
             try {
                 return mapper.readValue(response.getString(), PersonResult.class);
@@ -55,8 +90,8 @@ public class SSOUtils {
     }
     
     public static PersonResult info(String ssoId) {
-        HttpResponse response = WS.url(HOST + "/user/info").setParameter("secret", SECRET).
-                setParameter("personId", ssoId).get();
+        HttpResponse response = WS.url(HOST + "/user/info").setParameter("secret", SECRET)
+                .setParameter("personId", ssoId).post();
         if (response.success()) {
             try {
                 return mapper.readValue(response.getString(), PersonResult.class);
@@ -68,8 +103,8 @@ public class SSOUtils {
     }
     
     public static PersonResult verify(String accesstoken) {
-        HttpResponse response = WS.url(HOST + "/user/verify").setParameter("secret", SECRET).
-                setParameter("accesstoken", accesstoken).get();
+        HttpResponse response = WS.url(HOST + "/user/verify").setParameter("secret", SECRET)
+                .setParameter("accesstoken", accesstoken).post();
         if (response.success()) {
             try {
                 return mapper.readValue(response.getString(), PersonResult.class);
