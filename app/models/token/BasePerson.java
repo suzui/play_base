@@ -1,15 +1,13 @@
 package models.token;
 
+import enums.Sex;
 import models.SSOModel;
 import org.apache.commons.lang.StringUtils;
 import play.data.validation.MaxSize;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Person")
@@ -30,6 +28,8 @@ public abstract class BasePerson extends SSOModel {
     public Long birthday;//出生日期
     @Column(length = 1000)
     public String intro;//简介
+    @Enumerated(EnumType.STRING)
+    public Sex sex = Sex.NOPOINT;
     public Long firstLoginTime;//首次登录时间
     public Long lastLoginTime;//最后登录时间
     public Integer loginAmount;//登录次数
