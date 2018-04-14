@@ -30,7 +30,7 @@ public class OrganizeResult extends Result {
             this.organizeId = organize.ssoId;
             this.name = organize.name;
             if (organize.parent != null) {
-                this.parentId = organize.parent.ssoId;
+                this.parentId = ((SsoOrganize) organize.parent).ssoId;
             }
             this.rank = organize.rank;
         }

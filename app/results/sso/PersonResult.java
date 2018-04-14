@@ -1,6 +1,7 @@
 package results.sso;
 
 import annotations.DataField;
+import models.sso.SsoOrganize;
 import models.sso.SsoPerson;
 
 public class PersonResult extends Result {
@@ -74,7 +75,7 @@ public class PersonResult extends Result {
                 this.type = person.type.code();
             }
             if (person.organize != null) {
-                this.organizeId = person.organize.ssoId;
+                this.organizeId = ((SsoOrganize) person.organize).ssoId;
             }
         }
         

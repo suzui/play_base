@@ -1,6 +1,8 @@
 package results.sso;
 
 import annotations.DataField;
+import models.sso.SsoOrganize;
+import models.sso.SsoPerson;
 import models.sso.SsoRelation;
 
 public class RelationResult extends Result {
@@ -27,8 +29,8 @@ public class RelationResult extends Result {
         
         public RelationData(SsoRelation relation) {
             this.relationId = relation.ssoId;
-            this.personId = relation.person.ssoId;
-            this.organizeId = relation.organize.ssoId;
+            this.personId = ((SsoPerson) relation.person).ssoId;
+            this.organizeId = ((SsoOrganize) relation.organize).ssoId;
             this.rank = relation.rank;
         }
     }
