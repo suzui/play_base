@@ -189,9 +189,9 @@ public class SSOUtils {
         try {
             PersonResult.PersonData personData = new PersonResult.PersonData(person);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(personData), HashMap.class);
-            String response = HttpClientUtils.postMethod(HOST + "/data/person/edit", map);
-            PersonResult result = mapper.readValue(response, PersonResult.class);
-            return result;
+            //String response = HttpClientUtils.postMethod(HOST + "/data/person/edit", map);
+            //PersonResult result = mapper.readValue(response, PersonResult.class);
+            //return result;
         } catch (IOException e) {
             e.printStackTrace();
         }
