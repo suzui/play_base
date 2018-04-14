@@ -9,7 +9,8 @@ import play.data.validation.Required;
 
 import javax.persistence.*;
 
-@MappedSuperclass
+@Entity
+@Table(name = "Person")
 public class BasePerson extends BaseModel {
     @Required
     @MinSize(2)
