@@ -9,8 +9,7 @@ import play.data.validation.Required;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "Person")
+@MappedSuperclass
 public abstract class BasePerson extends BaseModel {
     @Required
     @MinSize(2)
@@ -57,10 +56,6 @@ public abstract class BasePerson extends BaseModel {
     
     public static <T extends BasePerson> T findByID(Long id) {
         return BasePerson.find(defaultSql("id=?"), id).first();
-    }
-    
-    public static <T extends BasePerson> T findBySsoId(Long ssoId) {
-        return BasePerson.find(defaultSql("ssoId=?"), ssoId).first();
     }
     
 }

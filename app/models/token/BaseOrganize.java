@@ -4,10 +4,10 @@ import models.BaseModel;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "Organize")
+@MappedSuperclass
 public abstract class BaseOrganize extends BaseModel {
     
     public String name;//组织名称

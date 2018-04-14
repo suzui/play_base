@@ -1,12 +1,10 @@
 package models.sso;
 
-import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 
 
-@Entity
-@Table(name = "Organize")
+@MappedSuperclass
 public abstract class SsoOrganize extends SsoModel {
     
     public String name;//组织名称

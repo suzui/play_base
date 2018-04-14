@@ -9,8 +9,7 @@ import play.data.validation.Required;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "Person")
+@MappedSuperclass
 public abstract class SsoPerson extends SsoModel {
     @Required
     @MinSize(2)

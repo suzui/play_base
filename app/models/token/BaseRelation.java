@@ -2,12 +2,10 @@ package models.token;
 
 import models.BaseModel;
 
-import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 
-@Entity
-@Table(name = "Relation")
+@MappedSuperclass
 public abstract class BaseRelation extends BaseModel {
     
     @ManyToOne
