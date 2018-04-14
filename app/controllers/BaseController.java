@@ -1,6 +1,8 @@
 package controllers;
 
 import jobs.UpdateLoginInfoJob;
+import models.sso.SsoOrganize;
+import models.sso.SsoPerson;
 import models.token.AccessToken;
 import models.token.BasePerson;
 import org.apache.commons.lang.StringUtils;

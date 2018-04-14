@@ -1,25 +1,23 @@
 package models.sso;
 
-import javax.persistence.ManyToOne;
+import models.token.BaseOrganize;
+
 import javax.persistence.MappedSuperclass;
 
 
 @MappedSuperclass
-public abstract class SsoOrganize extends SsoModel {
+public abstract class SsoOrganize extends BaseOrganize implements SsoModel {
     
-    public String name;//组织名称
-    public Double rank;//组织排序
-    @ManyToOne
-    public SsoOrganize parent;//父组织，根组织为null
+    public Long ssoId;
+    public Long ssoUpdate;
     
-    @ManyToOne
-    public SsoOrganize organize;//机构
-    
-    public static <T extends SsoOrganize> T findByID(Long id) {
-        return SsoOrganize.find(defaultSql("id=?"), id).first();
+    public void preUpdate(Long ssoId, Long ssoUpdate) {
+        this.ssoId = ssoId;
+        this.ssoUpdate = ssoUpdate;
     }
     
-    public static <T extends SsoOrganize> T findBySsoId(Long ssoId) {
-        return SsoOrganize.find(defaultSql("ssoId=?"), ssoId).first();
+    public void preUpdate(Long ssoUpdate) {
+        this.ssoUpdate = ssoUpdate;
     }
+    
 }

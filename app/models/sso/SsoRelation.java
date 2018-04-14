@@ -1,16 +1,22 @@
 package models.sso;
 
-import javax.persistence.ManyToOne;
+import models.token.BaseRelation;
+
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class SsoRelation extends SsoModel {
+public abstract class SsoRelation extends BaseRelation {
     
-    @ManyToOne
-    public SsoOrganize organize;//组织
-    @ManyToOne
-    public SsoPerson person;//人员
+    public Long ssoId;
+    public Long ssoUpdate;
     
-    public Double rank;//关系排序
+    public void preUpdate(Long ssoId, Long ssoUpdate) {
+        this.ssoId = ssoId;
+        this.ssoUpdate = ssoUpdate;
+    }
+    
+    public void preUpdate(Long ssoUpdate) {
+        this.ssoUpdate = ssoUpdate;
+    }
     
 }
