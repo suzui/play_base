@@ -31,11 +31,26 @@ public class SSOModelListener {
     @PreUpdate
     public static void preUpdate(SsoModel ssoModel) {
         if (ssoModel instanceof SsoOrganize) {
-            SSOUtils.organizeEdit((SsoOrganize) ssoModel);
+            SsoOrganize ssoOrganize = (SsoOrganize) ssoModel;
+            if (ssoOrganize.deleted) {
+                SSOUtils.organizeDelete(ssoOrganize);
+            } else {
+                SSOUtils.organizeEdit(ssoOrganize);
+            }
         } else if (ssoModel instanceof SsoPerson) {
-            SSOUtils.personEdit((SsoPerson) ssoModel);
+            SsoPerson ssoPerson = (SsoPerson) ssoModel;
+            if (ssoPerson.deleted) {
+                SSOUtils.personDelete(ssoPerson);
+            } else {
+                SSOUtils.personEdit(ssoPerson);
+            }
         } else if (ssoModel instanceof SsoRelation) {
-            SSOUtils.relationEdit((SsoRelation) ssoModel);
+            SsoRelation ssoRelation = (SsoRelation) ssoModel;
+            if (ssoRelation.deleted) {
+                SSOUtils.relationDelete(ssoRelation);
+            } else {
+                SSOUtils.relationEdit(ssoRelation);
+            }
         }
     }
 }
