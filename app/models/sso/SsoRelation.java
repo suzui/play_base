@@ -22,4 +22,8 @@ public abstract class SsoRelation extends BaseRelation {
         this.ssoUpdate = ssoUpdate;
     }
     
+    public static <T extends SsoRelation> T findBySsoId(Long ssoId) {
+        return SsoRelation.find(defaultSql("ssoId=?"), ssoId).first();
+    }
+    
 }

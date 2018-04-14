@@ -23,4 +23,8 @@ public abstract class SsoOrganize extends BaseOrganize implements SsoModel {
         this.ssoUpdate = ssoUpdate;
     }
     
+    public static <T extends SsoOrganize> T findBySsoId(Long ssoId) {
+        return SsoOrganize.find(defaultSql("ssoId=?"), ssoId).first();
+    }
+    
 }

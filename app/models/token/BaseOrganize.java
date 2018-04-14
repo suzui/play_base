@@ -22,7 +22,4 @@ public abstract class BaseOrganize extends BaseModel {
         return BaseOrganize.find(defaultSql("id=?"), id).first();
     }
     
-    public static <T extends BaseOrganize> T findBySsoId(Long ssoId) {
-        return BaseOrganize.find(defaultSql("ssoId=?"), ssoId).first();
-    }
 }
