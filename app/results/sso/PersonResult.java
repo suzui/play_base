@@ -67,8 +67,12 @@ public class PersonResult extends Result {
             this.avatar = person.avatar;
             this.birthday = person.birthday;
             this.intro = person.intro;
-            this.sex = person.sex.code();
-            this.organizeId = person.organize.ssoId;
+            if (person.sex != null) {
+                this.sex = person.sex.code();
+            }
+            if (person.organize != null) {
+                this.organizeId = person.organize.ssoId;
+            }
         }
         
         public PersonData type(Integer type) {

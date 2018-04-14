@@ -29,7 +29,9 @@ public class OrganizeResult extends Result {
         public OrganizeData(BaseOrganize organize) {
             this.organizeId = organize.ssoId;
             this.name = organize.name;
-            this.parentId = organize.parent.ssoId;
+            if (organize.parent != null) {
+                this.parentId = organize.parent.ssoId;
+            }
             this.rank = organize.rank;
         }
     }
