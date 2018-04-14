@@ -3,12 +3,12 @@ package models.sso;
 import listeners.SSOModelListener;
 import models.token.BaseRelation;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
 
-@MappedSuperclass
+@Entity
 @EntityListeners(SSOModelListener.class)
-public class SsoRelation extends BaseRelation {
+public abstract class SsoRelation extends BaseRelation implements SsoModel {
     
     public Long ssoId;
     public Long ssoUpdate;
