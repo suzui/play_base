@@ -10,7 +10,7 @@ import play.data.validation.Required;
 import javax.persistence.*;
 
 @MappedSuperclass
-public abstract class BasePerson extends BaseModel {
+public class BasePerson extends BaseModel {
     @Required
     @MinSize(2)
     @MaxSize(10)

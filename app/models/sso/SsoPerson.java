@@ -11,7 +11,7 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @EntityListeners(SSOModelListener.class)
-public abstract class SsoPerson extends BasePerson {
+public class SsoPerson extends BasePerson {
     
     public Long ssoId;
     public Long ssoUpdate;

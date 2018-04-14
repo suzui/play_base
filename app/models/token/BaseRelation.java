@@ -6,7 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class BaseRelation extends BaseModel {
+public class BaseRelation extends BaseModel {
     
     @ManyToOne
     public BaseOrganize organize;//组织
