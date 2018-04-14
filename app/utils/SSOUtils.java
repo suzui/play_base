@@ -6,7 +6,6 @@ import models.sso.SsoOrganize;
 import models.sso.SsoPerson;
 import models.sso.SsoRelation;
 import play.Play;
-import play.libs.F;
 import play.libs.WS;
 import play.libs.WS.HttpResponse;
 import results.sso.*;
@@ -190,12 +189,9 @@ public class SSOUtils {
         try {
             PersonResult.PersonData personData = new PersonResult.PersonData(person);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(personData), HashMap.class);
-            F.Promise<HttpResponse> promise = WS.url(HOST + "/data/person/edit").setParameter("secret", SECRET).setParameters(map).postAsync();
-            HttpResponse response = promise.getOrNull();
-            if (response.success()) {
-                PersonResult result = mapper.readValue(response.getString(), PersonResult.class);
-                return result;
-            }
+            String response = HttpClientUtils.postMethod(HOST + "/data/person/edit", map);
+            PersonResult result = mapper.readValue(response, PersonResult.class);
+            return result;
         } catch (IOException e) {
             e.printStackTrace();
         }
