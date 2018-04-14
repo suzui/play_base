@@ -221,6 +221,7 @@ public class BaseController extends Controller {
         if (source == null || StringUtils.isBlank(source.value())) {
             return null;
         } else {
+            Logger.info("[headersource]:%s", source.value());
             return Long.parseLong(source.value());
         }
     }
