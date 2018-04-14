@@ -1,10 +1,13 @@
 package models.sso;
 
+import listeners.SSOModelListener;
 import models.token.BaseRelation;
 
+import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
+@EntityListeners(SSOModelListener.class)
 public abstract class SsoRelation extends BaseRelation {
     
     public Long ssoId;

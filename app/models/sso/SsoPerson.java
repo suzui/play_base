@@ -1,13 +1,16 @@
 package models.sso;
 
 import enums.PersonType;
+import listeners.SSOModelListener;
 import models.token.BasePerson;
 
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
+@EntityListeners(SSOModelListener.class)
 public abstract class SsoPerson extends BasePerson {
     
     public Long ssoId;
