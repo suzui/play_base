@@ -33,6 +33,7 @@ public class AccessToken extends BaseModel {
         at.accesstoken = RandomStringUtils.randomAlphabetic(6) + "-" + System.currentTimeMillis();
         at.person.loginAmount = at.person.loginAmount == null ? 0 : at.person.loginAmount;
         at.person.loginAmount++;
+        at.person.save();
         return at.save();
     }
     
