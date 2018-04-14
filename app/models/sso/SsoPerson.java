@@ -19,13 +19,8 @@ public abstract class SsoPerson extends BasePerson implements SsoModel {
     @Enumerated(EnumType.STRING)
     public PersonType type;//person中无需重复声明 enum需定义personType
     
-    public void preUpdate(Long ssoId, Long ssoUpdate) {
+    public void preUpdate(Long ssoId) {
         this.ssoId = ssoId;
-        this.ssoUpdate = ssoUpdate;
-    }
-    
-    public void preUpdate(Long ssoUpdate) {
-        this.ssoUpdate = ssoUpdate;
     }
     
     public static <T extends SsoPerson> T findBySsoId(Long ssoId) {

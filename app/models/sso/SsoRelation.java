@@ -13,13 +13,8 @@ public abstract class SsoRelation extends BaseRelation implements SsoModel {
     public Long ssoId;
     public Long ssoUpdate;
     
-    public void preUpdate(Long ssoId, Long ssoUpdate) {
+    public void preUpdate(Long ssoId) {
         this.ssoId = ssoId;
-        this.ssoUpdate = ssoUpdate;
-    }
-    
-    public void preUpdate(Long ssoUpdate) {
-        this.ssoUpdate = ssoUpdate;
     }
     
     public static <T extends SsoRelation> T findBySsoId(Long ssoId) {

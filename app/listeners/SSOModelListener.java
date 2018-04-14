@@ -18,27 +18,24 @@ public class SSOModelListener {
     public static void prePersist(SsoModel ssoModel) {
         if (ssoModel instanceof SsoOrganize) {
             OrganizeResult organizeResult = SSOUtils.organizeAdd((SsoOrganize) ssoModel);
-            ssoModel.preUpdate(organizeResult.data.organizeId, organizeResult.data.updateTime);
+            ssoModel.preUpdate(organizeResult.data.organizeId);
         } else if (ssoModel instanceof SsoPerson) {
             PersonResult personResult = SSOUtils.personAdd((SsoPerson) ssoModel);
-            ssoModel.preUpdate(personResult.data.personId, personResult.data.updateTime);
+            ssoModel.preUpdate(personResult.data.personId);
         } else if (ssoModel instanceof SsoRelation) {
             RelationResult relationResult = SSOUtils.relationAdd((SsoRelation) ssoModel);
-            ssoModel.preUpdate(relationResult.data.relationId, relationResult.data.updateTime);
+            ssoModel.preUpdate(relationResult.data.relationId);
         }
     }
     
     @PreUpdate
     public static void preUpdate(SsoModel ssoModel) {
         if (ssoModel instanceof SsoOrganize) {
-            OrganizeResult organizeResult = SSOUtils.organizeEdit((SsoOrganize) ssoModel);
-            ssoModel.preUpdate(organizeResult.data.updateTime);
+            SSOUtils.organizeEdit((SsoOrganize) ssoModel);
         } else if (ssoModel instanceof SsoPerson) {
-            PersonResult personResult = SSOUtils.personEdit((SsoPerson) ssoModel);
-            ssoModel.preUpdate(personResult.data.updateTime);
+            SSOUtils.personEdit((SsoPerson) ssoModel);
         } else if (ssoModel instanceof SsoRelation) {
-            RelationResult relationResult = SSOUtils.relationEdit((SsoRelation) ssoModel);
-            ssoModel.preUpdate(relationResult.data.updateTime);
+            SSOUtils.relationEdit((SsoRelation) ssoModel);
         }
     }
 }
