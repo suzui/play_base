@@ -3,6 +3,7 @@ package models.token;
 import enums.ClientType;
 import models.BaseModel;
 import models.person.Person;
+import models.sso.SsoPerson;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import results.sso.PersonResult;
@@ -74,7 +75,7 @@ public class AccessToken extends BaseModel {
         if (personResult == null || !personResult.succ()) {
             return null;
         }
-        Person person = Person.findBySsoId(personResult.data.personId);
+        SsoPerson person = SsoPerson.findBySsoId(personResult.data.personId);
         at = new AccessToken();
         at.person = person;
         at.accesstoken = accesstoken;
