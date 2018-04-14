@@ -1,6 +1,6 @@
 package models.token;
 
-import models.SSOModel;
+import models.BaseModel;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Organize")
-public abstract class BaseOrganize extends SSOModel {
+public abstract class BaseOrganize extends BaseModel {
     
     public String name;//组织名称
     public Double rank;//组织排序

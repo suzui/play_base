@@ -1,7 +1,7 @@
 package results.sso;
 
 import annotations.DataField;
-import models.token.BaseOrganize;
+import models.sso.SsoOrganize;
 
 public class OrganizeResult extends Result {
     
@@ -26,7 +26,7 @@ public class OrganizeResult extends Result {
         
         }
         
-        public OrganizeData(BaseOrganize organize) {
+        public OrganizeData(SsoOrganize organize) {
             this.organizeId = organize.ssoId;
             this.name = organize.name;
             if (organize.parent != null) {

@@ -1,7 +1,7 @@
 package results.sso;
 
 import annotations.DataField;
-import models.token.BasePerson;
+import models.sso.SsoPerson;
 
 public class PersonResult extends Result {
     
@@ -53,7 +53,7 @@ public class PersonResult extends Result {
         
         }
         
-        public PersonData(BasePerson person) {
+        public PersonData(SsoPerson person) {
             this.personId = person.ssoId;
             this.username = person.username;
             this.password = person.password;
@@ -70,15 +70,14 @@ public class PersonResult extends Result {
             if (person.sex != null) {
                 this.sex = person.sex.code();
             }
+            if (person.type != null) {
+                this.type = person.type.code();
+            }
             if (person.organize != null) {
                 this.organizeId = person.organize.ssoId;
             }
         }
         
-        public PersonData type(Integer type) {
-            this.type = type;
-            return this;
-        }
     }
     
     public PersonResult() {

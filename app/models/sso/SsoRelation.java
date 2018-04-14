@@ -1,6 +1,4 @@
-package models.token;
-
-import models.BaseModel;
+package models.sso;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -8,12 +6,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Relation")
-public abstract class BaseRelation extends BaseModel {
+public abstract class SsoRelation extends SsoModel {
     
     @ManyToOne
-    public BaseOrganize organize;//组织
+    public SsoOrganize organize;//组织
     @ManyToOne
-    public BasePerson person;//人员
+    public SsoPerson person;//人员
     
     public Double rank;//关系排序
     

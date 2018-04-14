@@ -1,13 +1,14 @@
-package models;
+package models.sso;
 
 import listeners.SSOModelListener;
+import models.BaseModel;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @EntityListeners(SSOModelListener.class)
-public abstract class SSOModel extends BaseModel {
+public abstract class SsoModel extends BaseModel {
     
     public Long ssoId;
     public Long ssoUpdate;

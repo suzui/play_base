@@ -1,7 +1,7 @@
-package models.token;
+package models.sso;
 
+import enums.PersonType;
 import enums.Sex;
-import models.BaseModel;
 import org.apache.commons.lang.StringUtils;
 import play.data.validation.MaxSize;
 import play.data.validation.MinSize;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Person")
-public abstract class BasePerson extends BaseModel {
+public abstract class SsoPerson extends SsoModel {
     @Required
     @MinSize(2)
     @MaxSize(10)
@@ -34,8 +34,11 @@ public abstract class BasePerson extends BaseModel {
     public Long lastLoginTime;//最后登录时间
     public Integer loginAmount;//登录次数
     
+    @Enumerated(EnumType.STRING)
+    public PersonType type;//person中无需重复声明 enum需定义personType
+    
     @ManyToOne
-    public BaseOrganize organize;//机构
+    public SsoOrganize organize;//机构
     
     public static boolean isPhoneLegal(String phone) {
         String regExp = "^((13[0-9])|(15[0-9])|(18[0-9])|(17[0-9]))\\d{8}$";
@@ -55,12 +58,12 @@ public abstract class BasePerson extends BaseModel {
         return StringUtils.equalsIgnoreCase(password, this.password);
     }
     
-    public static <T extends BasePerson> T findByID(Long id) {
-        return BasePerson.find(defaultSql("id=?"), id).first();
+    public static <T extends SsoPerson> T findByID(Long id) {
+        return SsoPerson.find(defaultSql("id=?"), id).first();
     }
     
-    public static <T extends BasePerson> T findBySsoId(Long ssoId) {
-        return BasePerson.find(defaultSql("ssoId=?"), ssoId).first();
+    public static <T extends SsoPerson> T findBySsoId(Long ssoId) {
+        return SsoPerson.find(defaultSql("ssoId=?"), ssoId).first();
     }
     
 }

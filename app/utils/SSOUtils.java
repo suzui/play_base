@@ -2,9 +2,9 @@ package utils;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import models.token.BaseOrganize;
-import models.token.BasePerson;
-import models.token.BaseRelation;
+import models.sso.SsoOrganize;
+import models.sso.SsoPerson;
+import models.sso.SsoRelation;
 import play.Play;
 import play.libs.WS;
 import play.libs.WS.HttpResponse;
@@ -126,7 +126,7 @@ public class SSOUtils {
         return null;
     }
     
-    public static OrganizeResult organizeAdd(BaseOrganize organize) {
+    public static OrganizeResult organizeAdd(SsoOrganize organize) {
         try {
             OrganizeResult.OrganizeData organizeData = new OrganizeResult.OrganizeData(organize);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(organizeData), HashMap.class);
@@ -141,7 +141,7 @@ public class SSOUtils {
         return null;
     }
     
-    public static OrganizeResult organizeEdit(BaseOrganize organize) {
+    public static OrganizeResult organizeEdit(SsoOrganize organize) {
         try {
             OrganizeResult.OrganizeData organizeData = new OrganizeResult.OrganizeData(organize);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(organizeData), HashMap.class);
@@ -156,7 +156,7 @@ public class SSOUtils {
         return null;
     }
     
-    public static OrganizeResult organizeDelete(BaseOrganize organize) {
+    public static OrganizeResult organizeDelete(SsoOrganize organize) {
         try {
             OrganizeResult.OrganizeData organizeData = new OrganizeResult.OrganizeData(organize);
             HttpResponse response = WS.url(HOST + "/data/organize/delete").setParameter("secret", SECRET).setParameter("organizeId", organizeData.organizeId).post();
@@ -171,7 +171,7 @@ public class SSOUtils {
     }
     
     
-    public static PersonResult personAdd(BasePerson person) {
+    public static PersonResult personAdd(SsoPerson person) {
         try {
             PersonResult.PersonData personData = new PersonResult.PersonData(person);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(personData), HashMap.class);
@@ -186,7 +186,7 @@ public class SSOUtils {
         return null;
     }
     
-    public static PersonResult personEdit(BasePerson person) {
+    public static PersonResult personEdit(SsoPerson person) {
         try {
             PersonResult.PersonData personData = new PersonResult.PersonData(person);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(personData), HashMap.class);
@@ -201,7 +201,7 @@ public class SSOUtils {
         return null;
     }
     
-    public static PersonResult personDelete(BasePerson person) {
+    public static PersonResult personDelete(SsoPerson person) {
         try {
             PersonResult.PersonData personData = new PersonResult.PersonData(person);
             HttpResponse response = WS.url(HOST + "/data/person/delete").setParameter("secret", SECRET).setParameter("personId", personData.personId).post();
@@ -215,7 +215,7 @@ public class SSOUtils {
         return null;
     }
     
-    public static RelationResult relationAdd(BaseRelation relation) {
+    public static RelationResult relationAdd(SsoRelation relation) {
         try {
             RelationResult.RelationData relationData = new RelationResult.RelationData(relation);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(relationData), HashMap.class);
@@ -230,7 +230,7 @@ public class SSOUtils {
         return null;
     }
     
-    public static RelationResult relationEdit(BaseRelation relation) {
+    public static RelationResult relationEdit(SsoRelation relation) {
         try {
             RelationResult.RelationData relationData = new RelationResult.RelationData(relation);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(relationData), HashMap.class);
@@ -245,7 +245,7 @@ public class SSOUtils {
         return null;
     }
     
-    public static RelationResult relationDelete(BaseRelation relation) {
+    public static RelationResult relationDelete(SsoRelation relation) {
         try {
             RelationResult.RelationData relationData = new RelationResult.RelationData(relation);
             HttpResponse response = WS.url(HOST + "/data/relation/delete").setParameter("secret", SECRET).setParameter("relationId", relationData.relationId).post();
