@@ -191,7 +191,6 @@ public class SSOUtils {
             PersonResult.PersonData personData = new PersonResult.PersonData(person);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(personData), HashMap.class);
             HttpResponse response = WS.url(HOST + "/data/person/edit").setParameter("secret", SECRET).setParameters(map).post();
-            
             if (response.success()) {
                 PersonResult result = mapper.readValue(response.getString(), PersonResult.class);
                 return result;
