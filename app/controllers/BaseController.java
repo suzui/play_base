@@ -216,6 +216,16 @@ public class BaseController extends Controller {
     }
     
     @Util
+    public static Long getSource() {
+        final Header source = Request.current().headers.get("source");
+        if (source == null || StringUtils.isBlank(source.value())) {
+            return null;
+        } else {
+            return Long.parseLong(source.value());
+        }
+    }
+    
+    @Util
     protected static AccessToken getAccessTokenByToken() {
         String token = getToken();
         return token == null ? null : AccessToken.findByAccesstoken(token);

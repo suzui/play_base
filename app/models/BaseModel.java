@@ -6,7 +6,6 @@ import models.token.BasePerson;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import play.db.jpa.Model;
-import play.mvc.Scope.Session;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
@@ -86,7 +85,7 @@ public class BaseModel extends Model {
     }
     
     public static Long getSource() {
-        return Long.parseLong(Session.current().get("source"));
+        return BaseController.getSource();
     }
     
     public static <T extends BasePerson> T getPersonByToken() {
