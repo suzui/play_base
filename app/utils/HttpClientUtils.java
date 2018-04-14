@@ -20,7 +20,9 @@ public class HttpClientUtils {
                 }
             }
             Response response = client.prepareGet(url).setQueryParams(map).setRequestTimeout(5 * 60 * 1000).execute().get();
-            return response.getResponseBody("utf8");
+            String responseBody = response.getResponseBody("utf8");
+            Logger.info("[httprepsonse get]:%s", responseBody);
+            return responseBody;
         } catch (Exception e) {
             Logger.error(e, e.getMessage());
         } finally {
@@ -39,7 +41,9 @@ public class HttpClientUtils {
                 }
             }
             Response response = client.preparePost(url).setQueryParams(map).setRequestTimeout(5 * 60 * 1000).execute().get();
-            return response.getResponseBody("utf8");
+            String responseBody = response.getResponseBody("utf8");
+            Logger.info("[httprepsonse post]:%s", responseBody);
+            return responseBody;
         } catch (Exception e) {
             Logger.error(e, e.getMessage());
         } finally {
