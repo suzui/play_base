@@ -30,7 +30,6 @@ public class SSOUtils {
         try {
             HttpResponse response = WS.url(HOST + "/source/app/auth").setParameter("master", MASTER).post();
             if (response.success()) {
-                
                 AppResult result = mapper.readValue(response.getString(), AppResult.class);
                 SECRET = result.data.secret;
                 return result;
@@ -145,7 +144,7 @@ public class SSOUtils {
         try {
             OrganizeResult.OrganizeData organizeData = new OrganizeResult.OrganizeData(organize);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(organizeData), HashMap.class);
-            HttpResponse response = WS.url(HOST + "/data/organize/edit").setParameter("secret", SECRET).setParameters(map).post();
+            HttpResponse response = WS.url(HOST + "/data/organize/edit").setParameter("secret", SECRET).setParameters(map).get();
             if (response.success()) {
                 OrganizeResult result = mapper.readValue(response.getString(), OrganizeResult.class);
                 return result;
@@ -190,7 +189,7 @@ public class SSOUtils {
         try {
             PersonResult.PersonData personData = new PersonResult.PersonData(person);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(personData), HashMap.class);
-            HttpResponse response = WS.url(HOST + "/data/person/edit").setParameter("secret", SECRET).setParameters(map).post();
+            HttpResponse response = WS.url(HOST + "/data/person/edit").setParameter("secret", SECRET).setParameters(map).get();
             if (response.success()) {
                 PersonResult result = mapper.readValue(response.getString(), PersonResult.class);
                 return result;
@@ -234,7 +233,7 @@ public class SSOUtils {
         try {
             RelationResult.RelationData relationData = new RelationResult.RelationData(relation);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(relationData), HashMap.class);
-            HttpResponse response = WS.url(HOST + "/data/relation/edit").setParameter("secret", SECRET).setParameters(map).post();
+            HttpResponse response = WS.url(HOST + "/data/relation/edit").setParameter("secret", SECRET).setParameters(map).get();
             if (response.success()) {
                 RelationResult result = mapper.readValue(response.getString(), RelationResult.class);
                 return result;
