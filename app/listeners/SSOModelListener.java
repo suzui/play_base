@@ -29,7 +29,6 @@ public class SSOModelListener {
                 ssoModel.preUpdate(relationResult.data.relationId);
             }
         }
-        
     }
     
     @PreUpdate
