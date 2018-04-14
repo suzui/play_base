@@ -6,6 +6,7 @@ import models.sso.SsoOrganize;
 import models.sso.SsoPerson;
 import models.sso.SsoRelation;
 import play.Play;
+import play.libs.F;
 import play.libs.WS;
 import play.libs.WS.HttpResponse;
 import results.sso.*;
@@ -144,7 +145,7 @@ public class SSOUtils {
         try {
             OrganizeResult.OrganizeData organizeData = new OrganizeResult.OrganizeData(organize);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(organizeData), HashMap.class);
-            HttpResponse response = WS.url(HOST + "/data/organize/edit").setParameter("secret", SECRET).setParameters(map).get();
+            HttpResponse response = WS.url(HOST + "/data/organize/edit").setParameter("secret", SECRET).setParameters(map).post();
             if (response.success()) {
                 OrganizeResult result = mapper.readValue(response.getString(), OrganizeResult.class);
                 return result;
@@ -189,7 +190,8 @@ public class SSOUtils {
         try {
             PersonResult.PersonData personData = new PersonResult.PersonData(person);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(personData), HashMap.class);
-            HttpResponse response = WS.url(HOST + "/data/person/edit").setParameter("secret", SECRET).setParameters(map).get();
+            F.Promise<HttpResponse> promise = WS.url(HOST + "/data/person/edit").setParameter("secret", SECRET).setParameters(map).postAsync();
+            HttpResponse response = promise.getOrNull();
             if (response.success()) {
                 PersonResult result = mapper.readValue(response.getString(), PersonResult.class);
                 return result;
@@ -233,7 +235,7 @@ public class SSOUtils {
         try {
             RelationResult.RelationData relationData = new RelationResult.RelationData(relation);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(relationData), HashMap.class);
-            HttpResponse response = WS.url(HOST + "/data/relation/edit").setParameter("secret", SECRET).setParameters(map).get();
+            HttpResponse response = WS.url(HOST + "/data/relation/edit").setParameter("secret", SECRET).setParameters(map).post();
             if (response.success()) {
                 RelationResult result = mapper.readValue(response.getString(), RelationResult.class);
                 return result;
