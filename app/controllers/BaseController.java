@@ -208,7 +208,7 @@ public class BaseController extends Controller {
     @Util
     protected static String getToken() {
         final Header accessToken = Request.current().headers.get("accesstoken");
-        if (accessToken == null || StringUtils.isBlank(accessToken.value())) {
+        if (accessToken == null) {
             return null;
         } else {
             return accessToken.value();
@@ -217,13 +217,15 @@ public class BaseController extends Controller {
     
     @Util
     public static Long getSource() {
-        final Header source = Request.current().headers.get("source");
-        if (source == null || StringUtils.isBlank(source.value())) {
-            return null;
-        } else {
-            Logger.info("[headersource]:%s", source.value());
-            return Long.parseLong(source.value());
+        Header source = Request.current().headers.get("source");
+        if (source == null) {
+            source = Request.current().headers.get("organize");
         }
+        if (source == null) {
+            return null;
+        }
+        Logger.info("[headersource]:%s", source.value());
+        return Long.parseLong(source.value());
     }
     
     @Util
