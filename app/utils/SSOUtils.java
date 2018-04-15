@@ -42,6 +42,7 @@ public class SSOUtils {
     
     
     public static OrganizesResult organizeIncrease(long ssoUpdate) {
+        if (SECRET == null) auth();
         try {
             HttpResponse response = WS.url(HOST + "/data/organize/increase").setParameter("secret", SECRET).setParameter("updateTime", ssoUpdate).post();
             if (response.success()) {
@@ -55,6 +56,7 @@ public class SSOUtils {
     }
     
     public static PersonsResult personIncrease(long ssoUpdate) {
+        if (SECRET == null) auth();
         try {
             HttpResponse response = WS.url(HOST + "/data/person/increase").setParameter("secret", SECRET)
                     .setParameter("updateTime", ssoUpdate).post();
@@ -69,6 +71,7 @@ public class SSOUtils {
     }
     
     public static RelationsResult relationIncrease(long ssoUpdate) {
+        if (SECRET == null) auth();
         try {
             HttpResponse response = WS.url(HOST + "/data/relation/increase").setParameter("secret", SECRET)
                     .setParameter("updateTime", ssoUpdate).post();
@@ -83,6 +86,7 @@ public class SSOUtils {
     }
     
     public static PersonResult login(String username, Integer type, String password) {
+        if (SECRET == null) auth();
         try {
             HttpResponse response = WS.url(HOST + "/user/login").setParameter("secret", SECRET)
                     .setParameter("username", username).setParameter("type", type).setParameter("password", password).post();
@@ -100,6 +104,7 @@ public class SSOUtils {
     }
     
     public static PersonResult info(String ssoId) {
+        if (SECRET == null) auth();
         try {
             HttpResponse response = WS.url(HOST + "/user/info").setParameter("secret", SECRET)
                     .setParameter("personId", ssoId).post();
@@ -113,6 +118,7 @@ public class SSOUtils {
     }
     
     public static PersonResult verify(String accesstoken) {
+        if (SECRET == null) auth();
         try {
             HttpResponse response = WS.url(HOST + "/user/verify").setParameter("secret", SECRET)
                     .setParameter("accesstoken", accesstoken).post();
@@ -126,6 +132,7 @@ public class SSOUtils {
     }
     
     public static OrganizeResult organizeAdd(SsoOrganize organize) {
+        if (SECRET == null) auth();
         try {
             OrganizeResult.OrganizeData organizeData = new OrganizeResult.OrganizeData(organize);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(organizeData), HashMap.class);
@@ -141,6 +148,7 @@ public class SSOUtils {
     }
     
     public static OrganizeResult organizeEdit(SsoOrganize organize) {
+        if (SECRET == null) auth();
         try {
             OrganizeResult.OrganizeData organizeData = new OrganizeResult.OrganizeData(organize);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(organizeData), HashMap.class);
@@ -156,6 +164,7 @@ public class SSOUtils {
     }
     
     public static OrganizeResult organizeDelete(SsoOrganize organize) {
+        if (SECRET == null) auth();
         try {
             OrganizeResult.OrganizeData organizeData = new OrganizeResult.OrganizeData(organize);
             HttpResponse response = WS.url(HOST + "/data/organize/delete").setParameter("secret", SECRET).setParameter("organizeId", organizeData.organizeId).post();
@@ -171,6 +180,7 @@ public class SSOUtils {
     
     
     public static PersonResult personAdd(SsoPerson person) {
+        if (SECRET == null) auth();
         try {
             PersonResult.PersonData personData = new PersonResult.PersonData(person);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(personData), HashMap.class);
@@ -186,6 +196,7 @@ public class SSOUtils {
     }
     
     public static PersonResult personEdit(SsoPerson person) {
+        if (SECRET == null) auth();
         try {
             PersonResult.PersonData personData = new PersonResult.PersonData(person);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(personData), HashMap.class);
@@ -201,6 +212,7 @@ public class SSOUtils {
     }
     
     public static PersonResult personDelete(SsoPerson person) {
+        if (SECRET == null) auth();
         try {
             PersonResult.PersonData personData = new PersonResult.PersonData(person);
             HttpResponse response = WS.url(HOST + "/data/person/delete").setParameter("secret", SECRET).setParameter("personId", personData.personId).post();
@@ -215,6 +227,7 @@ public class SSOUtils {
     }
     
     public static RelationResult relationAdd(SsoRelation relation) {
+        if (SECRET == null) auth();
         try {
             RelationResult.RelationData relationData = new RelationResult.RelationData(relation);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(relationData), HashMap.class);
@@ -230,6 +243,7 @@ public class SSOUtils {
     }
     
     public static RelationResult relationEdit(SsoRelation relation) {
+        if (SECRET == null) auth();
         try {
             RelationResult.RelationData relationData = new RelationResult.RelationData(relation);
             Map<String, String> map = mapper.readValue(mapper.writeValueAsString(relationData), HashMap.class);
@@ -245,6 +259,7 @@ public class SSOUtils {
     }
     
     public static RelationResult relationDelete(SsoRelation relation) {
+        if (SECRET == null) auth();
         try {
             RelationResult.RelationData relationData = new RelationResult.RelationData(relation);
             HttpResponse response = WS.url(HOST + "/data/relation/delete").setParameter("secret", SECRET).setParameter("relationId", relationData.relationId).post();
