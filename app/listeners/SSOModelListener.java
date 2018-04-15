@@ -17,7 +17,7 @@ public class SSOModelListener {
     
     @PrePersist
     public static void prePersist(SsoModel ssoModel) {
-        if (Play.configuration.getProperty("sso", "off").equals("on")) {
+        if (Play.configuration.getProperty("sso", "off").equals("on") && ssoModel.onListener()) {
             if (ssoModel instanceof SsoOrganize) {
                 OrganizeResult organizeResult = SSOUtils.organizeAdd((SsoOrganize) ssoModel);
                 ssoModel.preUpdate(organizeResult.data.organizeId);
@@ -33,7 +33,7 @@ public class SSOModelListener {
     
     @PreUpdate
     public static void preUpdate(SsoModel ssoModel) {
-        if (Play.configuration.getProperty("sso", "off").equals("on")) {
+        if (Play.configuration.getProperty("sso", "off").equals("on") && ssoModel.onListener()) {
             if (ssoModel instanceof SsoOrganize) {
                 SsoOrganize ssoOrganize = (SsoOrganize) ssoModel;
                 if (ssoOrganize.deleted) {
