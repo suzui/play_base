@@ -84,7 +84,11 @@ public class AccessToken extends BaseModel {
     }
     
     public static <T extends BasePerson> T findPersonByAccesstoken(String accesstoken) {
-        return (T) findByAccesstoken(accesstoken).person;
+        AccessToken accessToken = findByAccesstoken(accesstoken);
+        if (accessToken == null) {
+            return null;
+        }
+        return (T) accessToken.person;
     }
     
     public static AccessToken findMobile(Long personId, String appType) {
