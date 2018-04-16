@@ -76,6 +76,11 @@ public class BaseModel extends Model {
         return new Date(this.updateTime);
     }
     
+    public void timeUpdate() {
+        this.updateTime = System.currentTimeMillis();
+        this.save();
+    }
+    
     public static Boolean convert(int b) {
         return BooleanUtils.toBooleanObject(b, 1, 0, -1);
     }
