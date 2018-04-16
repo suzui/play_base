@@ -32,7 +32,7 @@ public abstract class SsoOrganize extends BaseOrganize implements SsoModel {
     
     
     public static <T extends SsoOrganize> T findBySsoId(Long ssoId) {
-        return SsoOrganize.find(defaultSql("ssoId=?"), ssoId).first();
+        return SsoOrganize.find("ssoId=?", ssoId).first();
     }
     
 }

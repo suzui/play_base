@@ -32,7 +32,7 @@ public abstract class SsoPerson extends BasePerson implements SsoModel {
     }
     
     public static <T extends SsoPerson> T findBySsoId(Long ssoId) {
-        return SsoPerson.find(defaultSql("ssoId=?"), ssoId).first();
+        return SsoPerson.find("ssoId=?", ssoId).first();
     }
     
 }
