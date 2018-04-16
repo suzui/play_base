@@ -79,7 +79,7 @@ public class AccessToken extends BaseModel {
         SsoPerson person = SsoPerson.findBySsoId(personResult.data.personId);
         at = new AccessToken();
         at.person = person;
-        at.accesstoken = accesstoken;
+        at.accesstoken = accesstoken.substring(36);
         return at.save();
     }
     
