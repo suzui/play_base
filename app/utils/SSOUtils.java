@@ -105,6 +105,16 @@ public class SSOUtils {
         return null;
     }
     
+    public static PersonResult password(Long ssoId, String password) {
+        if (SECRET == null) auth();
+        HttpResponse response = WS.url(HOST + "/user/verify").setParameter("secret", SECRET)
+                .setParameter("personId", ssoId).setParameter("password", password).post();
+        if (response.success()) {
+            return new Gson().fromJson(response.getString(), PersonResult.class);
+        }
+        return null;
+    }
+    
     public static OrganizeResult organizeAdd(SsoOrganize organize) {
         if (SECRET == null) auth();
         OrganizeResult.OrganizeData organizeData = new OrganizeResult.OrganizeData(organize);

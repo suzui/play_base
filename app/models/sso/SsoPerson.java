@@ -3,7 +3,8 @@ package models.sso;
 import enums.PersonType;
 import listeners.SSOModelListener;
 import models.token.BasePerson;
-import org.apache.commons.lang.StringUtils;
+import results.sso.PersonResult;
+import utils.SSOUtils;
 
 import javax.persistence.*;
 
@@ -34,7 +35,8 @@ public abstract class SsoPerson extends BasePerson implements SsoModel {
     
     @Override
     public boolean isPasswordRight(String password) {
-        return StringUtils.equalsIgnoreCase(password, this.password);
+        PersonResult personResult = SSOUtils.password(this.ssoId, password);
+        return personResult != null && personResult.succ();
     }
     
     public static <T extends SsoPerson> T findBySsoId(Long ssoId) {
