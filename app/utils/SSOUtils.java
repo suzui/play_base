@@ -107,7 +107,7 @@ public class SSOUtils {
     
     public static PersonResult password(Long ssoId, String password) {
         if (SECRET == null) auth();
-        HttpResponse response = WS.url(HOST + "/user/verify").setParameter("secret", SECRET)
+        HttpResponse response = WS.url(HOST + "/user/password").setParameter("secret", SECRET)
                 .setParameter("personId", ssoId).setParameter("password", password).post();
         if (response.success()) {
             return new Gson().fromJson(response.getString(), PersonResult.class);
