@@ -37,7 +37,6 @@ public class SSOUtils {
         return null;
     }
     
-    
     public static OrganizesResult organizeIncrease(long ssoUpdate) {
         if (SECRET == null) auth();
         HttpResponse response = WS.url(HOST + "/data/organize/increase").setParameter("secret", SECRET).setParameter("updateTime", ssoUpdate).post();
@@ -176,7 +175,6 @@ public class SSOUtils {
         if (SECRET == null) auth();
         PersonResult.PersonData personData = new PersonResult.PersonData(person);
         Map<String, String> map = new Gson().fromJson(new Gson().toJson(personData), HashMap.class);
-        map.remove("password");
         HttpResponse response = WS.url(HOST + "/data/person/edit").setParameter("secret", SECRET).setParameters(map).post();
         if (response.success()) {
             PersonResult result = new Gson().fromJson(response.getString(), PersonResult.class);

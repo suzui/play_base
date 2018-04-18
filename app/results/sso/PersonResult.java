@@ -57,7 +57,7 @@ public class PersonResult extends Result {
         public PersonData(SsoPerson person) {
             this.personId = person.ssoId;
             this.username = person.username;
-            this.password = person.password;
+            //this.password = person.password;
             this.zone = person.zone;
             this.phone = person.phone;
             this.email = person.email;
