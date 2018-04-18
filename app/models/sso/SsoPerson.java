@@ -35,7 +35,7 @@ public abstract class SsoPerson extends BasePerson implements SsoModel {
     
     @Override
     public boolean isPasswordRight(String password) {
-        PersonResult personResult = SSOUtils.password(this.ssoId, password);
+        PersonResult personResult = SSOUtils.vefiry(this.ssoId, password);
         return personResult != null && personResult.succ();
     }
     
