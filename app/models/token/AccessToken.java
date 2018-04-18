@@ -72,7 +72,7 @@ public class AccessToken extends BaseModel {
         if (at != null) {
             return at;
         }
-        PersonResult personResult = SSOUtils.verify(accesstoken);
+        PersonResult personResult = SSOUtils.auth(accesstoken);
         if (personResult == null || !personResult.succ()) {
             return null;
         }

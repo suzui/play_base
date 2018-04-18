@@ -39,6 +39,11 @@ public abstract class SsoPerson extends BasePerson implements SsoModel {
         return personResult != null && personResult.succ();
     }
     
+    @Override
+    public void editPassword(String password) {
+        SSOUtils.password(this.ssoId, password);
+    }
+    
     public static <T extends SsoPerson> T findBySsoId(Long ssoId) {
         return SsoPerson.find("ssoId=?", ssoId).first();
     }

@@ -95,10 +95,20 @@ public class SSOUtils {
         return null;
     }
     
-    public static PersonResult verify(String accesstoken) {
+    public static PersonResult auth(String accesstoken) {
         if (SECRET == null) auth();
-        HttpResponse response = WS.url(HOST + "/user/verify").setParameter("secret", SECRET)
+        HttpResponse response = WS.url(HOST + "/user/auth").setParameter("secret", SECRET)
                 .setParameter("accesstoken", accesstoken).post();
+        if (response.success()) {
+            return new Gson().fromJson(response.getString(), PersonResult.class);
+        }
+        return null;
+    }
+    
+    public static PersonResult vefiry(Long ssoId, String password) {
+        if (SECRET == null) auth();
+        HttpResponse response = WS.url(HOST + "/user/vefiry").setParameter("secret", SECRET)
+                .setParameter("personId", ssoId).setParameter("password", password).post();
         if (response.success()) {
             return new Gson().fromJson(response.getString(), PersonResult.class);
         }
@@ -150,7 +160,6 @@ public class SSOUtils {
         return null;
     }
     
-    
     public static PersonResult personAdd(SsoPerson person) {
         if (SECRET == null) auth();
         PersonResult.PersonData personData = new PersonResult.PersonData(person);
@@ -167,6 +176,7 @@ public class SSOUtils {
         if (SECRET == null) auth();
         PersonResult.PersonData personData = new PersonResult.PersonData(person);
         Map<String, String> map = new Gson().fromJson(new Gson().toJson(personData), HashMap.class);
+        map.remove("password");
         HttpResponse response = WS.url(HOST + "/data/person/edit").setParameter("secret", SECRET).setParameters(map).post();
         if (response.success()) {
             PersonResult result = new Gson().fromJson(response.getString(), PersonResult.class);

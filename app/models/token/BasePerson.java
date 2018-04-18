@@ -38,7 +38,7 @@ public class BasePerson extends BaseModel {
     public BaseOrganize organize;//机构
     
     public static boolean isPhoneLegal(String phone) {
-        String regExp = "^((13[0-9])|(15[0-9])|(18[0-9])|(17[0-9]))\\d{8}$";
+        String regExp = "^(1)\\d{10}$";
         return StringUtils.isNotBlank(phone) && phone.matches(regExp);
     }
     
@@ -53,6 +53,11 @@ public class BasePerson extends BaseModel {
     
     public boolean isPasswordRight(String password) {
         return StringUtils.equalsIgnoreCase(password, this.password);
+    }
+    
+    public void editPassword(String password) {
+        this.password = password;
+        this.save();
     }
     
     public static <T extends BasePerson> T findByID(Long id) {
