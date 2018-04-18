@@ -1,6 +1,5 @@
 package models.back;
 
-import models.person.Person;
 import models.token.BasePerson;
 import org.apache.commons.lang.StringUtils;
 import utils.CodeUtils;

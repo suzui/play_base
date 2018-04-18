@@ -1,37 +1,31 @@
 package controllers;
 
+import annotations.ActionMethod;
+import annotations.DataField;
+import annotations.EnumClass;
+import annotations.ParamField;
+import com.google.gson.Gson;
+import interfaces.BaseEnum;
+import javassist.*;
+import javassist.bytecode.CodeAttribute;
+import javassist.bytecode.LocalVariableAttribute;
+import javassist.bytecode.MethodInfo;
+import org.apache.commons.lang.StringUtils;
+import play.Play;
+import play.mvc.Before;
+import play.mvc.Controller;
+import utils.JSONUtils;
+import vos.Data;
+import vos.OneData;
+import vos.PageData;
+import vos.StatusCode;
+
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.util.*;
-
-import annotations.EnumClass;
-import enums.Access;
-import interfaces.BaseEnum;
-import org.apache.commons.lang.StringUtils;
-
-import com.google.gson.Gson;
-
-import annotations.ActionMethod;
-import annotations.DataField;
-import annotations.ParamField;
-import javassist.ClassClassPath;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtMethod;
-import javassist.Modifier;
-import javassist.bytecode.CodeAttribute;
-import javassist.bytecode.LocalVariableAttribute;
-import javassist.bytecode.MethodInfo;
-import play.Logger;
-import play.Play;
-import play.classloading.ApplicationClasses;
-import play.mvc.Before;
-import play.mvc.Controller;
-import utils.JSONUtils;
-import vos.*;
 
 public class DocController extends Controller {
     private static final String DOC = "doc";
