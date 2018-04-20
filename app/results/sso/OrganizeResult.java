@@ -12,6 +12,8 @@ public class OrganizeResult extends Result {
         public Long organizeId;
         @DataField(name = "组织名称")
         public String name;
+        @DataField(name = "组织logo")
+        public String logo;
         @DataField(name = "上级组织id")
         public Long parentId;
         @DataField(name = "排序")
@@ -29,6 +31,7 @@ public class OrganizeResult extends Result {
         public OrganizeData(SsoOrganize organize) {
             this.organizeId = organize.ssoId;
             this.name = organize.name;
+            this.logo = organize.logo;
             if (organize.parent != null) {
                 this.parentId = ((SsoOrganize) organize.parent).ssoId;
             }

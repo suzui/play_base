@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Table(name = "Organize")
 public class BaseOrganize extends BaseModel {
     
-    public String logo;//组织头像
+    public String logo;//组织logo
     public String name;//组织名称
     public Double rank;//组织排序
     @ManyToOne
