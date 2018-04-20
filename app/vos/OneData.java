@@ -112,7 +112,7 @@ public class OneData extends Data {
                     ParameterizedType pt = (ParameterizedType) genericType;
                     Type one = pt.getActualTypeArguments()[0];
                     if (!OneData.class.isAssignableFrom((Class<?>) one)) {
-                        list.add(((Class<?>) one).getSimpleName());
+                        list.add(df.name() + "|" + ((Class<?>) one).getSimpleName());
                     } else if (this.getClass().isAssignableFrom((Class<?>) one)) {
                         list.add(new HashMap<>());
                     } else {

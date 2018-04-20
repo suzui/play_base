@@ -70,7 +70,7 @@ public class QRCodeUtils {
     
     public static File gen(String content) {
         String filePath = "tmp/mcshcode" + RandomStringUtils.randomNumeric(16) + ".jpg";
-        String logoPath = "public/images/logo/logo50_50.jpg";
+        String logoPath = "public/images/avatar1/logo50_50.jpg";
         gen(filePath, logoPath, content);
         return new File(filePath);
     }
