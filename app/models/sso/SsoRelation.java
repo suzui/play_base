@@ -13,6 +13,7 @@ public abstract class SsoRelation extends BaseRelation implements SsoModel {
     
     public Long ssoId;
     public Long ssoUpdate;
+    public String ssoPro;
     
     @Transient
     public Boolean listener = true;

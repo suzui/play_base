@@ -14,6 +14,7 @@ public abstract class SsoPerson extends BasePerson implements SsoModel {
     
     public Long ssoId;
     public Long ssoUpdate;
+    public String ssoPro;
     
     @Enumerated(EnumType.STRING)
     public PersonType type;//person中无需重复声明 enum需定义personType

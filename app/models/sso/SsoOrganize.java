@@ -14,6 +14,7 @@ public abstract class SsoOrganize extends BaseOrganize implements SsoModel {
     
     public Long ssoId;
     public Long ssoUpdate;
+    public String ssoPro;
     
     @Transient
     public Boolean listener = true;
