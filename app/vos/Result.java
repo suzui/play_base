@@ -60,56 +60,47 @@ public class Result {
     }
     
     public static String failed() {
-        Result result = new Result();
-        result.status = Status.FAIL;
-        result.code = (int) StatusCode.FAIL[0];
-        result.message = (String) StatusCode.FAIL[1];
-        return convert(result);
+        return result(Status.FAIL, (int) StatusCode.FAIL[0], (String) StatusCode.FAIL[1], null);
     }
     
     public static String failed(Object[] codemessage) {
-        Result result = new Result();
-        result.status = Status.FAIL;
-        result.code = (int) codemessage[0];
-        result.message = (String) codemessage[1];
-        return convert(result);
+        return result(Status.FAIL, (int) codemessage[0], (String) codemessage[1], null);
     }
     
     public static String succeed() {
-        Result result = new Result();
-        result.status = Status.SUCC;
-        result.code = (int) StatusCode.SUCCESS[0];
-        result.message = (String) StatusCode.SUCCESS[1];
-        return convert(result);
+        return result(Status.SUCC, (int) StatusCode.SUCCESS[0], (String) StatusCode.SUCCESS[1], null);
     }
     
     public static String succeed(String message) {
-        Result result = new Result();
-        result.status = Status.SUCC;
-        result.code = (int) StatusCode.SUCCESS[0];
-        result.message = message;
-        return convert(result);
+        return result(Status.SUCC, (int) StatusCode.SUCCESS[0], message, null);
     }
-    
+
+    public static String succeed(Object[] codemessage) {
+        return result(Status.SUCC, (int) codemessage[0], (String) codemessage[1], null);
+    }
+
     public static String succeed(Data data) {
-        Result result = new Result();
-        result.status = Status.SUCC;
-        result.code = (int) StatusCode.SUCCESS[0];
-        result.message = (String) StatusCode.SUCCESS[1];
-        result.data = data;
-        return convert(result);
+        return result(Status.SUCC, (int) StatusCode.SUCCESS[0], (String) StatusCode.SUCCESS[1], data);
+    }
+
+    public static String succeed(Data data, String message) {
+        return result(Status.SUCC, (int) StatusCode.SUCCESS[0], message, data);
     }
     
-    public static String succeed(Data data, String message) {
+    public static String succeed(Data data, Object[] codemessage) {
+        return result(Status.SUCC, (int) codemessage[0], (String) codemessage[1], data);
+    }
+    
+    private static String result(String status, int code, String message, Data data) {
         Result result = new Result();
-        result.status = Status.SUCC;
-        result.code = (int) StatusCode.SUCCESS[0];
+        result.status = status;
+        result.code = code;
         result.message = message;
         result.data = data;
         return convert(result);
     }
     
-    public static String convert(Result result) {
+    private static String convert(Result result) {
         try {
             return mapper.writeValueAsString(result);
         } catch (IOException e) {

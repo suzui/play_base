@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import play.Logger;
 
 import java.io.InputStream;
+import java.util.Arrays;
 
 public class ShellUtils {
     
@@ -16,6 +17,7 @@ public class ShellUtils {
             for (int i = 0; i < params.length; i++) {
                 cmd[i + 1] = params[i];
             }
+            Logger.info("[shell update param]:================ %s", Arrays.asList(cmd));
             Logger.info("[shell start]:================");
             Logger.info("[shell shell]:%s", shell);
             Logger.info("[shell param]:%s", StringUtils.join(params, ","));
