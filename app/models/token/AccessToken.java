@@ -48,13 +48,16 @@ public class AccessToken extends BaseModel {
         this.person.save();
         this.save();
         if (!(ClientType.WEB.code() + "").equals(this.clientType)) {
-            this.fetchOthers().forEach(at -> at.del());
+            this.fetchOthersByPerson().forEach(at -> at.del());
         }
     }
     
     public void pushToken(String pushToken) {
         this.pushToken = pushToken;
         this.save();
+        if (!(ClientType.WEB.code() + "").equals(this.clientType)) {
+            this.fetchOthersByPushToken().forEach(at -> at.del());
+        }
     }
     
     public void del() {
@@ -99,8 +102,12 @@ public class AccessToken extends BaseModel {
         return findMobile(person.id, appType);
     }
     
-    public List<AccessToken> fetchOthers() {
+    public List<AccessToken> fetchOthersByPerson() {
         return AccessToken.find(defaultSql("person=? and appType=? and clientType<>'100' and id<>? "), this.person, this.appType, this.id).fetch();
+    }
+    
+    public List<AccessToken> fetchOthersByPushToken() {
+        return AccessToken.find(defaultSql("pushToken=? and appType=? and clientType<>'100' and id<>? and "), this.pushToken, this.appType, this.id).fetch();
     }
     
 }
