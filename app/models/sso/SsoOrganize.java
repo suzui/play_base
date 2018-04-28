@@ -1,10 +1,11 @@
 package models.sso;
 
-import enums.OrganizeType;
 import listeners.SSOModelListener;
 import models.token.BaseOrganize;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -14,9 +15,6 @@ public abstract class SsoOrganize extends BaseOrganize implements SsoModel {
     public Long ssoId;
     public Long ssoUpdate;
     public String ssoPro;
-    
-    @Enumerated(EnumType.STRING)
-    public OrganizeType type;//organize中无需重复声明 enum需定义personType
     
     @Transient
     public Boolean listener = true;

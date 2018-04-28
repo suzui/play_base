@@ -1,5 +1,6 @@
 package models.token;
 
+import enums.PersonType;
 import enums.Sex;
 import models.BaseModel;
 import org.apache.commons.lang.StringUtils;
@@ -29,7 +30,9 @@ public class BasePerson extends BaseModel {
     @Column(length = 1000)
     public String intro;//简介
     @Enumerated(EnumType.STRING)
-    public Sex sex = Sex.NOPOINT;
+    public Sex sex = Sex.NOPOINT;//person中无需重复声明 enum需定义
+    @Enumerated(EnumType.STRING)
+    public PersonType type;//person中无需重复声明 enum需定义
     public Long firstLoginTime;//首次登录时间
     public Long lastLoginTime;//最后登录时间
     public Integer loginAmount;//登录次数

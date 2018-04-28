@@ -1,12 +1,13 @@
 package models.sso;
 
-import enums.PersonType;
 import listeners.SSOModelListener;
 import models.token.BasePerson;
 import results.sso.PersonResult;
 import utils.SSOUtils;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.Transient;
 
 @Entity
 @EntityListeners(SSOModelListener.class)
@@ -15,9 +16,6 @@ public abstract class SsoPerson extends BasePerson implements SsoModel {
     public Long ssoId;
     public Long ssoUpdate;
     public String ssoPro;
-    
-    @Enumerated(EnumType.STRING)
-    public PersonType type;//person中无需重复声明 enum需定义personType
     
     @Transient
     public Boolean listener = true;
