@@ -17,7 +17,10 @@ public class BaseOrganize extends BaseModel {
     public BaseOrganize parent;//父组织，根组织为null
     
     @ManyToOne
-    public BaseOrganize organize;//机构
+    public BasePerson person;//组织负责人
+    
+    @ManyToOne
+    public BaseOrganize organize;//组织机构
     
     public static <T extends BaseOrganize> T findByID(Long id) {
         return BaseOrganize.find(defaultSql("id=?"), id).first();

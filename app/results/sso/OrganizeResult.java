@@ -2,6 +2,7 @@ package results.sso;
 
 import annotations.DataField;
 import models.sso.SsoOrganize;
+import models.sso.SsoPerson;
 
 public class OrganizeResult extends Result {
     
@@ -14,8 +15,12 @@ public class OrganizeResult extends Result {
         public String name;
         @DataField(name = "组织logo")
         public String logo;
+        @DataField(name = "组织类型")
+        public Integer type;
         @DataField(name = "上级组织id")
         public Long parentId;
+        @DataField(name = "组织负责人id")
+        public Long personId;
         @DataField(name = "排序")
         public Double rank;
         
@@ -32,8 +37,16 @@ public class OrganizeResult extends Result {
             this.organizeId = organize.ssoId;
             this.name = organize.name;
             this.logo = organize.logo;
+            if (organize.type != null) {
+                this.type = organize.type.code();
+            }
             if (organize.parent != null) {
                 this.parentId = ((SsoOrganize) organize.parent).ssoId;
+            }
+            if (organize.person != null) {
+                this.personId = ((SsoPerson) organize.person).ssoId;
+            } else {
+                this.personId = -1l;
             }
             this.rank = organize.rank;
         }
