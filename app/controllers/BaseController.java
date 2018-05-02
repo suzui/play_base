@@ -219,6 +219,16 @@ public class BaseController extends Controller {
     }
     
     @Util
+    public static Long getApp() {
+        String app = getHeader("app");
+        if (app == null) {
+            return null;
+        }
+        Logger.info("[headerapp]:%s", app);
+        return Long.parseLong(app);
+    }
+    
+    @Util
     public static Long getSource() {
         String source = getHeader("source");
         if (source == null) {

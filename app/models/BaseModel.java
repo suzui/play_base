@@ -89,6 +89,10 @@ public class BaseModel extends Model {
         return v == -1;
     }
     
+    public static Long getApp() {
+        return BaseController.getApp();
+    }
+    
     public static Long getSource() {
         return BaseController.getSource();
     }
