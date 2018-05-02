@@ -157,40 +157,36 @@ public class BaseController extends Controller {
         Logger.info("[accesstoken end]:================");
     }
     
-    @Util
-    protected static void setPersonIdToSession(Long personId) {
-        Session.current().put(CURRENT_PERSON_ID, personId + "");
-    }
     
     @Util
-    protected static void setPersonIdToCookie(Long personId) {
-        Response.current().setCookie(KEEP_PERSON_ID, personId + "", "365d");
+    protected static void setPersonIdToSession(Long personId) {
+        setSession(CURRENT_PERSON_ID, personId + "");
     }
     
     @Util
     protected static void removePersonIdToSession() {
-        Session.current().remove(CURRENT_PERSON_ID);
-    }
-    
-    @Util
-    protected static void removePersonIdToCookie() {
-        Response.current().removeCookie(KEEP_PERSON_ID);
+        removeSession(CURRENT_PERSON_ID);
     }
     
     @Util
     protected static String getPersonIdFromSession() {
-        Session session = Session.current();
-        return null != session && session.contains(CURRENT_PERSON_ID) ? session.get(CURRENT_PERSON_ID) : null;
+        return getSession(CURRENT_PERSON_ID);
     }
     
     @Util
+    protected static void setPersonIdToCookie(Long personId) {
+        setCookie(KEEP_PERSON_ID, personId + "");
+    }
+    
+    @Util
+    protected static void removePersonIdToCookie() {
+        removeCookie(KEEP_PERSON_ID);
+    }
+    
+    
+    @Util
     protected static String getPersonIdFromCookie() {
-        Map<String, Cookie> cookies = Request.current().cookies;
-        Cookie cookie = cookies.get(KEEP_PERSON_ID);
-        if (null != cookie) {
-            return cookie.value;
-        }
-        return null;
+        return getCookie(KEEP_PERSON_ID);
     }
     
     @Util
@@ -207,25 +203,7 @@ public class BaseController extends Controller {
     
     @Util
     protected static String getToken() {
-        final Header accessToken = Request.current().headers.get("accesstoken");
-        if (accessToken == null) {
-            return null;
-        } else {
-            return accessToken.value();
-        }
-    }
-    
-    @Util
-    public static Long getSource() {
-        Header source = Request.current().headers.get("source");
-        if (source == null) {
-            source = Request.current().headers.get("organize");
-        }
-        if (source == null) {
-            return null;
-        }
-        Logger.info("[headersource]:%s", source.value());
-        return Long.parseLong(source.value());
+        return getHeader("accesstoken");
     }
     
     @Util
@@ -240,4 +218,64 @@ public class BaseController extends Controller {
         return token == null ? null : AccessToken.findPersonByAccesstoken(token);
     }
     
+    @Util
+    public static Long getSource() {
+        String source = getHeader("source");
+        if (source == null) {
+            source = getHeader("organize");
+        }
+        if (source == null) {
+            return null;
+        }
+        Logger.info("[headersource]:%s", source);
+        return Long.parseLong(source);
+    }
+    
+    @Util
+    protected static void setSession(String key, String value) {
+        Session.current().put(key, value);
+    }
+    
+    @Util
+    protected static void removeSession(String key) {
+        Session.current().remove(key);
+    }
+    
+    @Util
+    protected static String getSession(String key) {
+        Session session = Session.current();
+        return session.contains(key) ? session.get(key) : null;
+    }
+    
+    @Util
+    protected static void setCookie(String key, String value) {
+        Response.current().setCookie(key, value, "365d");
+    }
+    
+    @Util
+    protected static void removeCookie(String key) {
+        Response.current().removeCookie(key);
+    }
+    
+    @Util
+    protected static String getCookie(String key) {
+        Cookie cookie = Request.current().cookies.get(key);
+        return null != cookie ? cookie.value : null;
+    }
+    
+    @Util
+    protected static void setHeader(String key, String value) {
+        Request.current().headers.put(key, new Header(key, value));
+    }
+    
+    @Util
+    protected static void removeHeader(String key) {
+        Request.current().headers.remove(key);
+    }
+    
+    @Util
+    protected static String getHeader(String key) {
+        Header header = Request.current().headers.get(key);
+        return header != null ? header.value() : null;
+    }
 }
