@@ -252,7 +252,7 @@ public class BaseController extends Controller {
     }
     
     @Util
-    protected static String getSession(String key) {
+    public static String getSession(String key) {
         Session session = Session.current();
         return session.contains(key) ? session.get(key) : null;
     }
@@ -268,7 +268,7 @@ public class BaseController extends Controller {
     }
     
     @Util
-    protected static String getCookie(String key) {
+    public static String getCookie(String key) {
         Cookie cookie = Request.current().cookies.get(key);
         return null != cookie ? cookie.value : null;
     }
@@ -284,7 +284,7 @@ public class BaseController extends Controller {
     }
     
     @Util
-    protected static String getHeader(String key) {
+    public static String getHeader(String key) {
         Header header = Request.current().headers.get(key);
         return header != null ? header.value() : null;
     }

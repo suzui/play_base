@@ -89,6 +89,7 @@ public class BaseModel extends Model {
         return v == -1;
     }
     
+    
     public static Long getApp() {
         return BaseController.getApp();
     }
@@ -99,6 +100,18 @@ public class BaseModel extends Model {
     
     public static <T extends BasePerson> T getPersonByToken() {
         return BaseController.getPersonByToken();
+    }
+    
+    public static String getSession(String key) {
+        return BaseController.getSession(key);
+    }
+    
+    public static String getCookie(String key) {
+        return BaseController.getCookie(key);
+    }
+    
+    public static String getHeader(String key) {
+        return BaseController.getHeader(key);
     }
     
 }
