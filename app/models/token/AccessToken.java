@@ -107,7 +107,7 @@ public class AccessToken extends BaseModel {
     }
     
     public List<AccessToken> fetchOthersByPushToken() {
-        return AccessToken.find(defaultSql("pushToken=? and appType=? and clientType<>'100' and id<>? and "), this.pushToken, this.appType, this.id).fetch();
+        return AccessToken.find(defaultSql("pushToken=? and appType=? and clientType<>'100' and id<>?"), this.pushToken, this.appType, this.id).fetch();
     }
     
 }
