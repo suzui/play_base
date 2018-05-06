@@ -300,7 +300,11 @@ public class BaseController extends Controller {
     
     @Util
     public static String getHeader(String key) {
-        Header header = Request.current().headers.get(key);
+        Request request = Request.current();
+        if (request == null) {
+            return null;
+        }
+        Header header = request.headers.get(key);
         return header != null ? header.value() : null;
     }
 }
