@@ -231,10 +231,10 @@ public class BaseController extends Controller {
     @Util
     public static Long getSource() {
         String source = getHeader("source");
-        if (source == null) {
+        if (StringUtils.isBlank(source)) {
             source = getHeader("organize");
         }
-        if (source == null) {
+        if (StringUtils.isBlank(source)) {
             return null;
         }
         Logger.info("[headersource]:%s", source);

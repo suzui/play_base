@@ -55,7 +55,7 @@ public class ExcelUtils {
                                     list.add(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date));
                                 }
                             } else {
-                                list.add(new DecimalFormat("#.##").format(cell.getNumericCellValue()));
+                                list.add(new DecimalFormat("#.###").format(cell.getNumericCellValue()));
                             }
                             break;
                         case HSSFCell.CELL_TYPE_BOOLEAN:
