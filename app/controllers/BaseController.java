@@ -20,6 +20,8 @@ import vos.Result.StatusCode;
 import vos.back.ApiVO;
 
 import javax.persistence.EntityTransaction;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -80,6 +82,19 @@ public class BaseController extends Controller {
         Logger.info("[params]:%s", request.params.allSimple().entrySet().stream()
                 .map(e -> e.getKey() + ":" + e.getValue()).collect(Collectors.toList()));
         Logger.info("[params end]:================");
+    }
+    
+    @Before(priority = 4)
+    static void headers() {
+        Logger.info("[headers start]:================");
+        List<String> emptys = new ArrayList<>();
+        request.headers.entrySet().forEach(e -> {
+            if (e.getValue() == null || StringUtils.isBlank(e.getValue().value()) || StringUtils.equals(e.getValue().value(), "null")) {
+                emptys.add(e.getKey());
+            }
+        });
+        emptys.forEach(key -> request.headers.remove(key));
+        Logger.info("[headers end]:================");
     }
     
     //@Catch
