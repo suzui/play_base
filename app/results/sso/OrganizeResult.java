@@ -17,10 +17,14 @@ public class OrganizeResult extends Result {
         public String logo;
         @DataField(name = "组织类型")
         public Integer type;
-        @DataField(name = "上级组织id")
-        public Long parentId;
         @DataField(name = "组织负责人id")
         public Long personId;
+        @DataField(name = "上级组织id")
+        public Long parentId;
+        @DataField(name = "组织机构id")
+        public Long organizeID;
+        @DataField(name = "总根机构id")
+        public Long rootId;
         @DataField(name = "排序")
         public Double rank;
         
@@ -40,13 +44,19 @@ public class OrganizeResult extends Result {
             if (organize.type != null) {
                 this.type = organize.type.code();
             }
-            if (organize.parent != null) {
-                this.parentId = ((SsoOrganize) organize.parent).ssoId;
-            }
             if (organize.person != null) {
                 this.personId = ((SsoPerson) organize.person).ssoId;
             } else {
                 this.personId = -1l;
+            }
+            if (organize.parent != null) {
+                this.parentId = ((SsoOrganize) organize.parent).ssoId;
+            }
+            if (organize.organize != null) {
+                this.organizeID = ((SsoOrganize) organize.organize).ssoId;
+            }
+            if (organize.root != null) {
+                this.rootId = ((SsoOrganize) organize.root).ssoId;
             }
             this.rank = organize.rank;
         }

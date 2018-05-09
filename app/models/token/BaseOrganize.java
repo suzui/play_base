@@ -14,14 +14,17 @@ public class BaseOrganize extends BaseModel {
     public Double rank;//组织排序
     @Enumerated(EnumType.STRING)
     public OrganizeType type;//organize中无需重复声明 enum需定义
-    
-    @ManyToOne
-    public BaseOrganize parent;//父组织，根组织为null
     @ManyToOne
     public BasePerson person;//组织负责人
     
     @ManyToOne
-    public BaseOrganize organize;//组织机构
+    public BaseOrganize parent;//父组织，根组织为null
+    
+    @ManyToOne
+    public BaseOrganize organize;//组织机构 机构类型为机构本身
+    
+    @ManyToOne
+    public BaseOrganize root;//总根机构
     
     public static <T extends BaseOrganize> T findByID(Long id) {
         return BaseOrganize.find(defaultSql("id=?"), id).first();
