@@ -89,7 +89,7 @@ public class BaseController extends Controller {
         Logger.info("[headers start]:================");
         List<String> emptys = new ArrayList<>();
         request.headers.entrySet().forEach(e -> {
-            if (e.getValue() == null || StringUtils.isBlank(e.getValue().value()) || StringUtils.equals(e.getValue().value(), "null")||StringUtils.equals(e.getValue().value(), "(null)")) {
+            if (e.getValue() == null || StringUtils.isBlank(e.getValue().value()) || StringUtils.equals(e.getValue().value(), "null") || StringUtils.equals(e.getValue().value(), "(null)")) {
                 emptys.add(e.getKey());
             }
         });
@@ -269,7 +269,8 @@ public class BaseController extends Controller {
     @Util
     public static String getSession(String key) {
         Session session = Session.current();
-        return session.contains(key) ? session.get(key) : null;
+        
+        return session != null && session.contains(key) ? session.get(key) : null;
     }
     
     @Util
