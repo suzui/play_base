@@ -89,8 +89,13 @@ public class BaseController extends Controller {
         Logger.info("[headers start]:================");
         List<String> emptys = new ArrayList<>();
         request.headers.entrySet().forEach(e -> {
-            if (e.getValue() == null || StringUtils.isBlank(e.getValue().value()) || StringUtils.equals(e.getValue().value(), "null") || StringUtils.equals(e.getValue().value(), "(null)")) {
+            if (e.getValue() == null) {
                 emptys.add(e.getKey());
+            } else {
+                String value = e.getValue().value();
+                if (StringUtils.isBlank(value) || StringUtils.equals(value, "null") || StringUtils.equals(value, "(null)") || StringUtils.equals(value, "undefined")) {
+                    emptys.add(e.getKey());
+                }
             }
         });
         emptys.forEach(key -> request.headers.remove(key));
