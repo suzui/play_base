@@ -37,7 +37,7 @@ public class BasePerson extends BaseModel {
     public Long lastLoginTime;//最后登录时间
     public Integer loginAmount;//登录次数
     
-    public Boolean increase = false;//是否需要做全增量标识 根据场景标识
+    public Boolean increase;//是否需要做全增量标识 根据场景标识
     
     @ManyToOne
     public BaseOrganize organize;//机构
