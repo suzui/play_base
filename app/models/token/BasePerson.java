@@ -37,7 +37,7 @@ public class BasePerson extends BaseModel {
     public Long lastLoginTime;//最后登录时间
     public Integer loginAmount;//登录次数
     
-    public Boolean increase;//是否需要做全增量标识 根据场景标识
+    public Boolean increase = false;//是否需要做全增量标识 根据场景标识
     
     @ManyToOne
     public BaseOrganize organize;//机构
@@ -67,7 +67,7 @@ public class BasePerson extends BaseModel {
     
     public void increase(boolean increase) {
         if (increase && this.loginAmount == null) {
-            //未登录用户increase无需修改,避免初次增量乐观锁
+            //未登录用户increase无需改成true,避免初次增量乐观锁
             return;
         }
         this.increase = increase;
