@@ -35,8 +35,8 @@ public class AccessToken extends BaseModel {
             at.person.loginAmount = 1;
         } else {
             at.person.loginAmount++;
+            at.person.increase = true;
         }
-        at.person.increase = true;
         at.person.save();
         return at.save();
     }
