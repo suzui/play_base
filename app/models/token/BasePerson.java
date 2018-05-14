@@ -66,6 +66,10 @@ public class BasePerson extends BaseModel {
     }
     
     public void increase(boolean increase) {
+        if (increase && this.loginAmount == null) {
+            //未登录用户increase无需修改,避免初次增量乐观锁
+            return;
+        }
         this.increase = increase;
         this.save();
     }
