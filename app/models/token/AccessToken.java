@@ -31,13 +31,6 @@ public class AccessToken extends BaseModel {
         AccessToken at = new AccessToken();
         at.person = person;
         at.accesstoken = RandomStringUtils.randomAlphabetic(6) + "-" + System.currentTimeMillis();
-        if (at.person.loginAmount == null) {
-            at.person.loginAmount = 1;
-        } else {
-            at.person.loginAmount++;
-            at.person.increase = true;
-        }
-        at.person.save();
         return at.save();
     }
     
@@ -47,6 +40,7 @@ public class AccessToken extends BaseModel {
         this.osVersion = osVersion;
         this.clientType = clientType;
         this.deviceToken = deviceToken;
+        this.person.loginAmount = this.person.loginAmount == null ? 1 : this.person.loginAmount + 1;
         this.person.firstLoginTime = this.person.firstLoginTime == null ? System.currentTimeMillis() : this.person.firstLoginTime;
         this.person.lastLoginTime = System.currentTimeMillis();
         this.person.save();
@@ -62,6 +56,14 @@ public class AccessToken extends BaseModel {
         if (!(ClientType.WEB.code() + "").equals(this.clientType)) {
             this.fetchOthersByPushToken().forEach(at -> at.del());
         }
+    }
+    
+    public boolean isWeb() {
+        return (ClientType.WEB.code() + "").equals(this.clientType);
+    }
+    
+    public boolean isMobile() {
+        return !isWeb();
     }
     
     public void del() {
