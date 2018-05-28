@@ -1,7 +1,6 @@
 package jobs;
 
 import models.back.Api;
-import play.Play;
 import play.jobs.Job;
 import utils.ApiQueue;
 import vos.back.ApiVO;

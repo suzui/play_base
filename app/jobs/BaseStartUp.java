@@ -4,14 +4,13 @@ import models.back.Admin;
 import models.back.Config;
 import org.hibernate.Session;
 import play.db.jpa.JPA;
-import play.jobs.Job;
 import play.jobs.OnApplicationStart;
 import utils.ConfigUtils;
 
 import javax.persistence.EntityManager;
 
 @OnApplicationStart
-public class BaseStartUp extends Job {
+public class BaseStartUp extends BaseJob {
     
     @Override
     public void doJob() throws Exception {

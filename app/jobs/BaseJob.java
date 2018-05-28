@@ -7,7 +7,6 @@ public class BaseJob extends Job {
     @Override
     public void before() {
         super.before();
-
     }
     
     @Override

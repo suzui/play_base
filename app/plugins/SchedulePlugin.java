@@ -1,34 +1,42 @@
-package jobs;
+package plugins;
 
+import jobs.BaseJob;
+import play.Logger;
 import play.Play;
+import play.PlayPlugin;
 import play.jobs.Job;
 import play.jobs.JobsPlugin;
-import play.jobs.OnApplicationStart;
 import play.utils.Java;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.ScheduledFuture;
 
-@OnApplicationStart(async = true)
-public class ScheduleJob extends Job {
-    
-    public static int i = 0;
+public class SchedulePlugin extends PlayPlugin {
     
     @Override
-    public void before() {
-        super.before();
+    public void onLoad() {
+        Logger.info("SchedulePlugin start up.");
     }
     
+    @Override
+    public void onApplicationReady() {
+        super.onApplicationReady();
+    }
     
     @Override
-    public void doJob() throws Exception {
-        super.doJob();
+    public void onApplicationStart() {
+        super.onApplicationStart();
+    }
+    
+    @Override
+    public void onInvocationSuccess() {
+        super.onInvocationSuccess();
         if (Play.configuration.getProperty("schedule", "off").equals("on")) {
             return;
         }
         BlockingQueue<Runnable> queue = JobsPlugin.executor.getQueue();
-        System.err.println(queue.size());
+        Logger.info("Schedule Job size:%d", queue.size());
         for (final Object o : queue) {
             ScheduledFuture task = (ScheduledFuture) o;
             if (task.isDone() || task.isCancelled()) {
@@ -41,18 +49,4 @@ public class ScheduleJob extends Job {
         }
     }
     
-    @Override
-    public void onException(Throwable e) {
-        e.printStackTrace();
-    }
-    
-    @Override
-    public void after() {
-        super.after();
-    }
-    
-    @Override
-    public void _finally() {
-        super._finally();
-    }
 }
