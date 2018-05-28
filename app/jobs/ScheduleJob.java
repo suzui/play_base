@@ -1,14 +1,16 @@
 package jobs;
 
-import models.back.Api;
-import play.jobs.Every;
+import play.Play;
 import play.jobs.Job;
-import utils.ApiQueue;
-import vos.back.ApiVO;
+import play.jobs.JobsPlugin;
+import play.jobs.OnApplicationStart;
+import play.utils.Java;
 
-import java.util.Date;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.ScheduledFuture;
 
-@Every("3s")
+@OnApplicationStart(async = true)
 public class ScheduleJob extends Job {
     
     public static int i = 0;
@@ -18,9 +20,25 @@ public class ScheduleJob extends Job {
         super.before();
     }
     
+    
     @Override
     public void doJob() throws Exception {
         super.doJob();
+        if (Play.configuration.getProperty("schedule", "off").equals("on")) {
+            return;
+        }
+        BlockingQueue<Runnable> queue = JobsPlugin.executor.getQueue();
+        System.err.println(queue.size());
+        for (final Object o : queue) {
+            ScheduledFuture task = (ScheduledFuture) o;
+            if (task.isDone() || task.isCancelled()) {
+                continue;
+            }
+            Job job = (Job) Java.extractUnderlyingCallable((FutureTask) task);
+            if (BaseJob.class.isAssignableFrom(job.getClass())) {
+                task.cancel(true);
+            }
+        }
     }
     
     @Override

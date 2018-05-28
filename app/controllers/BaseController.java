@@ -102,7 +102,7 @@ public class BaseController extends Controller {
         Logger.info("[headers end]:================");
     }
     
-    //@Catch
+    @Catch
     static void exception(Throwable throwable) {
         EntityTransaction transaction = JPA.em().getTransaction();
         if (transaction.isActive()) {
