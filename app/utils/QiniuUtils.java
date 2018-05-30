@@ -9,7 +9,6 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import play.Play;
-import play.cache.Cache;
 
 import java.io.File;
 
@@ -24,12 +23,12 @@ public class QiniuUtils {
     public static String initUpToken() {
         Auth auth = Auth.create(ACCESSKEY, SECRETKEY);
         String upToken = auth.uploadToken(BUCKET, null, 86400, null);
-        Cache.set(UPTOKENKEY, upToken);
+        CacheUtils.set(UPTOKENKEY, upToken);
         return upToken;
     }
     
     public static String upToken() {
-        Object uptoken = Cache.get(UPTOKENKEY);
+        Object uptoken = CacheUtils.get(UPTOKENKEY);
         if (uptoken == null) {
             uptoken = initUpToken();
         }

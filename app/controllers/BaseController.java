@@ -6,7 +6,6 @@ import models.token.BasePerson;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.Play;
-import play.cache.Cache;
 import play.db.jpa.JPA;
 import play.mvc.*;
 import play.mvc.Http.Cookie;
@@ -15,6 +14,7 @@ import play.mvc.Http.Request;
 import play.mvc.Http.Response;
 import play.mvc.Scope.Session;
 import utils.ApiQueue;
+import utils.CacheUtils;
 import vos.Result;
 import vos.Result.StatusCode;
 import vos.back.ApiVO;
@@ -46,7 +46,7 @@ public class BaseController extends Controller {
                 .map(e -> e.getKey() + ":" + e.getValue()).collect(Collectors.toList()) + "";
         apiVO.param = request.params.allSimple().entrySet().stream()
                 .map(e -> e.getKey() + ":" + e.getValue()).collect(Collectors.toList()) + "";
-        Cache.add(request.hashCode() + "", apiVO);
+        CacheUtils.add(request.hashCode() + "", apiVO);
     }
     
     @Before(priority = 1)
@@ -66,10 +66,10 @@ public class BaseController extends Controller {
             if (randomseed != null) {
                 Logger.info("[randomseed]:%s", randomseed);
                 final String key = request.action + randomseed.value();
-                if (Cache.get(key) != null) {
+                if (CacheUtils.get(key) != null) {
                     renderJSON(Result.failed(StatusCode.SYSTEM_POST_REPEAT));
                 }
-                Cache.add(key, true, "10mn");
+                CacheUtils.add(key, true, "10mn");
             }
         }
         Logger.info("[randomseed end]:================");
@@ -111,10 +111,10 @@ public class BaseController extends Controller {
         throwable.printStackTrace();
         if (!request.params._contains(DOC)) {
             Logger.info("[exception start]:================");
-            ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
+            ApiVO apiVO = (ApiVO) CacheUtils.get(request.hashCode() + "");
             apiVO.exception = throwable.getMessage();
             apiVO.status = response.status + "";
-            Cache.replace(request.hashCode() + "", apiVO);
+            CacheUtils.replace(request.hashCode() + "", apiVO);
             Logger.info("[exception]:%s", throwable);
             Logger.info("[exception end]:================");
             renderJSON(Result.failed());
@@ -126,9 +126,9 @@ public class BaseController extends Controller {
         if (!request.params._contains(DOC)) {
             Logger.info("[status start]:================");
             Logger.info("[status]:%s", response.status);
-            ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
+            ApiVO apiVO = (ApiVO) CacheUtils.get(request.hashCode() + "");
             apiVO.status = response.status + "";
-            Cache.replace(request.hashCode() + "", apiVO);
+            CacheUtils.replace(request.hashCode() + "", apiVO);
             Logger.info("[status end]:================");
         }
     }
@@ -138,9 +138,9 @@ public class BaseController extends Controller {
         if (!request.params._contains(DOC)) {
             Logger.info("[finish start]:================");
             Logger.info("[finish]:%s", response.out);
-            ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
+            ApiVO apiVO = (ApiVO) CacheUtils.get(request.hashCode() + "");
             apiVO.result = response.out + "";
-            Cache.safeDelete(request.hashCode() + "");
+            CacheUtils.safeDelete(request.hashCode() + "");
             ApiQueue.getInstance().add(apiVO);
             Logger.info("[finish end]:================");
         }
@@ -161,9 +161,9 @@ public class BaseController extends Controller {
         if (token == null) {
             renderJSON(Result.failed(StatusCode.SYSTEM_TOKEN_UNVALID));
         }
-        ApiVO apiVO = (ApiVO) Cache.get(request.hashCode() + "");
+        ApiVO apiVO = (ApiVO) CacheUtils.get(request.hashCode() + "");
         apiVO.personId = token.person.id;
-        Cache.replace(request.hashCode() + "", apiVO);
+        CacheUtils.replace(request.hashCode() + "", apiVO);
         Logger.info("[accesstoken]:%s,%s,%s", token.person.id, token.person.name, token.person.username);
         final Map<String, Header> headers = request.headers;
         final String appVersion = headers.get("appversion") == null ? null : headers.get("appversion").value();
