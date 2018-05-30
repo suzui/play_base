@@ -14,24 +14,20 @@ import java.util.concurrent.ScheduledFuture;
 
 public class SchedulePlugin extends PlayPlugin {
     
+    
     @Override
     public void onLoad() {
         Logger.info("SchedulePlugin start up.");
     }
     
-    @Override
-    public void onApplicationReady() {
-        super.onApplicationReady();
-    }
     
     @Override
-    public void onApplicationStart() {
-        super.onApplicationStart();
+    public void afterApplicationStart() {
+        super.afterApplicationStart();
+        m();
     }
     
-    @Override
-    public void onInvocationSuccess() {
-        super.onInvocationSuccess();
+    public void m() {
         if (Play.configuration.getProperty("schedule", "off").equals("on")) {
             return;
         }
