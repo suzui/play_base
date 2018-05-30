@@ -7,7 +7,7 @@ import play.cache.Cache;
 import java.util.Arrays;
 import java.util.Map;
 
-public class CacheUtils extends Cache {
+public class CacheUtils {
     
     
     public static final String PREFIX = Play.configuration.getProperty("cache.prefix", "");
