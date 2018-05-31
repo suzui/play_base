@@ -1,15 +1,12 @@
 package models.back;
 
 import models.BaseModel;
-import models.token.BasePerson;
-import models.person.Person;
 import org.apache.commons.lang.StringUtils;
 import vos.back.ApiVO;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +15,7 @@ import java.util.List;
 public class Api extends BaseModel {
     @Column(length = 1000)
     public String url;
+    @Column(length = 1000)
     public String action;
     public String method;
     @Lob
@@ -32,8 +30,12 @@ public class Api extends BaseModel {
     @Lob
     public String result;
     
-    @ManyToOne
-    public BasePerson person;
+    public Long startTime;
+    public Long endTime;
+    
+    public Long personId;//请求用户id
+    public String personToken;//请求用户token
+    public String personInfo;//请求用户信息用户名、名字、手机
     
     public static Api init() {
         Api api = new Api();
@@ -55,8 +57,12 @@ public class Api extends BaseModel {
         this.param = apiVO.param != null ? apiVO.param : param;
         this.status = apiVO.status != null ? apiVO.status : status;
         this.exception = apiVO.exception != null ? apiVO.exception : exception;
+        this.startTime = apiVO.startTime != null ? apiVO.startTime : startTime;
+        this.endTime = apiVO.endTime != null ? apiVO.endTime : endTime;
         this.result = apiVO.result != null ? apiVO.result : result;
-        this.person = apiVO.personId != null ? BasePerson.findByID(apiVO.personId) : person;
+        this.personId = apiVO.personId != null ? apiVO.personId : personId;
+        this.personToken = apiVO.personToken != null ? apiVO.personToken : personToken;
+        this.personInfo = apiVO.personInfo != null ? apiVO.personInfo : personInfo;
         this.save();
     }
     
@@ -98,7 +104,7 @@ public class Api extends BaseModel {
         List<String> hqls = new ArrayList<>();
         List<Object> params = new ArrayList<>();
         if (StringUtils.isNotBlank(apiVO.search)) {
-            hqls.add("concat_ws(',',name) like ?");
+            hqls.add("concat_ws(',',url,action,personId,personInfo) like ?");
             params.add("%" + apiVO.search + "%");
         }
         return new Object[]{hqls, params};

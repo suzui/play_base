@@ -21,6 +21,7 @@ import vos.back.ApiVO;
 
 import javax.persistence.EntityTransaction;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -38,6 +39,7 @@ public class BaseController extends Controller {
     static void api() {
         final Request request = Request.current();
         ApiVO apiVO = new ApiVO();
+        apiVO.startTime = System.currentTimeMillis();
         apiVO.url = request.url;
         apiVO.action = request.action;
         apiVO.method = request.method;
@@ -104,18 +106,21 @@ public class BaseController extends Controller {
     
     @Catch
     static void exception(Throwable throwable) {
-        EntityTransaction transaction = JPA.em().getTransaction();
-        if (transaction.isActive()) {
-            transaction.rollback();
-        }
-        throwable.printStackTrace();
         if (!request.params._contains(DOC)) {
+            EntityTransaction transaction = JPA.em().getTransaction();
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            //throwable.printStackTrace();
             Logger.info("[exception start]:================");
             ApiVO apiVO = (ApiVO) CacheUtils.get(request.hashCode() + "");
-            apiVO.exception = throwable.getMessage();
             apiVO.status = response.status + "";
+            apiVO.exception = throwable.getMessage() + "\n";
+            for (StackTraceElement stackTraceElement : throwable.getStackTrace()) {
+                apiVO.exception += stackTraceElement.toString() + "\n";
+            }
             CacheUtils.replace(request.hashCode() + "", apiVO);
-            Logger.info("[exception]:%s", throwable);
+            Logger.info("[exception]:%s", apiVO.exception);
             Logger.info("[exception end]:================");
             renderJSON(Result.failed());
         }
@@ -140,6 +145,7 @@ public class BaseController extends Controller {
             Logger.info("[finish]:%s", response.out);
             ApiVO apiVO = (ApiVO) CacheUtils.get(request.hashCode() + "");
             apiVO.result = response.out + "";
+            apiVO.endTime = System.currentTimeMillis();
             CacheUtils.safeDelete(request.hashCode() + "");
             ApiQueue.getInstance().add(apiVO);
             Logger.info("[finish end]:================");
@@ -163,6 +169,8 @@ public class BaseController extends Controller {
         }
         ApiVO apiVO = (ApiVO) CacheUtils.get(request.hashCode() + "");
         apiVO.personId = token.person.id;
+        apiVO.personToken = token.accesstoken;
+        apiVO.personInfo = StringUtils.join(Arrays.asList(token.person.username, token.person.name, token.person.phone).stream().filter(s -> StringUtils.isNotBlank(s)).toArray(), ",");
         CacheUtils.replace(request.hashCode() + "", apiVO);
         Logger.info("[accesstoken]:%s,%s,%s", token.person.id, token.person.name, token.person.username);
         final Map<String, Header> headers = request.headers;

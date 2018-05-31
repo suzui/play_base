@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import vos.OneData;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class ApiVO extends OneData implements Serializable {
     
@@ -29,14 +30,18 @@ public class ApiVO extends OneData implements Serializable {
     public String exception;
     @DataField(name = "返回结果")
     public String result;
+    @DataField(name = "开始时间")
+    public Long startTime;
+    @DataField(name = "结束时间")
+    public Long endTime;
     
     @DataField(name = "用户id")
     public Long personId;
-    @DataField(name = "用户姓名")
-    public String personName;
-    @DataField(name = "用户账号")
-    public String personUsername;
-
+    @DataField(name = "用户token")
+    public String personToken;
+    @DataField(name = "用户信息")
+    public String personInfo;
+    
     
     public ApiVO() {
         this.condition = " order by id desc ";
@@ -53,13 +58,11 @@ public class ApiVO extends OneData implements Serializable {
         this.status = api.status;
         this.exception = api.exception;
         this.result = api.result;
-        if (api.person != null) {
-            this.personId = api.person.id;
-            this.personName = api.person.name;
-            this.personUsername = api.person.username;
-        }
-        
+        this.startTime = api.startTime;
+        this.endTime = api.endTime;
+        this.personId = api.personId;
+        this.personToken = api.personToken;
+        this.personInfo = api.personInfo;
     }
-    
     
 }

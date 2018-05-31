@@ -2,15 +2,26 @@
     var api_table_title = [
         {field: 'url', title: 'url', align: 'center'},
         {field: 'action', title: 'action', align: 'center'},
-        {field: 'method', title: 'method', align: 'center'},
-        {field: 'body', title: 'body', align: 'center'},
+        //{field: 'method', title: 'method', align: 'center'},
+        // {field: 'body', title: 'body', align: 'center'},
         {field: 'header', title: 'header', align: 'center'},
         {field: 'param', title: '请求参数', align: 'center'},
-        {field: 'status', title: '返回状态', align: 'center'},
+        // {field: 'status', title: '返回状态', align: 'center'},
+        {field: 'exception', title: '异常报告', align: 'center'},
+        {field: 'result', title: '返回结果', align: 'center'},
         {field: 'personId', title: '用户id', align: 'center'},
-        {field: 'personName', title: '用户姓名', align: 'center'},
-        {title: '操作', align: 'center', toolbar: '#api_toolbar'}
+        {field: 'personToken', title: '用户token', align: 'center'},
+        {field: 'personInfo', title: '用户基本信息', align: 'center'},
+        {field: 'startTime', title: '开始时间', align: 'center', templet: '#api_startTime'},
+        {field: 'time', title: '用时', align: 'center', templet: '#api_time'}
+        //{title: '操作', align: 'center', toolbar: '#api_toolbar'}
     ]
+</script>
+<script id="api_startTime" type="text/html">
+    {{(new Date(d.startTime)).Format("yy-MM-dd hh:mm:ss")}}
+</script>
+<script id="api_time" type="text/html">
+    {{Number(d.endTime)-Number(d.startTime)}}ms
 </script>
 <script id="api_toolbar" type="text/html">
     <a class="layui-btn layui-btn-xs" lay-event="view">详情</a>
@@ -18,11 +29,12 @@
 <script id="api_tab" type="text/html">
     <div>
         <div class="layui-row">
-            <div class="layui-col-md4 layui-col-md-offset8">
+            <div class="layui-col-md3 layui-col-md-offset9">
                 <div class="layui-form">
                     <div class="layui-form-item">
                         <div class="layui-input-inline">
-                            <input type="text" name="search" placeholder="名称" autocomplete="on" class="layui-input">
+                            <input type="text" name="search" placeholder="url、action、person" autocomplete="on"
+                                   class="layui-input">
                         </div>
                         <div class="layui-btn-group">
                             <button class="layui-btn" lay-submit lay-filter="api_search">查询</button>
