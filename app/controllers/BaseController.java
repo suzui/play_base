@@ -145,7 +145,7 @@ public class BaseController extends Controller {
             Logger.info("[finish]:%s", response.out);
             ApiVO apiVO = (ApiVO) CacheUtils.get(request.hashCode() + "");
             apiVO.result = response.out + "";
-            apiVO.endTime = System.currentTimeMillis();
+            apiVO.finishTime = System.currentTimeMillis();
             CacheUtils.safeDelete(request.hashCode() + "");
             ApiQueue.getInstance().add(apiVO);
             Logger.info("[finish end]:================");
