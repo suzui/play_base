@@ -31,7 +31,7 @@ public class Api extends BaseModel {
     public String result;
     
     public Long startTime;
-    public Long endTime;
+    public Long finishTime;
     
     public Long personId;//请求用户id
     public String personToken;//请求用户token
@@ -58,7 +58,7 @@ public class Api extends BaseModel {
         this.status = apiVO.status != null ? apiVO.status : status;
         this.exception = apiVO.exception != null ? apiVO.exception : exception;
         this.startTime = apiVO.startTime != null ? apiVO.startTime : startTime;
-        this.endTime = apiVO.endTime != null ? apiVO.endTime : endTime;
+        this.finishTime = apiVO.finishTime != null ? apiVO.finishTime : finishTime;
         this.result = apiVO.result != null ? apiVO.result : result;
         this.personId = apiVO.personId != null ? apiVO.personId : personId;
         this.personToken = apiVO.personToken != null ? apiVO.personToken : personToken;

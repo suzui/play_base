@@ -33,7 +33,7 @@ public class ApiVO extends OneData implements Serializable {
     @DataField(name = "开始时间")
     public Long startTime;
     @DataField(name = "结束时间")
-    public Long endTime;
+    public Long finishTime;
     
     @DataField(name = "用户id")
     public Long personId;
@@ -59,7 +59,7 @@ public class ApiVO extends OneData implements Serializable {
         this.exception = api.exception;
         this.result = api.result;
         this.startTime = api.startTime;
-        this.endTime = api.endTime;
+        this.finishTime = api.finishTime;
         this.personId = api.personId;
         this.personToken = api.personToken;
         this.personInfo = api.personInfo;

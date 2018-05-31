@@ -21,7 +21,7 @@
     {{(new Date(d.startTime)).Format("yy-MM-dd hh:mm:ss")}}
 </script>
 <script id="api_time" type="text/html">
-    {{Number(d.endTime)-Number(d.startTime)}}ms
+    {{Number(d.finishTime)-Number(d.startTime)}}ms
 </script>
 <script id="api_toolbar" type="text/html">
     <a class="layui-btn layui-btn-xs" lay-event="view">详情</a>
