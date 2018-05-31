@@ -32,6 +32,7 @@ public class Result {
         public static final Object[] FAIL = {50000, "系统异常"};
         public static final Object[] BACK_UPDATE_FORBIDDEN = {30001, "无更新权限"};
         public static final Object[] BACK_UPDATE_FAILED = {30002, "更新失败"};
+        public static final Object[] BACK_RESTART_FAILED = {30003, "重启失败"};
         public static final Object[] SYSTEM_TOKEN_UNVALID = {40001, "accesstoken失效"};
         public static final Object[] SYSTEM_POST_REPEAT = {40002, "post重复提交"};
         public static final Object[] SYSTEM_ACCESS_FOBIDDEN = {40003, "无相应权限"};
@@ -74,15 +75,15 @@ public class Result {
     public static String succeed(String message) {
         return result(Status.SUCC, (int) StatusCode.SUCCESS[0], message, null);
     }
-
+    
     public static String succeed(Object[] codemessage) {
         return result(Status.SUCC, (int) codemessage[0], (String) codemessage[1], null);
     }
-
+    
     public static String succeed(Data data) {
         return result(Status.SUCC, (int) StatusCode.SUCCESS[0], (String) StatusCode.SUCCESS[1], data);
     }
-
+    
     public static String succeed(Data data, String message) {
         return result(Status.SUCC, (int) StatusCode.SUCCESS[0], message, data);
     }

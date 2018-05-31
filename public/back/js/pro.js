@@ -53,6 +53,12 @@ table.on('tool(pro_table)', function (obj) {
 
             });
         });
+    } else if (e === 'restart') {
+        layer.confirm('确定重启项目', function (index) {
+            $.post('/back/pro/restart', d, function (result, status) {
+
+            });
+        });
     } else if (e === 'del') {
         layer.confirm('确定删除项目', function (index) {
             $.post('/back/pro/del', d, function (result, status) {

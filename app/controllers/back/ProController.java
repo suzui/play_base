@@ -3,12 +3,12 @@ package controllers.back;
 import models.back.Pro;
 import vos.PageData;
 import vos.Result;
+import vos.StatusCode;
 import vos.back.ProVO;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static vos.Result.StatusCode.BACK_UPDATE_FAILED;
 
 public class ProController extends BackController {
     
@@ -34,7 +34,15 @@ public class ProController extends BackController {
         if (pro.update() == 0) {
             renderJSON(Result.succeed());
         }
-        renderJSON(Result.failed(BACK_UPDATE_FAILED));
+        renderJSON(Result.failed(StatusCode.BACK_UPDATE_FAILED));
+    }
+    
+    public static void restart(ProVO vo) {
+        Pro pro = Pro.findByID(vo.proId);
+        if (pro.restart() == 0) {
+            renderJSON(Result.succeed());
+        }
+        renderJSON(Result.failed(StatusCode.BACK_RESTART_FAILED));
     }
     
     public static void del(ProVO vo) {

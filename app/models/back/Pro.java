@@ -43,6 +43,10 @@ public class Pro extends BaseModel {
     }
     
     
+    public int restart() {
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/restart.sh", ConfigUtils.user, ConfigUtils.password, this.location);
+    }
+    
     public void del() {
         this.logicDelete();
     }
@@ -81,7 +85,7 @@ public class Pro extends BaseModel {
         List<String> hqls = new ArrayList<>();
         List<Object> params = new ArrayList<>();
         if (StringUtils.isNotBlank(proVO.search)) {
-            hqls.add("concat_ws(',',enName,zhName) like ?");
+            hqls.add("concat_ws(',',name,location) like ?");
             params.add("%" + proVO.search + "%");
         }
         return new Object[]{hqls, params};
