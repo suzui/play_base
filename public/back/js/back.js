@@ -36,7 +36,7 @@ var table_param = function (id, data) {
         elem: '#' + id + '_table',
         data: data,
         page: true,
-        limits: [10, 50, 100],
+        limits: [10, 30, 50, 100],
         limit: 30,
         height: 'full-10',
         even: true,
@@ -71,7 +71,7 @@ var table_param_page = function (id, url) {
             //得到数据总量
             console.log(count);
         },
-        limits: [10, 50, 100],
+        limits: [10, 30, 50, 100],
         limit: 30,
         height: 'full-10',
         even: true,
