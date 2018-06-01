@@ -37,7 +37,7 @@ var table_param = function (id, data) {
         data: data,
         page: true,
         limits: [10, 50, 100],
-        limit: 50,
+        limit: 30,
         height: 'full-10',
         even: true,
         cols: [window[id + '_table_title']]
@@ -72,7 +72,7 @@ var table_param_page = function (id, url) {
             console.log(count);
         },
         limits: [10, 50, 100],
-        limit: 50,
+        limit: 30,
         height: 'full-10',
         even: true,
         cols: [window[id + '_table_title']]
