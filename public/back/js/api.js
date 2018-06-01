@@ -3,17 +3,22 @@ var api_tab = function () {
     var api_tab_html = $('#api_tab').html();
     element.tabAdd('tab', {title: nav_name, content: api_tab_html, id: nav_name});
     element.tabChange('tab', nav_name);
+    var startTime = new Date(new Date().setDate(new Date().getDate() - 7));
+    var endTime = new Date();
+    laydate.render({elem: '#apiStartTime', type: 'datetime', value: startTime});
+    laydate.render({elem: '#apiEndTime', type: 'datetime', value: endTime});
     api_table();
 }
 
-var api_table = function (param) {
-    $.post('/back/api/list', param, function (result, status) {
-        table.render(table_param('api', result.data.array));
-    })
+var api_table = function () {
+    table.render(table_param_page('api', "/back/api/page"));
 }
 
 form.on('submit(api_search)', function (data) {
-    api_table(data.field);
+    var param = data.field;
+    param.startTime = new Date(param.startTime).getTime();
+    param.endTime = new Date(param.endTime).getTime();
+    table.reload('api_table', {where: param, page: {curr: 1}});
 });
 
 form.on('submit(api_form)', function () {

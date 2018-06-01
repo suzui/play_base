@@ -27,7 +27,7 @@ public class DataBinder implements TypeBinder<OneData> {
         for (Entry<String, String> e : Request.current().params.allSimple().entrySet()) {
             String k = e.getKey();
             String v = e.getValue();
-            if (v == null || v.equals("null") || v.equals("undefined")) {
+            if (v == null || v.equals("null") || v.equals("undefined") || v.equals("NaN")) {
                 continue;
             }
             if (v.equals("")) {

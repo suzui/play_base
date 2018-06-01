@@ -1,18 +1,20 @@
 package models.back;
 
-import models.BaseModel;
+import com.mongodb.BasicDBObject;
 import org.apache.commons.lang.StringUtils;
+import play.modules.mongo.MongoEntity;
+import play.modules.mongo.MongoModel;
 import vos.back.ApiVO;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Lob;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
-@Entity
-public class Api extends BaseModel {
+@MongoEntity
+public class Api extends MongoModel {
+    
     @Column(length = 1000)
     public String url;
     @Column(length = 1000)
@@ -31,7 +33,7 @@ public class Api extends BaseModel {
     public String result;
     
     public Long startTime;
-    public Long finishTime;
+    public Long endTime;
     
     public Long personId;//请求用户id
     public String personToken;//请求用户token
@@ -58,7 +60,7 @@ public class Api extends BaseModel {
         this.status = apiVO.status != null ? apiVO.status : status;
         this.exception = apiVO.exception != null ? apiVO.exception : exception;
         this.startTime = apiVO.startTime != null ? apiVO.startTime : startTime;
-        this.finishTime = apiVO.finishTime != null ? apiVO.finishTime : finishTime;
+        this.endTime = apiVO.endTime != null ? apiVO.endTime : endTime;
         this.result = apiVO.result != null ? apiVO.result : result;
         this.personId = apiVO.personId != null ? apiVO.personId : personId;
         this.personToken = apiVO.personToken != null ? apiVO.personToken : personToken;
@@ -66,48 +68,55 @@ public class Api extends BaseModel {
         this.save();
     }
     
-    public void del() {
-        this.logicDelete();
-    }
-    
     public static Api findByID(Long id) {
-        return Api.find(defaultSql("id=?"), id).first();
-    }
-    
-    public static List<Api> fetchByIds(List<Long> ids) {
-        if (ids == null || ids.isEmpty()) {
-            return Collections.EMPTY_LIST;
-        }
-        return Api.find(defaultSql("id in (:ids)")).bind("ids", ids.toArray()).fetch();
+        return Api.find(("id=?"), id).first();
     }
     
     public static List<Api> fetchAll() {
-        return Api.find(defaultSql()).fetch();
+        return Api.find().fetch();
     }
     
     public static List<Api> fetch(ApiVO apiVO) {
-        Object[] data = data(apiVO);
-        List<String> hqls = (List<String>) data[0];
-        List<Object> params = (List<Object>) data[1];
-        return Api.find(defaultSql(StringUtils.join(hqls, " and ")) + apiVO.condition, params.toArray())
+        Object[] objects = data(apiVO);
+        List<String> sqls = (List<String>) objects[0];
+        List<Pattern> params = (List<Pattern>) objects[1];
+        return Api.find("by" + StringUtils.join(sqls, "And"), params.toArray()).order("by-startTime")
                 .fetch(apiVO.page, apiVO.size);
     }
     
     public static int count(ApiVO apiVO) {
-        Object[] data = data(apiVO);
-        List<String> hqls = (List<String>) data[0];
-        List<Object> params = (List<Object>) data[1];
-        return (int) Api.count(defaultSql(StringUtils.join(hqls, " and ")), params.toArray());
+        Object[] objects = data(apiVO);
+        List<String> sqls = (List<String>) objects[0];
+        List<Pattern> params = (List<Pattern>) objects[1];
+        return (int) Api.count("by" + StringUtils.join(sqls, "And"), params.toArray());
     }
     
     public static Object[] data(ApiVO apiVO) {
-        List<String> hqls = new ArrayList<>();
+        List<String> sqls = new ArrayList<>();
         List<Object> params = new ArrayList<>();
-        if (StringUtils.isNotBlank(apiVO.search)) {
-            hqls.add("concat_ws(',',url,action,personId,personInfo) like ?");
-            params.add("%" + apiVO.search + "%");
+        sqls.add("status");
+        params.add(Pattern.compile("^.*$", Pattern.CASE_INSENSITIVE));
+        if (StringUtils.isNotBlank(apiVO.url)) {
+            sqls.add("url");
+            params.add(Pattern.compile("^.*" + apiVO.url + ".*$"));
         }
-        return new Object[]{hqls, params};
+        if (StringUtils.isNotBlank(apiVO.personToken)) {
+            sqls.add("personToken");
+            params.add(Pattern.compile("^.*" + apiVO.personToken + ".*$"));
+        }
+        if (StringUtils.isNotBlank(apiVO.personInfo)) {
+            sqls.add("personInfo");
+            params.add(Pattern.compile("^.*" + apiVO.personInfo + ".*$"));
+        }
+        if (apiVO.startTime != null) {
+            sqls.add("startTime");
+            params.add(new BasicDBObject("$gte", apiVO.startTime));
+        }
+        if (apiVO.endTime != null) {
+            sqls.add("endTime");
+            params.add(new BasicDBObject("$lte", apiVO.endTime));
+        }
+        return new Object[]{sqls, params};
     }
     
 }
