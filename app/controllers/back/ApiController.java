@@ -1,7 +1,6 @@
 package controllers.back;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import groovy.util.Eval;
 import models.back.Api;
 import vos.PageData;
 import vos.Result;
@@ -23,12 +22,11 @@ public class ApiController extends BackController {
     public static void page(ApiVO vo) {
         List<Api> apis = Api.fetch(vo);
         List<ApiVO> apiVOs = apis.stream().map(a -> new ApiVO(a)).collect(Collectors.toList());
-        PageData pageData = new PageData(vo.page, vo.size, Api.count(vo), apiVOs);
         Map map = new HashMap();
         map.put("code", 0);
         map.put("msg", "");
-        map.put("count", pageData.totalSize);
-        map.put("data", pageData.array);
+        map.put("count", Api.count(vo));
+        map.put("data", apiVOs);
         String result = "";
         try {
             result = Result.mapper.writeValueAsString(map);
