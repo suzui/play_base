@@ -19,6 +19,13 @@ public class ApiController extends BackController {
         renderJSON(Result.succeed(new PageData(apiVOs)));
     }
     
+    public static void info(ApiVO vo) {
+        Api api = Api.findByID(vo.apiId);
+        ApiVO apiVO = new ApiVO(api);
+        apiVO.complete(api);
+        renderJSON(Result.succeed(apiVO));
+    }
+    
     public static void page(ApiVO vo) {
         List<Api> apis = Api.fetch(vo);
         List<ApiVO> apiVOs = apis.stream().map(a -> new ApiVO(a)).collect(Collectors.toList());

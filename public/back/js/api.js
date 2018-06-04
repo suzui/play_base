@@ -60,31 +60,16 @@ form.on('submit(api_list_del)', function () {
 table.on('tool(api_table)', function (obj) {
     var e = obj.event;
     var d = obj.data;
-    if (e === 'edit') {
+    if (e === 'view') {
+        $.post('/back/api/info', {apiId:d.apiId}, function (result, status) {
+            d = result.data;
+        });
         var api_form_html = laytpl($('#api_form').html()).render(d);
         layer_index = layer.open({
             type: 1,
-            area: area_6_4,
+            area: area_8_8,
             content: api_form_html
         });
-        form.render('checkbox');
-        form.on('submit(api_edit)', function (data) {
-            var param = data.field;
-            var codes = [], access = [];
-            $.each($("input:checkbox[name='code']:checked"), function (index, item) {
-                codes.push($(item).val());
-                access.push($(item).attr('title'));
-            });
-            param['codes'] = codes.join(',');
-            param['access'] = access.join(',');
-            $.post('/back/api/edit', param, function (result, status) {
-            });
-        });
-    } else if (e === 'del') {
-        layer.confirm('确定删除权限', function (index) {
-            $.post('/back/api/del', d, function (result, status) {
-                obj.del();
-            });
-        });
+        element.render("collapse");
     }
 });

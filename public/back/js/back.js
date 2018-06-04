@@ -12,7 +12,9 @@ var carousel = layui.carousel;
 var photos = layui.photos;
 var E = window.wangEditor;
 
-var area_8_6 = ['800px', '600px'], area_7_6 = ['700px', '600px'], area_6_6 = ['600px', '600px'],
+var area_8_8 = ['800px', '800px'], area_7_8 = ['700px', '800px'], area_6_8 = ['600px', '800px'],
+    area_8_7 = ['800px', '700px'], area_7_7 = ['700px', '700px'], area_6_7 = ['600px', '700px'],
+    area_8_6 = ['800px', '600px'], area_7_6 = ['700px', '600px'], area_6_6 = ['600px', '600px'],
     area_8_5 = ['800px', '500px'], area_7_5 = ['700px', '500px'], area_6_5 = ['600px', '500px'],
     area_8_4 = ['800px', '400px'], area_7_4 = ['700px', '400px'], area_6_4 = ['600px', '400px'],
     area_8_3 = ['800px', '300px'], area_7_3 = ['700px', '300px'], area_6_3 = ['600px', '300px'];

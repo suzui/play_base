@@ -4,21 +4,21 @@
         {field: 'action', title: 'action', align: 'center'},
         //{field: 'method', title: 'method', align: 'center'},
         // {field: 'body', title: 'body', align: 'center'},
-        {field: 'header', title: 'header', align: 'center'},
+        // {field: 'header', title: 'header', align: 'center'},
         {field: 'param', title: '请求参数', align: 'center'},
         // {field: 'status', title: '返回状态', align: 'center'},
-        {field: 'exception', title: '异常报告', align: 'center'},
-        {field: 'result', title: '返回结果', align: 'center'},
+        // {field: 'exception', title: '异常报告', align: 'center'},
+        // {field: 'result', title: '返回结果', align: 'center'},
         {field: 'personId', title: '用户id', align: 'center'},
         {field: 'personToken', title: '用户token', align: 'center'},
         {field: 'personInfo', title: '用户基本信息', align: 'center'},
         {field: 'startTime', title: '开始时间', align: 'center', templet: '#api_startTime'},
-        {field: 'time', title: '用时', align: 'center', templet: '#api_time'}
-        //{title: '操作', align: 'center', toolbar: '#api_toolbar'}
+        {field: 'time', title: '用时', align: 'center', templet: '#api_time'},
+        {title: '操作', align: 'center', toolbar: '#api_toolbar'}
     ]
 </script>
 <script id="api_startTime" type="text/html">
-    {{(new Date(d.startTime)).Format("hh:mm:ss yy-MM-dd")}}
+    {{(new Date(d.startTime)).Format("yyyy-MM-dd hh:mm:ss")}}
 </script>
 <script id="api_time" type="text/html">
     {{Number(d.endTime)-Number(d.startTime)}}ms
@@ -65,22 +65,72 @@
     <div class="layui-fluid" style="margin: 10px">
         <div class="layui-form layui-form-pane">
             <div class="layui-form-item">
-                <label class="layui-form-label">权限名称</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" name="name" lay-verify="required" value="{{d.name}}">
+                <div class="layui-inline">
+                    <label class="layui-form-label">url</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" lay-verify="required" name="url" value="{{d.url}}">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">action</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" lay-verify="required" name="action" value="{{d.action}}" disabled>
+                    </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <div class="layui-input-inline"></div>
+                    <label class="layui-form-label">method</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="method" value="{{d.method}}">
+                    </div>
                 </div>
                 <div class="layui-inline">
+                    <label class="layui-form-label">status</label>
                     <div class="layui-input-inline">
-                        <input type="hidden" name="apiId" value="{{d.apiId}}">
-                        <button class="layui-btn" lay-submit lay-filter="api_close">关闭</button>
+                        <input type="text" class="layui-input" name="status" value="{{d.status}}" disabled>
                     </div>
                 </div>
             </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">header</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="" class="layui-textarea">{{d.header}}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">param</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="" class="layui-textarea">{{d.param}}</textarea>
+                </div>
+            </div>
+            <div class="layui-collapse">
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">exception</h2>
+                    <div class="layui-colla-content layui-show">{{d.exception}}</div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">result</h2>
+                    <div class="layui-colla-content layui-show">{{d.result}}</div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">用户信息</h2>
+                    <div class="layui-colla-content layui-show">{{d.personId+","+d.personToken+","+d.personInfo}}</div>
+                </div>
+            </div>
+            *{<div class="layui-form-item" style="margin-top: 10px">}*
+                *{<div class="layui-inline">}*
+                    *{<div class="layui-input-inline"></div>}*
+                *{</div>}*
+                *{<div class="layui-inline">}*
+                    *{<div class="layui-input-inline">}*
+                        *{<button class="layui-btn" lay-submit lay-filter="api_close">}*
+                            *{关闭}*
+                        *{</button>}*
+                        *{<button type="reset" class="layui-btn layui-btn-primary">重置</button>}*
+                    *{</div>}*
+                *{</div>}*
+            *{</div>}*
         </div>
     </div>
 </script>

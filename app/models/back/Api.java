@@ -1,9 +1,10 @@
 package models.back;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import org.apache.commons.lang.StringUtils;
-import play.modules.mongo.MongoEntity;
-import play.modules.mongo.MongoModel;
+import org.bson.types.ObjectId;
+import play.modules.mongo.*;
 import vos.back.ApiVO;
 
 import javax.persistence.Column;
@@ -68,8 +69,10 @@ public class Api extends MongoModel {
         this.save();
     }
     
-    public static Api findByID(Long id) {
-        return Api.find(("id=?"), id).first();
+    public static Api findByID(String id) {
+        DBObject one = MongoDB.db().getCollection("api").findOne(new BasicDBObject("_id", new ObjectId(id)));
+        Api api = MongoMapper.convertValue(one.toMap(), Api.class);
+        return api;
     }
     
     public static List<Api> fetchAll() {

@@ -1,7 +1,6 @@
 package vos.back;
 
 import annotations.DataField;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import models.back.Api;
 import vos.OneData;
 
@@ -51,16 +50,20 @@ public class ApiVO extends OneData implements Serializable {
         this.action = api.action;
         this.method = api.method;
         this.body = api.body;
-        this.header = api.header;
         this.param = api.param;
         this.status = api.status;
-        this.exception = api.exception;
-        this.result = api.result;
         this.startTime = api.startTime;
         this.endTime = api.endTime;
         this.personId = api.personId;
         this.personToken = api.personToken;
         this.personInfo = api.personInfo;
+    }
+    
+    public ApiVO complete(Api api) {
+        this.header = api.header;
+        this.exception = api.exception;
+        this.result = api.result;
+        return this;
     }
     
 }
