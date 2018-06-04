@@ -2,6 +2,7 @@ package vos.back;
 
 import annotations.DataField;
 import models.back.Api;
+import utils.JSONUtils;
 import vos.OneData;
 
 import java.io.Serializable;
@@ -62,7 +63,7 @@ public class ApiVO extends OneData implements Serializable {
     public ApiVO complete(Api api) {
         this.header = api.header;
         this.exception = api.exception;
-        this.result = api.result;
+        this.result = JSONUtils.format(api.result);
         return this;
     }
     
