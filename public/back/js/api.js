@@ -71,5 +71,8 @@ table.on('tool(api_table)', function (obj) {
             content: api_form_html
         });
         element.render("collapse");
+        layui.code({
+            title: '',skin: 'notepad'
+        });
     }
 });

@@ -2,6 +2,7 @@ package vos.back;
 
 import annotations.DataField;
 import models.back.Api;
+import org.apache.commons.lang.BooleanUtils;
 import utils.JSONUtils;
 import vos.OneData;
 
@@ -41,6 +42,9 @@ public class ApiVO extends OneData implements Serializable {
     @DataField(name = "用户信息")
     public String personInfo;
     
+    @DataField(name = "是否异常")
+    public Integer error;
+    
     public ApiVO() {
     }
     
@@ -58,6 +62,8 @@ public class ApiVO extends OneData implements Serializable {
         this.personId = api.personId;
         this.personToken = api.personToken;
         this.personInfo = api.personInfo;
+        this.error = BooleanUtils.toIntegerObject(api.exception != null);
+        
     }
     
     public ApiVO complete(Api api) {
