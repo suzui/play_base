@@ -29,7 +29,6 @@ public class Api extends MongoModel {
     public String status;
     public String exception;
     public String result;
-    public Boolean error;
     
     public Long startTime;
     public Long endTime;
@@ -59,7 +58,6 @@ public class Api extends MongoModel {
         this.status = apiVO.status != null ? apiVO.status : status;
         this.exception = apiVO.exception != null ? apiVO.exception : exception;
         this.result = apiVO.result != null ? apiVO.result : result;
-        this.error = apiVO.exception == null;
         this.startTime = apiVO.startTime != null ? apiVO.startTime : startTime;
         this.endTime = apiVO.endTime != null ? apiVO.endTime : endTime;
         this.personId = apiVO.personId != null ? apiVO.personId : personId;
@@ -119,8 +117,8 @@ public class Api extends MongoModel {
             params.add(new BasicDBObject("$lte", apiVO.endTime));
         }
         if (apiVO.error != null && apiVO.error == 1) {
-            sqls.add("error");
-            params.add(new BasicDBObject("error", true));
+            sqls.add("exception");
+            params.add(new BasicDBObject("$ne", null));
         }
         return new Object[]{sqls, params};
     }
