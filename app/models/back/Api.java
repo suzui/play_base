@@ -8,11 +8,9 @@ import play.modules.mongo.MongoDB;
 import play.modules.mongo.MongoEntity;
 import play.modules.mongo.MongoMapper;
 import play.modules.mongo.MongoModel;
-import vos.StatusCode;
 import vos.back.ApiVO;
 
 import javax.persistence.Column;
-import javax.persistence.Lob;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -25,17 +23,13 @@ public class Api extends MongoModel {
     @Column(length = 1000)
     public String action;
     public String method;
-    @Lob
     public String body;
-    @Lob
     public String header;
-    @Lob
     public String param;
     public String status;
-    @Lob
     public String exception;
-    @Lob
     public String result;
+    public Boolean error;
     
     public Long startTime;
     public Long endTime;
@@ -64,9 +58,10 @@ public class Api extends MongoModel {
         this.param = apiVO.param != null ? apiVO.param : param;
         this.status = apiVO.status != null ? apiVO.status : status;
         this.exception = apiVO.exception != null ? apiVO.exception : exception;
+        this.result = apiVO.result != null ? apiVO.result : result;
+        this.error = apiVO.exception == null;
         this.startTime = apiVO.startTime != null ? apiVO.startTime : startTime;
         this.endTime = apiVO.endTime != null ? apiVO.endTime : endTime;
-        this.result = apiVO.result != null ? apiVO.result : result;
         this.personId = apiVO.personId != null ? apiVO.personId : personId;
         this.personToken = apiVO.personToken != null ? apiVO.personToken : personToken;
         this.personInfo = apiVO.personInfo != null ? apiVO.personInfo : personInfo;
@@ -124,8 +119,8 @@ public class Api extends MongoModel {
             params.add(new BasicDBObject("$lte", apiVO.endTime));
         }
         if (apiVO.error != null && apiVO.error == 1) {
-            sqls.add("result");
-            params.add(Pattern.compile("^.*" + StatusCode.FAIL[1] + ".*$"));
+            sqls.add("error");
+            params.add(new BasicDBObject("error", true));
         }
         return new Object[]{sqls, params};
     }
