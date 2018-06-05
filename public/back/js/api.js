@@ -7,6 +7,7 @@ var api_tab = function () {
     var endTime = new Date();
     laydate.render({elem: '#apiStartTime', type: 'datetime', value: startTime});
     laydate.render({elem: '#apiEndTime', type: 'datetime', value: endTime});
+    form.render('checkbox');
     api_table();
 }
 
@@ -18,6 +19,7 @@ form.on('submit(api_search)', function (data) {
     var param = data.field;
     param.startTime = new Date(param.startTime).getTime();
     param.endTime = new Date(param.endTime).getTime();
+    param.error = param.error == 1 ? 1 : 0;
     table.reload('api_table', {where: param, page: {curr: 1}});
 });
 
@@ -61,7 +63,7 @@ table.on('tool(api_table)', function (obj) {
     var e = obj.event;
     var d = obj.data;
     if (e === 'view') {
-        $.post('/back/api/info', {apiId:d.apiId}, function (result, status) {
+        $.post('/back/api/info', {apiId: d.apiId}, function (result, status) {
             d = result.data;
         });
         var api_form_html = laytpl($('#api_form').html()).render(d);
@@ -72,7 +74,7 @@ table.on('tool(api_table)', function (obj) {
         });
         element.render("collapse");
         layui.code({
-            title: '',skin: 'notepad'
+            title: '', skin: 'notepad'
         });
     }
 });

@@ -4,7 +4,11 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.apache.commons.lang.StringUtils;
 import org.bson.types.ObjectId;
-import play.modules.mongo.*;
+import play.modules.mongo.MongoDB;
+import play.modules.mongo.MongoEntity;
+import play.modules.mongo.MongoMapper;
+import play.modules.mongo.MongoModel;
+import vos.StatusCode;
 import vos.back.ApiVO;
 
 import javax.persistence.Column;
@@ -118,6 +122,10 @@ public class Api extends MongoModel {
         if (apiVO.endTime != null) {
             sqls.add("endTime");
             params.add(new BasicDBObject("$lte", apiVO.endTime));
+        }
+        if (apiVO.error != null && apiVO.error == 1) {
+            sqls.add("result");
+            params.add(Pattern.compile("^.*" + StatusCode.FAIL[1] + ".*$", Pattern.CASE_INSENSITIVE));
         }
         return new Object[]{sqls, params};
     }
