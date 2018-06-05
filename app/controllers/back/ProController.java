@@ -1,6 +1,8 @@
 package controllers.back;
 
 import models.back.Pro;
+import play.jobs.Job;
+import play.libs.F;
 import vos.PageData;
 import vos.Result;
 import vos.StatusCode;
@@ -39,7 +41,15 @@ public class ProController extends BackController {
     
     public static void restart(ProVO vo) {
         Pro pro = Pro.findByID(vo.proId);
-        if (pro.restart() == 0) {
+        F.Promise promise = new Job<Boolean>() {
+            @Override
+            public Boolean doJobWithResult() throws Exception {
+                return pro.restart() == 0;
+            }
+        }.now();
+        await(promise);
+        Boolean succ = (Boolean) promise.getOrNull();
+        if (succ) {
             renderJSON(Result.succeed());
         }
         renderJSON(Result.failed(StatusCode.BACK_RESTART_FAILED));
