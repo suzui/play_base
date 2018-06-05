@@ -125,7 +125,7 @@ public class Api extends MongoModel {
         }
         if (apiVO.error != null && apiVO.error == 1) {
             sqls.add("result");
-            params.add(Pattern.compile("^.*" + StatusCode.FAIL[1] + ".*$", Pattern.CASE_INSENSITIVE));
+            params.add(Pattern.compile("^.*" + StatusCode.FAIL[1] + ".*$"));
         }
         return new Object[]{sqls, params};
     }
