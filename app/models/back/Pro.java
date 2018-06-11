@@ -50,14 +50,21 @@ public class Pro extends BaseModel {
         this.save();
     }
     
-    public int update() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/update.sh", ConfigUtils.user, ConfigUtils.password, this.location, this.branch).status;
+    public ShellUtils.Result gitbranch() {
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/gitbranch.sh", ConfigUtils.user, ConfigUtils.password, this.location);
     }
     
-    public int restart() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/restart.sh", ConfigUtils.user, ConfigUtils.password, this.location).status;
+    public ShellUtils.Result gitlog() {
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/gitlog.sh", ConfigUtils.user, ConfigUtils.password, this.location);
     }
     
+    public ShellUtils.Result update() {
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/update.sh", ConfigUtils.user, ConfigUtils.password, this.location, this.branch);
+    }
+    
+    public ShellUtils.Result restart() {
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/restart.sh", ConfigUtils.user, ConfigUtils.password, this.location);
+    }
     
     public ShellUtils.Result check() {
         return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/check.sh", ConfigUtils.user, ConfigUtils.password, this.location);

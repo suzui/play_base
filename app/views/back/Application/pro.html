@@ -1,11 +1,11 @@
 <script id="pro">
     var pro_table_title = [
-        {field: 'name', title: '名称', align: 'center'},
-        {field: 'location', title: '位置路径', align: 'center'},
+        {field: 'name', title: '名称', align: 'center', width: 100},
+        {field: 'location', title: '位置路径', align: 'center', width: 300},
         {field: 'git', title: 'git地址', align: 'center'},
-        {field: 'branch', title: 'git分支', align: 'center'},
+        {field: 'branch', title: 'git分支', align: 'center', width: 100},
         {field: 'url', title: '网址', align: 'center'},
-        {field: 'status', title: '状态', align: 'center', templet: '#pro_status'},
+        {field: 'status', title: '状态', align: 'center', templet: '#pro_status', width: 100},
         {title: '操作', align: 'center', toolbar: '#pro_toolbar'}
     ]
 </script>
@@ -22,6 +22,7 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="update">更新</a>
     <a class="layui-btn layui-btn-xs" lay-event="restart">重启</a>
+    <a class="layui-btn layui-btn-xs" lay-event="git">git</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script id="pro_tab" type="text/html">
@@ -104,6 +105,26 @@
                         <button class="layui-btn" lay-submit lay-filter="{{d.proId==''?'pro_add':'pro_edit'}}">保存
                         </button>
                         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="pro_git_form" type="text/html">
+    <div class="layui-fluid" style="margin: 10px">
+        <div class="layui-form layui-form-pane">
+            <div class="layui-collapse">
+                <div class="layui-colla-item">
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">branchs</h2>
+                        <div class="layui-colla-content layui-show">
+                            <pre class="layui-code">{{d.branchs}}</pre>
+                        </div>
+                    </div>
+                    <h2 class="layui-colla-title">gitlog</h2>
+                    <div class="layui-colla-content layui-show">
+                        <pre class="layui-code">{{d.gitlog}}</pre>
                     </div>
                 </div>
             </div>

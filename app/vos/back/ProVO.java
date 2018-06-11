@@ -26,11 +26,17 @@ public class ProVO extends OneData implements Serializable {
     @DataField(name = "状态")
     public Integer status;
     
+    @DataField(name = "branchs")
+    public String branchs;
+    @DataField(name = "gitlog")
+    public String gitlog;
+    
     public ProVO() {
     
     }
     
     public ProVO(Pro pro) {
+        super(pro.id);
         this.proId = pro.id;
         this.name = pro.name;
         this.location = pro.location;

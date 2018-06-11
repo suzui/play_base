@@ -5,7 +5,6 @@ import models.back.Pro;
 import play.jobs.Job;
 import vos.PageData;
 import vos.Result;
-import vos.StatusCode;
 import vos.back.ProVO;
 
 import java.util.List;
@@ -29,6 +28,14 @@ public class ProController extends BackController {
         Pro pro = Pro.findByID(vo.proId);
         pro.edit(vo);
         renderJSON(Result.succeed());
+    }
+    
+    public static void git(ProVO vo) {
+        Pro pro = Pro.findByID(vo.proId);
+        ProVO proVO = new ProVO(pro);
+        proVO.branchs = pro.gitbranch().read;
+        proVO.gitlog = pro.gitlog().read;
+        renderJSON(Result.succeed(proVO));
     }
     
     public static void update(ProVO vo) {

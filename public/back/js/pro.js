@@ -59,6 +59,20 @@ table.on('tool(pro_table)', function (obj) {
 
             });
         });
+    } else if (e === 'git') {
+        $.post('/back/pro/git', d, function (result, status) {
+            d = result.data;
+        });
+        var pro_git_form = laytpl($('#pro_git_form').html()).render(d);
+        layer_index = layer.open({
+            type: 1,
+            area: area_8_8,
+            content: pro_git_form
+        });
+        element.render("collapse");
+        layui.code({
+            title: '', skin: 'notepad'
+        });
     } else if (e === 'del') {
         layer.confirm('确定删除项目', function (index) {
             $.post('/back/pro/del', d, function (result, status) {
