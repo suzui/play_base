@@ -51,11 +51,16 @@ public class Pro extends BaseModel {
     }
     
     public int update() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/update.sh", ConfigUtils.user, ConfigUtils.password, this.location, this.branch);
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/update.sh", ConfigUtils.user, ConfigUtils.password, this.location, this.branch).status;
     }
     
     public int restart() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/restart.sh", ConfigUtils.user, ConfigUtils.password, this.location);
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/restart.sh", ConfigUtils.user, ConfigUtils.password, this.location).status;
+    }
+    
+    
+    public ShellUtils.Result check() {
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/check.sh", ConfigUtils.user, ConfigUtils.password, this.location);
     }
     
     public void del() {

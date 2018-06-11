@@ -18,8 +18,8 @@ public class ProFreshJob extends BaseJob {
         List<Pro> pros = Pro.fetchAll();
         pros.stream().filter(p -> p.location.contains("app")).forEach(p -> {
             File file = Play.getFile(p.location + "/server.pid");
-            if (file.exists()) {
-                //TODO
+            if (file.exists() && p.check().read.contains("java")) {
+                p.status(ProStatus.NORMAL);
             } else {
                 p.status(ProStatus.STOP);
             }
