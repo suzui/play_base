@@ -39,7 +39,7 @@ public class ProController extends BackController {
                 pro.update();
             }
         }.now();
-        renderJSON(Result.failed(StatusCode.BACK_UPDATE_FAILED));
+        renderJSON(Result.succeed());
     }
     
     public static void restart(ProVO vo) {
