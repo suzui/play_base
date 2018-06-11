@@ -35,8 +35,10 @@ public class ShellUtils {
             String read = IOUtils.read(inputStream);
             result.read = read;
             Logger.info("[shell read]:%s", read);
+            int status = process.waitFor();
+            result.status = status;
+            Logger.info("[shell status]:%d", status);
             Logger.info("[shell end]:================");
-            result.status = process.waitFor();
         } catch (Exception e) {
             e.printStackTrace();
         }
