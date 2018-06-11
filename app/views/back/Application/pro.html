@@ -5,8 +5,18 @@
         {field: 'git', title: 'git地址', align: 'center'},
         {field: 'branch', title: 'git分支', align: 'center'},
         {field: 'url', title: '网址', align: 'center'},
+        {field: 'status', title: '状态', align: 'center', templet: '#pro_status'},
         {title: '操作', align: 'center', toolbar: '#pro_toolbar'}
     ]
+</script>
+<script id="pro_status" type="text/html">
+    {{# if(d.status==100){ }}
+    正常
+    {{# }else if(d.status==101){ }}
+    启动中
+    {{# }else if(d.status==102){ }}
+    已停止
+    {{# } }}
 </script>
 <script id="pro_toolbar" type="text/html">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>

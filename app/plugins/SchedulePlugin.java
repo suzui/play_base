@@ -17,7 +17,7 @@ public class SchedulePlugin extends PlayPlugin {
     
     @Override
     public void onLoad() {
-        Logger.info("SchedulePlugin start up.");
+        Logger.info("SchedulePlugin load.");
     }
     
     

@@ -1,5 +1,6 @@
 package models.back;
 
+import enums.ProStatus;
 import models.BaseModel;
 import org.apache.commons.lang.StringUtils;
 import play.Play;
@@ -8,6 +9,8 @@ import utils.ShellUtils;
 import vos.back.ProVO;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +24,10 @@ public class Pro extends BaseModel {
     public String branch;
     public String shell;
     public String url;
+    
+    @Enumerated(EnumType.STRING)
+    public ProStatus status;
+    
     
     public static Pro add(ProVO proVO) {
         Pro pro = new Pro();
@@ -38,10 +45,14 @@ public class Pro extends BaseModel {
         this.save();
     }
     
+    public void status(ProStatus status) {
+        this.status = status;
+        this.save();
+    }
+    
     public int update() {
         return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/update.sh", ConfigUtils.user, ConfigUtils.password, this.location, this.branch);
     }
-    
     
     public int restart() {
         return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/restart.sh", ConfigUtils.user, ConfigUtils.password, this.location);
@@ -53,6 +64,10 @@ public class Pro extends BaseModel {
     
     public static Pro findByID(Long id) {
         return Pro.find(defaultSql("id=?"), id).first();
+    }
+    
+    public static Pro findByLocation(String location) {
+        return Pro.find(defaultSql("location like ?"), "%" + location + "%").first();
     }
     
     public static List<Pro> fetchByIds(List<Long> ids) {

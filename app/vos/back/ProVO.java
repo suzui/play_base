@@ -1,7 +1,7 @@
 package vos.back;
 
 import annotations.DataField;
-import models.back.Api;
+import enums.ProStatus;
 import models.back.Pro;
 import vos.OneData;
 
@@ -23,6 +23,8 @@ public class ProVO extends OneData implements Serializable {
     public String shell;
     @DataField(name = "网址")
     public String url;
+    @DataField(name = "状态")
+    public Integer status;
     
     public ProVO() {
     
@@ -36,6 +38,11 @@ public class ProVO extends OneData implements Serializable {
         this.branch = pro.branch;
         this.shell = pro.shell;
         this.url = pro.url;
+        if (pro.status == null) {
+            this.status = ProStatus.STOP.code();
+        } else {
+            this.status = pro.status.code();
+        }
     }
     
     

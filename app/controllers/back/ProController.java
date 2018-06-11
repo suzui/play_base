@@ -2,7 +2,6 @@ package controllers.back;
 
 import models.back.Pro;
 import play.jobs.Job;
-import play.libs.F;
 import vos.PageData;
 import vos.Result;
 import vos.StatusCode;
@@ -33,26 +32,24 @@ public class ProController extends BackController {
     
     public static void update(ProVO vo) {
         Pro pro = Pro.findByID(vo.proId);
-        if (pro.update() == 0) {
-            renderJSON(Result.succeed());
-        }
+        new Job() {
+            @Override
+            public void doJob() throws Exception {
+                pro.update();
+            }
+        }.now();
         renderJSON(Result.failed(StatusCode.BACK_UPDATE_FAILED));
     }
     
     public static void restart(ProVO vo) {
         Pro pro = Pro.findByID(vo.proId);
-        F.Promise promise = new Job<Boolean>() {
+        new Job() {
             @Override
-            public Boolean doJobWithResult() throws Exception {
-                return pro.restart() == 0;
+            public void doJob() throws Exception {
+                pro.restart();
             }
         }.now();
-        await(promise);
-        Boolean succ = (Boolean) promise.getOrNull();
-        if (succ) {
-            renderJSON(Result.succeed());
-        }
-        renderJSON(Result.failed(StatusCode.BACK_RESTART_FAILED));
+        renderJSON(Result.succeed());
     }
     
     public static void del(ProVO vo) {
