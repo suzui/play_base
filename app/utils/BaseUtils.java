@@ -1,5 +1,6 @@
 package utils;
 
+import models.back.Admin;
 import models.token.AccessToken;
 import models.token.BasePerson;
 import org.apache.commons.lang.StringUtils;
@@ -16,8 +17,8 @@ import java.util.concurrent.ScheduledFuture;
 
 public class BaseUtils {
     
-    private static final String CURRENT_PERSON_ID = "currentPersonId";
-    private static final String KEEP_PERSON_ID = "keepPersonId";
+    private static final String CURRENT_ADMIN_ID = "currentAdminId";
+    private static final String KEEP_ADMIN_ID = "keepAdminId";
     public static final String BASE_URL = Play.configuration.getProperty("application.baseUrl");
     
     
@@ -78,45 +79,45 @@ public class BaseUtils {
     }
     
     
-    public static void setPersonIdToSession(Long personId) {
-        setSession(CURRENT_PERSON_ID, personId + "");
+    public static void setAdminToSession(Long adminId) {
+        setSession(CURRENT_ADMIN_ID, adminId + "");
     }
     
     
-    public static void removePersonIdToSession() {
-        removeSession(CURRENT_PERSON_ID);
+    public static void removeAdminToSession() {
+        removeSession(CURRENT_ADMIN_ID);
     }
     
     
-    public static String getPersonIdFromSession() {
-        return getSession(CURRENT_PERSON_ID);
+    public static String getAdminFromSession() {
+        return getSession(CURRENT_ADMIN_ID);
     }
     
     
-    public static void setPersonIdToCookie(Long personId) {
-        setCookie(KEEP_PERSON_ID, personId + "");
+    public static void setAdminToCookie(Long adminId) {
+        setCookie(KEEP_ADMIN_ID, adminId + "");
     }
     
     
-    public static void removePersonIdToCookie() {
-        removeCookie(KEEP_PERSON_ID);
+    public static void removeAdminToCookie() {
+        removeCookie(KEEP_ADMIN_ID);
     }
     
     
-    public static String getPersonIdFromCookie() {
-        return getCookie(KEEP_PERSON_ID);
+    public static String getAdminFromCookie() {
+        return getCookie(KEEP_ADMIN_ID);
     }
     
     
-    public static <T extends BasePerson> T getCurrPerson() {
-        String personId = getPersonIdFromSession();
-        if (personId == null) {
-            personId = getPersonIdFromCookie();
+    public static Admin getCurrAdmin() {
+        String adminId = getAdminFromSession();
+        if (adminId == null) {
+            adminId = getAdminFromCookie();
         }
-        if (personId == null) {
+        if (adminId == null) {
             return null;
         }
-        return BasePerson.findByID(Long.parseLong(personId));
+        return Admin.findByID(Long.parseLong(adminId));
     }
     
     

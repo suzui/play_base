@@ -14,7 +14,7 @@ import java.util.List;
 public class Application extends BackController {
     
     public static void index() {
-        final Admin admin = getCurrPerson();
+        final Admin admin = getCurrAdmin();
         if (admin != null) {
             home();
         }
@@ -29,17 +29,17 @@ public class Application extends BackController {
         if (!admin.isPasswordRight(password)) {
             renderJSON(Result.failed(StatusCode.PERSON_PASSWORD_ERROR));
         }
-        setPersonIdToSession(admin.id);
+        setAdminToSession(admin.id);
         renderJSON(Result.succeed());
     }
     
     public static void logout() {
-        removePersonIdToSession();
+        removeAdminToSession();
         index();
     }
     
     public static void home() {
-        Admin currAdmin = getCurrPerson();
+        Admin currAdmin = getCurrAdmin();
         AdminVO admin = new AdminVO(currAdmin).codes(AuthAdmin.fetchAuthByAdmin(currAdmin));
         System.err.println(admin.codes);
         List<AccessVO> access = AccessVO.init();

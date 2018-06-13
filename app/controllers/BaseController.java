@@ -1,6 +1,7 @@
 package controllers;
 
 import jobs.UpdateLoginInfoJob;
+import models.back.Admin;
 import models.token.AccessToken;
 import models.token.BasePerson;
 import org.apache.commons.lang.StringUtils;
@@ -181,39 +182,39 @@ public class BaseController extends Controller {
     
     
     @Util
-    protected static void setPersonIdToSession(Long personId) {
-        BaseUtils.setPersonIdToSession(personId);
+    protected static void setAdminToSession(Long adminId) {
+        BaseUtils.setAdminToSession(adminId);
     }
     
     @Util
-    protected static void removePersonIdToSession() {
-        BaseUtils.removePersonIdToSession();
+    protected static void removeAdminToSession() {
+        BaseUtils.removeAdminToSession();
     }
     
     @Util
-    protected static String getPersonIdFromSession() {
-        return BaseUtils.getPersonIdFromSession();
+    protected static String getAdminFromSession() {
+        return BaseUtils.getAdminFromSession();
     }
     
     @Util
-    protected static void setPersonIdToCookie(Long personId) {
-        BaseUtils.setPersonIdToCookie(personId);
+    protected static void setAdminToCookie(Long adminId) {
+        BaseUtils.setAdminToCookie(adminId);
     }
     
     @Util
-    protected static void removePersonIdToCookie() {
-        BaseUtils.removePersonIdToCookie();
+    protected static void removeAdminToCookie() {
+        BaseUtils.removeAdminToCookie();
     }
     
     
     @Util
-    protected static String getPersonIdFromCookie() {
-        return BaseUtils.getPersonIdFromCookie();
+    protected static String getAdminFromCookie() {
+        return BaseUtils.getAdminFromCookie();
     }
     
     @Util
-    protected static <T extends BasePerson> T getCurrPerson() {
-        return BaseUtils.getCurrPerson();
+    protected static Admin getCurrAdmin() {
+        return BaseUtils.getCurrAdmin();
     }
     
     @Util

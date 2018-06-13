@@ -16,7 +16,7 @@ public class BackController extends BaseController {
     static void access() {
         Logger.info("[access start]:================");
         final Request request = Request.current();
-        final Admin admin = getCurrPerson();
+        final Admin admin = getCurrAdmin();
         if (admin == null) {
             if (request.isAjax()) {
                 renderJSON(Result.failed(StatusCode.SYSTEM_ACCESS_FOBIDDEN));
