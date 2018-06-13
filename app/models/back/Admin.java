@@ -1,18 +1,28 @@
 package models.back;
 
-import models.token.BasePerson;
+import models.BaseModel;
 import org.apache.commons.lang.StringUtils;
 import utils.CodeUtils;
 import vos.back.AdminVO;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Entity
-public class Admin extends BasePerson {
+public class Admin extends BaseModel {
     
+    public String username;//用户名
+    public String password;//密码
+    public String phone;//手机
+    public String email;//邮箱
+    public String name;//姓名
+    public String number;//工号
+    public String avatar;//头像
+    @Column(length = 1000)
+    public String intro;//简介
     public Boolean origin = false;
     
     public static Admin add(AdminVO adminVO) {
@@ -44,6 +54,10 @@ public class Admin extends BasePerson {
         }
     }
     
+    public boolean isPasswordRight(String password) {
+        return StringUtils.equalsIgnoreCase(password, this.password);
+    }
+    
     public static boolean isUsernameAvailable(String username) {
         return Admin.findByUsername(username) == null;
     }
@@ -57,6 +71,10 @@ public class Admin extends BasePerson {
     
     public static Admin findByUsername(String username) {
         return Admin.find(defaultSql("username=?"), username).first();
+    }
+    
+    public static Admin findByID(Long id) {
+        return Admin.find(defaultSql("id=?"), id).first();
     }
     
     public static List<Admin> fetchByIds(List<Long> ids) {
