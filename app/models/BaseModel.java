@@ -1,11 +1,11 @@
 package models;
 
-import controllers.BaseController;
 import listeners.BaseModelListener;
 import models.token.BasePerson;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import play.db.jpa.Model;
+import utils.BaseUtils;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
@@ -91,27 +91,39 @@ public class BaseModel extends Model {
     
     
     public static Long getApp() {
-        return BaseController.getApp();
+        return BaseUtils.getApp();
+    }
+    
+    public static Long getRoot() {
+        return BaseUtils.getRoot();
+    }
+    
+    public static Long getOrganize() {
+        return BaseUtils.getOrganize();
     }
     
     public static Long getSource() {
-        return BaseController.getSource();
+        Long source = BaseUtils.getSource();
+        if (source == null) {
+            source = BaseUtils.getOrganize();
+        }
+        return source;
     }
     
     public static <T extends BasePerson> T getPersonByToken() {
-        return BaseController.getPersonByToken();
+        return BaseUtils.getPersonByToken();
     }
     
     public static String getSession(String key) {
-        return BaseController.getSession(key);
+        return BaseUtils.getSession(key);
     }
     
     public static String getCookie(String key) {
-        return BaseController.getCookie(key);
+        return BaseUtils.getCookie(key);
     }
     
     public static String getHeader(String key) {
-        return BaseController.getHeader(key);
+        return BaseUtils.getHeader(key);
     }
     
 }

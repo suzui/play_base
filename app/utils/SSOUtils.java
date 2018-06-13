@@ -27,7 +27,7 @@ public class SSOUtils {
     public static String SECRET;
     
     public static AppResult auth() {
-        HttpResponse response = WS.url(HOST + "/source/app/auth").setParameter("master", MASTER).post();
+        HttpResponse response = WS.url(HOST + "/source/pad/auth").setParameter("master", MASTER).post();
         if (response.success()) {
             AppResult result = new Gson().fromJson(response.getString(), AppResult.class);
             SECRET = result.data.secret;

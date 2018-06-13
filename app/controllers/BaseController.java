@@ -5,15 +5,12 @@ import models.token.AccessToken;
 import models.token.BasePerson;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
-import play.Play;
 import play.db.jpa.JPA;
 import play.mvc.*;
-import play.mvc.Http.Cookie;
 import play.mvc.Http.Header;
 import play.mvc.Http.Request;
-import play.mvc.Http.Response;
-import play.mvc.Scope.Session;
 import utils.ApiQueue;
+import utils.BaseUtils;
 import utils.CacheUtils;
 import vos.Result;
 import vos.Result.StatusCode;
@@ -31,9 +28,6 @@ public class BaseController extends Controller {
     
     private static final String VO = "vo";
     private static final String DOC = "doc";
-    private static final String CURRENT_PERSON_ID = "currentPersonId";
-    private static final String KEEP_PERSON_ID = "keepPersonId";
-    public static final String BASE_URL = Play.configuration.getProperty("application.baseUrl");
     
     @Before(priority = 0)
     static void api() {
@@ -188,137 +182,122 @@ public class BaseController extends Controller {
     
     @Util
     protected static void setPersonIdToSession(Long personId) {
-        setSession(CURRENT_PERSON_ID, personId + "");
+        BaseUtils.setPersonIdToSession(personId);
     }
     
     @Util
     protected static void removePersonIdToSession() {
-        removeSession(CURRENT_PERSON_ID);
+        BaseUtils.removePersonIdToSession();
     }
     
     @Util
     protected static String getPersonIdFromSession() {
-        return getSession(CURRENT_PERSON_ID);
+        return BaseUtils.getPersonIdFromSession();
     }
     
     @Util
     protected static void setPersonIdToCookie(Long personId) {
-        setCookie(KEEP_PERSON_ID, personId + "");
+        BaseUtils.setPersonIdToCookie(personId);
     }
     
     @Util
     protected static void removePersonIdToCookie() {
-        removeCookie(KEEP_PERSON_ID);
+        BaseUtils.removePersonIdToCookie();
     }
     
     
     @Util
     protected static String getPersonIdFromCookie() {
-        return getCookie(KEEP_PERSON_ID);
+        return BaseUtils.getPersonIdFromCookie();
     }
     
     @Util
     protected static <T extends BasePerson> T getCurrPerson() {
-        String personId = getPersonIdFromSession();
-        if (personId == null) {
-            personId = getPersonIdFromCookie();
-        }
-        if (personId == null) {
-            return null;
-        }
-        return BasePerson.findByID(Long.parseLong(personId));
+        return BaseUtils.getCurrPerson();
     }
     
     @Util
     protected static String getToken() {
-        return getHeader("accesstoken");
+        return BaseUtils.getToken();
     }
     
     @Util
     protected static AccessToken getAccessTokenByToken() {
-        String token = getToken();
-        return token == null ? null : AccessToken.findByAccesstoken(token);
+        return BaseUtils.getAccessTokenByToken();
     }
     
     @Util
     public static <T extends BasePerson> T getPersonByToken() {
-        String token = getToken();
-        return token == null ? null : AccessToken.findPersonByAccesstoken(token);
+        return BaseUtils.getPersonByToken();
     }
     
     @Util
     public static Long getApp() {
-        String app = getHeader("app");
-        if (app == null) {
-            return null;
-        }
-        Logger.info("[headerapp]:%s", app);
-        return Long.parseLong(app);
+        return BaseUtils.getApp();
     }
     
     @Util
+    public static Long getRoot() {
+        return BaseUtils.getRoot();
+    }
+    
+    @Util
+    public static Long getOrganize() {
+        return BaseUtils.getOrganize();
+    }
+    
+    @Deprecated
+    @Util
     public static Long getSource() {
-        String source = getHeader("source");
-        if (StringUtils.isBlank(source)) {
-            source = getHeader("organize");
+        Long source = BaseUtils.getSource();
+        if (source == null) {
+            source = BaseUtils.getOrganize();
         }
-        if (StringUtils.isBlank(source)) {
-            return null;
-        }
-        Logger.info("[headersource]:%s", source);
-        return Long.parseLong(source);
+        return source;
     }
     
     @Util
     protected static void setSession(String key, String value) {
-        Session.current().put(key, value);
+        BaseUtils.setSession(key, value);
     }
     
     @Util
     protected static void removeSession(String key) {
-        Session.current().remove(key);
+        BaseUtils.removeSession(key);
     }
     
     @Util
     public static String getSession(String key) {
-        Session session = Session.current();
-        
-        return session != null && session.contains(key) ? session.get(key) : null;
+        return BaseUtils.getSession(key);
     }
     
     @Util
     protected static void setCookie(String key, String value) {
-        Response.current().setCookie(key, value, "365d");
+        BaseUtils.setCookie(key, value);
     }
     
     @Util
     protected static void removeCookie(String key) {
-        Response.current().removeCookie(key);
+        BaseUtils.removeCookie(key);
     }
     
     @Util
     public static String getCookie(String key) {
-        Cookie cookie = Request.current().cookies.get(key);
-        return null != cookie ? cookie.value : null;
+        return BaseUtils.getCookie(key);
     }
     
     @Util
     protected static void setHeader(String key, String value) {
-        Request.current().headers.put(key, new Header(key, value));
+        BaseUtils.setHeader(key, value);
     }
     
     @Util
     protected static void removeHeader(String key) {
-        Request.current().headers.remove(key);
+        BaseUtils.removeHeader(key);
     }
     
     @Util
     public static String getHeader(String key) {
-        Request request = Request.current();
-        if (request == null) {
-            return null;
-        }
-        Header header = request.headers.get(key);
-        return header != null ? header.value() : null;
+        return BaseUtils.getHeader(key);
     }
 }

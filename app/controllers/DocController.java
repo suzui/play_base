@@ -49,7 +49,7 @@ public class DocController extends Controller {
             String applicationPath = Play.applicationPath.getAbsolutePath();
             String[] enumModules = {frameworkPath + "/modules/play_base", applicationPath.substring(0, applicationPath.lastIndexOf("_")) + "_common"};
             for (String enumModule : enumModules) {
-                for (String filename : new File(enumModule + "/app/enums").list()) {
+                for (String filename : new File(enumModule + "/pad/enums").list()) {
                     if (!filename.endsWith(".java")) {
                         continue;
                     }
