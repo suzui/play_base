@@ -138,7 +138,7 @@ public class BaseUtils {
     
     
     public static Long getApp() {
-        String app = getHeader("pad");
+        String app = getHeader("app");
         if (app == null) {
             return null;
         }
