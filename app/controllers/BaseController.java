@@ -180,7 +180,6 @@ public class BaseController extends Controller {
         Logger.info("[accesstoken end]:================");
     }
     
-    
     @Util
     protected static void setAdminToSession(Long adminId) {
         BaseUtils.setAdminToSession(adminId);
@@ -228,28 +227,28 @@ public class BaseController extends Controller {
     }
     
     @Util
-    public static <T extends BasePerson> T getPersonByToken() {
+    protected static <T extends BasePerson> T getPersonByToken() {
         return BaseUtils.getPersonByToken();
     }
     
     @Util
-    public static Long getApp() {
+    protected static Long getApp() {
         return BaseUtils.getApp();
     }
     
     @Util
-    public static Long getRoot() {
+    protected static Long getRoot() {
         return BaseUtils.getRoot();
     }
     
     @Util
-    public static Long getOrganize() {
+    protected static Long getOrganize() {
         return BaseUtils.getOrganize();
     }
     
     @Deprecated
     @Util
-    public static Long getSource() {
+    protected static Long getSource() {
         Long source = BaseUtils.getSource();
         if (source == null) {
             source = BaseUtils.getOrganize();
@@ -268,7 +267,7 @@ public class BaseController extends Controller {
     }
     
     @Util
-    public static String getSession(String key) {
+    protected static String getSession(String key) {
         return BaseUtils.getSession(key);
     }
     
@@ -283,7 +282,7 @@ public class BaseController extends Controller {
     }
     
     @Util
-    public static String getCookie(String key) {
+    protected static String getCookie(String key) {
         return BaseUtils.getCookie(key);
     }
     
@@ -298,7 +297,7 @@ public class BaseController extends Controller {
     }
     
     @Util
-    public static String getHeader(String key) {
+    protected static String getHeader(String key) {
         return BaseUtils.getHeader(key);
     }
 }
