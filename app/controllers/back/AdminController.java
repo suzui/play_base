@@ -49,7 +49,7 @@ public class AdminController extends BackController {
         Admin admin = Admin.findByID(vo.adminId);
         List<Auth> auths = Auth.fetchAll();
         List<Auth> adminAuths = AuthAdmin.fetchAuthByAdmin(admin);
-        List<AuthVO> authVOs = auths.stream().map(a -> new AuthVO(a).flag( adminAuths.contains(a)))
+        List<AuthVO> authVOs = auths.stream().map(a -> new AuthVO(a).flag(adminAuths.contains(a)))
                 .collect(Collectors.toList());
         renderJSON(Result.succeed(new PageData(authVOs)));
     }
