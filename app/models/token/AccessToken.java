@@ -46,9 +46,9 @@ public class AccessToken extends BaseModel {
         this.osVersion = osVersion;
         this.clientType = clientType;
         this.deviceToken = deviceToken;
-        this.person.firstLoginTime = this.person.firstLoginTime == null ? System.currentTimeMillis() : this.person.firstLoginTime;
-        this.person.lastLoginTime = System.currentTimeMillis();
-        this.person.save();
+        //this.person.firstLoginTime = this.person.firstLoginTime == null ? System.currentTimeMillis() : this.person.firstLoginTime;
+        //this.person.lastLoginTime = System.currentTimeMillis();
+        //this.person.save();
         this.save();
         if (!(ClientType.WEB.code() + "").equals(this.clientType)) {
             this.fetchOthersByPerson().forEach(at -> at.del());
