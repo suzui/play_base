@@ -6,14 +6,8 @@ import vos.OneData;
 
 public class JobLogVO extends OneData {
     
-    @DataField(name = "系统参数id")
+    @DataField(name = "job纪录id")
     public Long jobLogId;
-    @DataField(name = "名称")
-    public String name;
-    @DataField(name = "属性")
-    public String value;
-    @DataField(name = "描述")
-    public String intro;
     
     public JobLogVO() {
     
