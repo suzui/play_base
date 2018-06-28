@@ -34,13 +34,19 @@ public abstract class SsoPerson extends BasePerson implements SsoModel {
     
     @Override
     public boolean isPasswordRight(String password) {
-        PersonResult personResult = SSOUtils.verify(this.ssoId, password);
-        return personResult != null && personResult.succ();
+        if (SSOUtils.isOn()) {
+            PersonResult personResult = SSOUtils.verify(this.ssoId, password);
+            return personResult != null && personResult.succ();
+        } else {
+            return true;
+        }
     }
     
     @Override
     public void editPassword(String password) {
-        SSOUtils.password(this.ssoId, password);
+        if (SSOUtils.isOn()) {
+            SSOUtils.password(this.ssoId, password);
+        }
     }
     
     public static <T extends SsoPerson> T findBySsoId(Long ssoId) {

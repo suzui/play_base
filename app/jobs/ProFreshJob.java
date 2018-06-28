@@ -14,7 +14,7 @@ public class ProFreshJob extends BaseJob {
     public void doJob() throws Exception {
         super.doJob();
         List<Pro> pros = Pro.fetchAll();
-        pros.stream().filter(p -> p.location.contains("pad")).forEach(p -> {
+        pros.stream().filter(p -> p.location.contains("app")).forEach(p -> {
             if (p.check().read.contains("java")) {
                 p.status(ProStatus.NORMAL);
             } else {

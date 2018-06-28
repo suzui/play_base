@@ -26,6 +26,10 @@ public class SSOUtils {
     
     public static String SECRET;
     
+    public static boolean isOn() {
+        return Play.configuration.getProperty("sso", "off").equals("on");
+    }
+    
     public static AppResult auth() {
         HttpResponse response = WS.url(HOST + "/source/app/auth").setParameter("master", MASTER).post();
         if (response.success()) {

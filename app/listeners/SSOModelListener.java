@@ -4,7 +4,6 @@ import models.sso.SsoModel;
 import models.sso.SsoOrganize;
 import models.sso.SsoPerson;
 import models.sso.SsoRelation;
-import play.Play;
 import results.sso.OrganizeResult;
 import results.sso.PersonResult;
 import results.sso.RelationResult;
@@ -17,7 +16,7 @@ public class SSOModelListener {
     
     @PrePersist
     public static void prePersist(SsoModel ssoModel) {
-        if (Play.configuration.getProperty("sso", "off").equals("on") && ssoModel.onListener()) {
+        if (SSOUtils.isOn() && ssoModel.onListener()) {
             if (ssoModel instanceof SsoOrganize) {
                 OrganizeResult organizeResult = SSOUtils.organizeAdd((SsoOrganize) ssoModel);
                 ssoModel.preUpdate(organizeResult.data.organizeId);
@@ -33,7 +32,7 @@ public class SSOModelListener {
     
     @PreUpdate
     public static void preUpdate(SsoModel ssoModel) {
-        if (Play.configuration.getProperty("sso", "off").equals("on") && ssoModel.onListener()) {
+        if (SSOUtils.isOn() && ssoModel.onListener()) {
             if (ssoModel instanceof SsoOrganize) {
                 SsoOrganize ssoOrganize = (SsoOrganize) ssoModel;
                 if (ssoOrganize.deleted) {
