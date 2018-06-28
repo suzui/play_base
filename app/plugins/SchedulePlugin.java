@@ -24,10 +24,6 @@ public class SchedulePlugin extends PlayPlugin {
     @Override
     public void afterApplicationStart() {
         super.afterApplicationStart();
-        m();
-    }
-    
-    public void m() {
         if (Play.configuration.getProperty("schedule", "off").equals("on")) {
             return;
         }
@@ -44,5 +40,6 @@ public class SchedulePlugin extends PlayPlugin {
             }
         }
     }
+    
     
 }
