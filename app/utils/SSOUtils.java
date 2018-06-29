@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import models.sso.SsoOrganize;
 import models.sso.SsoPerson;
 import models.sso.SsoRelation;
-import models.token.AccessToken;
 import play.Play;
 import play.libs.WS;
 import play.libs.WS.HttpResponse;
@@ -76,6 +75,14 @@ public class SSOUtils {
     }
     
     public static PersonResult login(String username, Integer type, String password) {
+        if (!isOn()) {
+            SsoPerson ssoPerson = SsoPerson.findByUsername(username, type);
+            PersonResult.PersonData personData = new PersonResult.PersonData(ssoPerson);
+            PersonResult personResult = new PersonResult();
+            personResult.status = "succ";
+            personResult.data = personData;
+            return personResult;
+        }
         if (SECRET == null) auth();
         HttpResponse response = WS.url(HOST + "/user/login").setParameter("secret", SECRET)
                 .setParameter("username", username).setParameter("type", type).setParameter("password", password).post();
@@ -90,6 +97,14 @@ public class SSOUtils {
     }
     
     public static PersonResult info(String ssoId) {
+        if (!isOn()) {
+            SsoPerson ssoPerson = SsoPerson.findBySsoId(Long.parseLong(ssoId));
+            PersonResult.PersonData personData = new PersonResult.PersonData(ssoPerson);
+            PersonResult personResult = new PersonResult();
+            personResult.status = "succ";
+            personResult.data = personData;
+            return personResult;
+        }
         if (SECRET == null) auth();
         HttpResponse response = WS.url(HOST + "/user/info").setParameter("secret", SECRET)
                 .setParameter("personId", ssoId).post();
@@ -243,6 +258,5 @@ public class SSOUtils {
         }
         return null;
     }
-    
     
 }

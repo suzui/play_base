@@ -43,7 +43,7 @@ public class PersonResult extends Result {
         public Long organizeId;
         
         @DataField(name = "accesstoken")
-        public String accesstoken;
+        public String accesstoken = "";
         
         @DataField(name = "更新时间")
         public Long updateTime;

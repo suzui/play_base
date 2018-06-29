@@ -78,4 +78,17 @@ public class BasePerson extends BaseModel {
         return BasePerson.find(defaultSql("id=?"), id).first();
     }
     
+    public static <T extends BasePerson> T findByUsername(String username, Integer type) {
+        PersonType personType = PersonType.convert(type);
+        BasePerson basePerson = BasePerson.find(defaultSql("username=? and type=?"), username, personType).first();
+        if (basePerson == null) {
+            basePerson = BasePerson.find(defaultSql("email=? and type=?"), username, personType).first();
+        }
+        if (basePerson == null) {
+            basePerson = BasePerson.find(defaultSql("phone=? and type=?"), username, personType).first();
+        }
+        return (T) basePerson;
+    }
+    
+    
 }
