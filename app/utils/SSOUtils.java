@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import models.sso.SsoOrganize;
 import models.sso.SsoPerson;
 import models.sso.SsoRelation;
+import models.token.AccessToken;
 import play.Play;
 import play.libs.WS;
 import play.libs.WS.HttpResponse;
@@ -109,6 +110,11 @@ public class SSOUtils {
     }
     
     public static PersonResult verify(Long ssoId, String password) {
+        if (!isOn()) {
+            PersonResult personResult = new PersonResult();
+            personResult.status = "succ";
+            return personResult;
+        }
         if (SECRET == null) auth();
         HttpResponse response = WS.url(HOST + "/user/verify").setParameter("secret", SECRET)
                 .setParameter("personId", ssoId).setParameter("password", password).post();
@@ -119,6 +125,11 @@ public class SSOUtils {
     }
     
     public static PersonResult password(Long ssoId, String password) {
+        if (!isOn()) {
+            PersonResult personResult = new PersonResult();
+            personResult.status = "succ";
+            return personResult;
+        }
         if (SECRET == null) auth();
         HttpResponse response = WS.url(HOST + "/user/password").setParameter("secret", SECRET)
                 .setParameter("personId", ssoId).setParameter("password", password).post();
