@@ -1,7 +1,7 @@
 package vos.back;
 
 import annotations.DataField;
-import models.log.JobLog;
+import models.back.JobLog;
 import vos.OneData;
 
 public class JobLogVO extends OneData {
