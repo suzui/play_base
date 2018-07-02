@@ -38,7 +38,6 @@ public class SSOUtils {
             SECRET = result.data.secret;
             return result;
         }
-        
         return null;
     }
     
