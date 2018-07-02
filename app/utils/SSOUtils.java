@@ -31,6 +31,7 @@ public class SSOUtils {
     }
     
     public static AppResult auth() {
+        if (!isOn()) return null;
         HttpResponse response = WS.url(HOST + "/source/app/auth").setParameter("master", MASTER).post();
         if (response.success()) {
             AppResult result = new Gson().fromJson(response.getString(), AppResult.class);
@@ -42,6 +43,7 @@ public class SSOUtils {
     }
     
     public static OrganizesResult organizeIncrease(long ssoUpdate) {
+        if (!isOn()) return null;
         if (SECRET == null) auth();
         HttpResponse response = WS.url(HOST + "/data/organize/increase").setParameter("secret", SECRET).setParameter("updateTime", ssoUpdate).post();
         if (response.success()) {
@@ -53,6 +55,7 @@ public class SSOUtils {
     }
     
     public static PersonsResult personIncrease(long ssoUpdate) {
+        if (!isOn()) return null;
         if (SECRET == null) auth();
         HttpResponse response = WS.url(HOST + "/data/person/increase").setParameter("secret", SECRET)
                 .setParameter("updateTime", ssoUpdate).post();
@@ -64,6 +67,7 @@ public class SSOUtils {
     }
     
     public static RelationsResult relationIncrease(long ssoUpdate) {
+        if (!isOn()) return null;
         if (SECRET == null) auth();
         HttpResponse response = WS.url(HOST + "/data/relation/increase").setParameter("secret", SECRET)
                 .setParameter("updateTime", ssoUpdate).post();
@@ -93,12 +97,8 @@ public class SSOUtils {
     }
     
     public static PersonResult info(Long ssoId) {
-        return info(ssoId + "");
-    }
-    
-    public static PersonResult info(String ssoId) {
         if (!isOn()) {
-            SsoPerson ssoPerson = SsoPerson.findBySsoId(Long.parseLong(ssoId));
+            SsoPerson ssoPerson = SsoPerson.findBySsoId(ssoId);
             PersonResult.PersonData personData = new PersonResult.PersonData(ssoPerson);
             PersonResult personResult = new PersonResult();
             personResult.status = "succ";
@@ -114,7 +114,12 @@ public class SSOUtils {
         return null;
     }
     
+    public static PersonResult info(String ssoId) {
+        return info(Long.parseLong(ssoId));
+    }
+    
     public static PersonResult auth(String accesstoken) {
+        if (!isOn()) return null;
         if (SECRET == null) auth();
         HttpResponse response = WS.url(HOST + "/user/auth").setParameter("secret", SECRET)
                 .setParameter("accesstoken", accesstoken).post();
@@ -155,6 +160,7 @@ public class SSOUtils {
     }
     
     public static OrganizeResult organizeAdd(SsoOrganize organize) {
+        if (!isOn()) return null;
         if (SECRET == null) auth();
         OrganizeResult.OrganizeData organizeData = new OrganizeResult.OrganizeData(organize);
         Map<String, String> map = new Gson().fromJson(new Gson().toJson(organizeData), HashMap.class);
@@ -167,6 +173,7 @@ public class SSOUtils {
     }
     
     public static OrganizeResult organizeEdit(SsoOrganize organize) {
+        if (!isOn()) return null;
         if (SECRET == null) auth();
         OrganizeResult.OrganizeData organizeData = new OrganizeResult.OrganizeData(organize);
         Map<String, String> map = new Gson().fromJson(new Gson().toJson(organizeData), HashMap.class);
@@ -190,6 +197,7 @@ public class SSOUtils {
     }
     
     public static PersonResult personAdd(SsoPerson person) {
+        if (!isOn()) return null;
         if (SECRET == null) auth();
         PersonResult.PersonData personData = new PersonResult.PersonData(person);
         Map<String, String> map = new Gson().fromJson(new Gson().toJson(personData), HashMap.class);
@@ -202,6 +210,7 @@ public class SSOUtils {
     }
     
     public static PersonResult personEdit(SsoPerson person) {
+        if (!isOn()) return null;
         if (SECRET == null) auth();
         PersonResult.PersonData personData = new PersonResult.PersonData(person);
         Map<String, String> map = new Gson().fromJson(new Gson().toJson(personData), HashMap.class);
@@ -214,6 +223,7 @@ public class SSOUtils {
     }
     
     public static PersonResult personDelete(SsoPerson person) {
+        if (!isOn()) return null;
         if (SECRET == null) auth();
         PersonResult.PersonData personData = new PersonResult.PersonData(person);
         HttpResponse response = WS.url(HOST + "/data/person/delete").setParameter("secret", SECRET).setParameter("personId", personData.personId).post();
@@ -225,6 +235,7 @@ public class SSOUtils {
     }
     
     public static RelationResult relationAdd(SsoRelation relation) {
+        if (!isOn()) return null;
         if (SECRET == null) auth();
         RelationResult.RelationData relationData = new RelationResult.RelationData(relation);
         Map<String, String> map = new Gson().fromJson(new Gson().toJson(relationData), HashMap.class);
@@ -237,6 +248,7 @@ public class SSOUtils {
     }
     
     public static RelationResult relationEdit(SsoRelation relation) {
+        if (!isOn()) return null;
         if (SECRET == null) auth();
         RelationResult.RelationData relationData = new RelationResult.RelationData(relation);
         Map<String, String> map = new Gson().fromJson(new Gson().toJson(relationData), HashMap.class);
@@ -249,6 +261,7 @@ public class SSOUtils {
     }
     
     public static RelationResult relationDelete(SsoRelation relation) {
+        if (!isOn()) return null;
         if (SECRET == null) auth();
         RelationResult.RelationData relationData = new RelationResult.RelationData(relation);
         HttpResponse response = WS.url(HOST + "/data/relation/delete").setParameter("secret", SECRET).setParameter("relationId", relationData.relationId).post();
