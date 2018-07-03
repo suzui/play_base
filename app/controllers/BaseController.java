@@ -101,20 +101,6 @@ public class BaseController extends Controller {
         Logger.info("[headers end]:================");
     }
     
-    @Before(priority = 5)
-    static void versions() {
-        final Map<String, Header> headers = request.headers;
-        final String appVersion = headers.get("appversion") == null ? null : headers.get("appversion").value();
-        final String appType = headers.get("apptype") == null ? null : headers.get("apptype").value();
-        final String clientType = headers.get("clienttype") == null ? null : headers.get("clienttype").value();
-        if (appVersion != null && appType != null && clientType != null && !StringUtils.equals(clientType, ClientType.WEB.code() + "") && CacheUtils.get(VersionVO.key(appType, clientType)) != null) {
-            VersionVO versionVO = (VersionVO) CacheUtils.get(VersionVO.key(appType, clientType));
-            if (versionVO.version.compareTo(appVersion) > 0 && versionVO.isForcedUpdate > 0) {
-                renderJSON(Result.failed(StatusCode.SYSTEM_APP_UPDATE));
-            }
-        }
-    }
-    
     @Catch
     static void exception(Throwable throwable) {
         if (!request.params._contains(DOC)) {
@@ -192,6 +178,12 @@ public class BaseController extends Controller {
         final String deviceToken = headers.get("devicetoken") == null ? null : headers.get("devicetoken").value();
         if (StringUtils.isBlank(token.appVersion) || System.currentTimeMillis() - token.updateTime > 3 * 60 * 1000) {
             new UpdateLoginInfoJob(accesstoken, appVersion, appType, osVersion, clientType, deviceToken).now();
+        }
+        if (appVersion != null && appType != null && clientType != null && !StringUtils.equals(clientType, ClientType.WEB.code() + "") && CacheUtils.get(VersionVO.key(appType, clientType)) != null) {
+            VersionVO versionVO = (VersionVO) CacheUtils.get(VersionVO.key(appType, clientType));
+            if (versionVO.version.compareTo(appVersion) > 0 && versionVO.isForcedUpdate > 0) {
+                renderJSON(Result.failed(StatusCode.SYSTEM_APP_UPDATE));
+            }
         }
         Logger.info("[accesstoken end]:================");
     }
