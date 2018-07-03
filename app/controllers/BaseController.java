@@ -109,7 +109,7 @@ public class BaseController extends Controller {
         final String clientType = headers.get("clienttype") == null ? null : headers.get("clienttype").value();
         if (appVersion != null && appType != null && clientType != null && !StringUtils.equals(clientType, ClientType.WEB.code() + "") && CacheUtils.get(VersionVO.key(appType, clientType)) != null) {
             VersionVO versionVO = (VersionVO) CacheUtils.get(VersionVO.key(appType, clientType));
-            if (appVersion.compareTo(versionVO.version) > 0 && versionVO.isForcedUpdate > 0) {
+            if (versionVO.version.compareTo(appVersion) > 0 && versionVO.isForcedUpdate > 0) {
                 renderJSON(Result.failed(StatusCode.SYSTEM_APP_UPDATE));
             }
         }

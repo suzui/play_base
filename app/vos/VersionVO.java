@@ -55,4 +55,8 @@ public class VersionVO extends OneData implements Serializable{
     public static String key(String app, String client) {
         return "version_" + app + "_" + client;
     }
+    
+    public static void main(String[] args) {
+        System.err.println("2.1.0".compareTo("2.0.5"));
+    }
 }
