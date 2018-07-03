@@ -33,6 +33,7 @@ public class Result {
         public static final Object[] BACK_UPDATE_FORBIDDEN = {30001, "无更新权限"};
         public static final Object[] BACK_UPDATE_FAILED = {30002, "更新失败"};
         public static final Object[] BACK_RESTART_FAILED = {30003, "重启失败"};
+        public static final Object[] SYSTEM_APP_UPDATE = {40000, "检测到有版本更新"};
         public static final Object[] SYSTEM_TOKEN_UNVALID = {40001, "accesstoken失效"};
         public static final Object[] SYSTEM_POST_REPEAT = {40002, "post重复提交"};
         public static final Object[] SYSTEM_ACCESS_FOBIDDEN = {40003, "无相应权限"};

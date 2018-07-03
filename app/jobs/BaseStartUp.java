@@ -1,11 +1,16 @@
 package jobs;
 
+import enums.AppType;
+import enums.ClientType;
 import models.back.Admin;
 import models.back.Config;
+import org.hibernate.Cache;
 import org.hibernate.Session;
 import play.db.jpa.JPA;
 import play.jobs.OnApplicationStart;
+import utils.CacheUtils;
 import utils.ConfigUtils;
+import vos.VersionVO;
 
 import javax.persistence.EntityManager;
 

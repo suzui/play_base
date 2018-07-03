@@ -4,6 +4,7 @@ import jobs.UpdateLoginInfoJob;
 import models.back.Admin;
 import models.token.AccessToken;
 import models.token.BasePerson;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.db.jpa.JPA;
@@ -15,6 +16,7 @@ import utils.BaseUtils;
 import utils.CacheUtils;
 import vos.Result;
 import vos.Result.StatusCode;
+import vos.VersionVO;
 import vos.back.ApiVO;
 
 import javax.persistence.EntityTransaction;
@@ -97,6 +99,20 @@ public class BaseController extends Controller {
         });
         emptys.forEach(key -> request.headers.remove(key));
         Logger.info("[headers end]:================");
+    }
+    
+    @Before(priority = 5)
+    static void versions() {
+        final Map<String, Header> headers = request.headers;
+        final String appVersion = headers.get("appversion") == null ? null : headers.get("appversion").value();
+        final String appType = headers.get("apptype") == null ? null : headers.get("apptype").value();
+        final String clientType = headers.get("clienttype") == null ? null : headers.get("clienttype").value();
+        if (appVersion != null && appType != null && clientType != null && CacheUtils.get(VersionVO.key(appType, clientType)) != null) {
+            VersionVO versionVO = (VersionVO) CacheUtils.get(VersionVO.key(appType, clientType));
+            if (!StringUtils.equals(appVersion, versionVO.version) && BooleanUtils.toBoolean(versionVO.isForcedUpdate)) {
+                renderJSON(Result.succeed(versionVO, StatusCode.SYSTEM_APP_UPDATE));
+            }
+        }
     }
     
     @Catch

@@ -46,4 +46,12 @@ public class VersionVO extends OneData {
             Logger.error("versionerror:%s", e.getMessage());
         }
     }
+    
+    public static String key(AppType app, ClientType client) {
+        return key(app.code() + "", client.code() + "");
+    }
+    
+    public static String key(String app, String client) {
+        return "version_" + app + "_" + client;
+    }
 }
