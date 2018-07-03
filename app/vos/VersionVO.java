@@ -8,8 +8,9 @@ import play.Logger;
 import play.Play;
 
 import java.io.IOException;
+import java.io.Serializable;
 
-public class VersionVO extends OneData {
+public class VersionVO extends OneData implements Serializable{
     
     @DataField(name = "版本号")
     public String version = "";
