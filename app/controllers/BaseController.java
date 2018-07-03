@@ -1,5 +1,6 @@
 package controllers;
 
+import enums.ClientType;
 import jobs.UpdateLoginInfoJob;
 import models.back.Admin;
 import models.token.AccessToken;
@@ -107,10 +108,10 @@ public class BaseController extends Controller {
         final String appVersion = headers.get("appversion") == null ? null : headers.get("appversion").value();
         final String appType = headers.get("apptype") == null ? null : headers.get("apptype").value();
         final String clientType = headers.get("clienttype") == null ? null : headers.get("clienttype").value();
-        if (appVersion != null && appType != null && clientType != null && CacheUtils.get(VersionVO.key(appType, clientType)) != null) {
+        if (appVersion != null && appType != null && clientType != null && !StringUtils.equals(clientType, ClientType.WEB.code() + "") && CacheUtils.get(VersionVO.key(appType, clientType)) != null) {
             VersionVO versionVO = (VersionVO) CacheUtils.get(VersionVO.key(appType, clientType));
             if (!StringUtils.equals(appVersion, versionVO.version) && BooleanUtils.toBoolean(versionVO.isForcedUpdate)) {
-                renderJSON(Result.succeed(versionVO, StatusCode.SYSTEM_APP_UPDATE));
+                renderJSON(Result.failed(StatusCode.SYSTEM_APP_UPDATE));
             }
         }
     }

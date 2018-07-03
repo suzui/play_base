@@ -13,8 +13,10 @@ public class VersionJob extends BaseJob {
     public void doJob() throws Exception {
         for (AppType app : AppType.values()) {
             for (ClientType client : ClientType.values()) {
-                VersionVO versionVO = new VersionVO(app, client);
-                CacheUtils.add(VersionVO.key(app, client), versionVO);
+                if (client != ClientType.WEB) {
+                    VersionVO versionVO = new VersionVO(app, client);
+                    CacheUtils.add(VersionVO.key(app, client), versionVO);
+                }
             }
         }
     }
