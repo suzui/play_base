@@ -86,6 +86,9 @@ public class AccessToken extends BaseModel {
         if (at != null) {
             return at;
         }
+        if (!AccessToken.find("accesstoken = ?", accesstoken.substring(36)).fetch().isEmpty()) {
+            return null;
+        }
         PersonResult personResult = SSOUtils.auth(accesstoken);
         if (personResult == null || !personResult.succ()) {
             return null;
