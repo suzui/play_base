@@ -23,7 +23,7 @@ public class Job extends MongoModel {
     public String context;
     public Long startTime;
     public Long endTime;
-    public String status;
+    public String status = "";
     public String exception;
     public String env;
     
@@ -74,7 +74,7 @@ public class Job extends MongoModel {
         List<String> sqls = new ArrayList<>();
         List<Object> params = new ArrayList<>();
         sqls.add("status");
-        params.add(Pattern.compile("^.*$", Pattern.CASE_INSENSITIVE));
+        params.add(new BasicDBObject("$ne", null));
         if (StringUtils.isNotBlank(jobVO.name)) {
             sqls.add("name");
             params.add(Pattern.compile("^.*" + jobVO.name + ".*$"));
@@ -86,6 +86,10 @@ public class Job extends MongoModel {
         if (jobVO.endTime != null) {
             sqls.add("endTime");
             params.add(new BasicDBObject("$lte", jobVO.endTime));
+        }
+        if (StringUtils.isNotBlank(jobVO.env)) {
+            sqls.add("env");
+            params.add(Pattern.compile("^.*" + jobVO.env + ".*$"));
         }
         if (jobVO.error != null && jobVO.error == 1) {
             sqls.add("exception");

@@ -112,6 +112,10 @@ public class Api extends MongoModel {
             sqls.add("endTime");
             params.add(new BasicDBObject("$lte", apiVO.endTime));
         }
+        if (StringUtils.isNotBlank(apiVO.env)) {
+            sqls.add("env");
+            params.add(Pattern.compile("^.*" + apiVO.env + ".*$"));
+        }
         if (apiVO.error != null && apiVO.error == 1) {
             sqls.add("exception");
             params.add(new BasicDBObject("$ne", null));

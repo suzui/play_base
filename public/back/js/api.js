@@ -23,42 +23,6 @@ form.on('submit(api_search)', function (data) {
     table.reload('api_table', {where: param, page: {curr: 1}});
 });
 
-form.on('submit(api_form)', function () {
-    var d = {apiId: '', name: '', codes: ''};
-    var api_form_html = laytpl($('#api_form').html()).render(d);
-    layer_index = layer.open({
-        type: 1,
-        area: area_6_4,
-        content: api_form_html
-    });
-    form.render('checkbox');
-});
-form.on('submit(api_add)', function (data) {
-    var param = data.field;
-    var codes = [], access = [];
-    $.each($("input:checkbox[name='code']:checked"), function (index, item) {
-        codes.push($(item).val());
-        access.push($(item).attr('title'));
-    });
-    param['codes'] = codes.join(',');
-    param['access'] = access.join(',');
-    $.post('/back/api/add', param, function (result, status) {
-        api_table();
-    });
-});
-
-form.on('submit(api_list_del)', function () {
-    var checkStatus = table.checkStatus('api_table');
-    var apiIds = checkStatus.data.map(function (item) {
-        return item.apiId;
-    });
-    layer.confirm('确定删除批量权限', function (index) {
-        $.post('/back/api/dels', {apiIds: JSON.stringify(apiIds)}, function (result, status) {
-            api_table();
-        });
-    });
-});
-
 table.on('tool(api_table)', function (obj) {
     var e = obj.event;
     var d = obj.data;

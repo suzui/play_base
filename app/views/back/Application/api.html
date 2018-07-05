@@ -15,6 +15,7 @@
         {field: 'startTime', title: '开始时间', align: 'center', templet: '#api_startTime'},
         {field: 'time', title: '用时', align: 'center', templet: '#api_time', width: 100},
         {field: 'error', title: 'error', align: 'center', templet: '#api_error', width: 100},
+        {field: 'env', title: 'env', align: 'center'},
         {title: '操作', align: 'center', toolbar: '#api_toolbar'}
     ]
 </script>
@@ -35,8 +36,8 @@
 <script id="api_tab" type="text/html">
     <div>
         <div class="layui-row">
-            <div class="layui-col-md12 layui-col-md-offset0">
-                <div class="layui-form">
+            <div class="layui-form">
+                <div class="layui-col-md10 layui-col-md-offset2">
                     <div class="layui-form-item">
                         <div class="layui-input-inline">
                             <input type="text" name="url" placeholder="url" autocomplete="on" class="layui-input">
@@ -55,13 +56,20 @@
                         <div class="layui-input-inline">
                             <input type="text" name="endTime" class="layui-input" id="apiEndTime">
                         </div>
-                        <div class="layui-input-inline">
-                            <label class="layui-form-label">只显示error</label>
-                            <input type="checkbox" name="error" lay-skin="switch" lay-text="on|off" value="1" lay-filter="api_error">
-                        </div>
-                        <div class="layui-btn-group">
-                            <button class="layui-btn" lay-submit lay-filter="api_search">查询</button>
-                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md8 layui-col-md-offset4">
+                    <div class="layui-input-inline">
+                        <input type="text" name="env" placeholder="env" autocomplete="on"
+                               class="layui-input">
+                    </div>
+                    <div class="layui-input-inline">
+                        <label class="layui-form-label">只显示error</label>
+                        <input type="checkbox" name="error" lay-skin="switch" lay-text="on|off" value="1"
+                               lay-filter="api_error">
+                    </div>
+                    <div class="layui-btn-group">
+                        <button class="layui-btn" lay-submit lay-filter="api_search">查询</button>
                     </div>
                 </div>
             </div>

@@ -19,13 +19,6 @@ public class JobController extends BackController {
         renderJSON(Result.succeed(new PageData(jobVOs)));
     }
     
-    public static void info(JobVO vo) {
-        Job job = Job.findByID(vo.jobId);
-        JobVO jobVO = new JobVO(job);
-        jobVO.complete(job);
-        renderJSON(Result.succeed(jobVO));
-    }
-    
     public static void page(JobVO vo) {
         List<Job> jobs = Job.fetch(vo);
         List<JobVO> jobVOs = jobs.stream().map(a -> new JobVO(a)).collect(Collectors.toList());

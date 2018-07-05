@@ -45,6 +45,9 @@ public class ApiVO extends OneData implements Serializable {
     @DataField(name = "是否异常")
     public Integer error;
     
+    @DataField(name = "运行环境")
+    public String env;
+    
     public ApiVO() {
     }
     
@@ -63,6 +66,7 @@ public class ApiVO extends OneData implements Serializable {
         this.personToken = api.personToken;
         this.personInfo = api.personInfo;
         this.error = BooleanUtils.toIntegerObject(api.exception != null);
+        this.env = api.env;
         
     }
     

@@ -2,6 +2,7 @@ package vos.back;
 
 import annotations.DataField;
 import models.back.Job;
+import org.apache.commons.lang.BooleanUtils;
 import vos.OneData;
 
 import java.io.Serializable;
@@ -25,6 +26,8 @@ public class JobVO extends OneData implements Serializable {
     
     @DataField(name = "是否异常")
     public Integer error;
+    @DataField(name = "运行环境")
+    public String env;
     
     
     public JobVO() {
@@ -39,11 +42,8 @@ public class JobVO extends OneData implements Serializable {
         this.context = job.context;
         this.startTime = job.startTime;
         this.endTime = job.endTime;
-    }
-    
-    
-    public JobVO complete(Job job) {
         this.exception = job.exception;
-        return this;
+        this.env = job.env;
     }
+    
 }

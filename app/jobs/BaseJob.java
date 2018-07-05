@@ -31,13 +31,18 @@ public class BaseJob extends Job {
         for (StackTraceElement stackTraceElement : e.getStackTrace()) {
             vo.exception += stackTraceElement.toString() + "\n";
         }
+        System.err.println(vo.exception);
     }
     
     @Override
     public void after() {
         super.after();
+    }
+    
+    @Override
+    public void _finally() {
+        super._finally();
         vo.endTime = System.currentTimeMillis();
         JobQueue.getInstance().add(vo);
     }
-    
 }
