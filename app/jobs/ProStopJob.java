@@ -3,10 +3,11 @@ package jobs;
 import enums.ProStatus;
 import models.back.Pro;
 import play.Play;
+import play.jobs.Job;
 import play.jobs.OnApplicationStop;
 
 @OnApplicationStop
-public class ProStopJob extends BaseJob {
+public class ProStopJob extends Job {
     
     @Override
     public void doJob() throws Exception {

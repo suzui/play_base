@@ -2,8 +2,6 @@ package vos.back;
 
 import annotations.DataField;
 import enums.Access;
-import models.back.Auth;
-import org.apache.commons.lang.BooleanUtils;
 import vos.OneData;
 
 import java.util.Arrays;
@@ -24,6 +22,7 @@ public class AccessVO extends OneData {
     }
     
     public AccessVO(Access access) {
+        super(0l);
         this.name = access.name().toLowerCase();
         this.code = access.code();
         this.intro = access.intro();

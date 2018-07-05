@@ -1,21 +1,17 @@
 package jobs;
 
-import enums.AppType;
-import enums.ClientType;
 import models.back.Admin;
 import models.back.Config;
-import org.hibernate.Cache;
 import org.hibernate.Session;
 import play.db.jpa.JPA;
+import play.jobs.Job;
 import play.jobs.OnApplicationStart;
-import utils.CacheUtils;
 import utils.ConfigUtils;
-import vos.VersionVO;
 
 import javax.persistence.EntityManager;
 
 @OnApplicationStart
-public class BaseStartUp extends BaseJob {
+public class BaseStartUp extends Job {
     
     @Override
     public void doJob() throws Exception {
@@ -44,7 +40,7 @@ public class BaseStartUp extends BaseJob {
     }
     
     private static void updateColumn() {
-        EntityManager em = JPA.em();
+        final EntityManager em = JPA.em();
         Session s = (Session) em.getDelegate();
         if (!s.getTransaction().isActive())
             s.getTransaction().begin();

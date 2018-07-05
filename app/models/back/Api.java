@@ -4,13 +4,13 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.apache.commons.lang.StringUtils;
 import org.bson.types.ObjectId;
+import play.Play;
 import play.modules.mongo.MongoDB;
 import play.modules.mongo.MongoEntity;
 import play.modules.mongo.MongoMapper;
 import play.modules.mongo.MongoModel;
 import vos.back.ApiVO;
 
-import javax.persistence.Column;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -18,9 +18,7 @@ import java.util.regex.Pattern;
 @MongoEntity
 public class Api extends MongoModel {
     
-    @Column(length = 1000)
     public String url;
-    @Column(length = 1000)
     public String action;
     public String method;
     public String body;
@@ -37,13 +35,11 @@ public class Api extends MongoModel {
     public String personToken;//请求用户token
     public String personInfo;//请求用户信息用户名、名字、手机
     
-    public static Api init() {
-        Api api = new Api();
-        return api.save();
-    }
+    public String env;
     
     public static Api add(ApiVO apiVO) {
         Api api = new Api();
+        api.env = Play.applicationPath.getAbsolutePath();
         api.edit(apiVO);
         return api;
     }

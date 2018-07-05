@@ -2,12 +2,13 @@ package jobs;
 
 import enums.AppType;
 import enums.ClientType;
+import play.jobs.Job;
 import play.jobs.OnApplicationStart;
 import utils.CacheUtils;
 import vos.VersionVO;
 
 @OnApplicationStart(async = true)
-public class VersionJob extends BaseJob {
+public class VersionJob extends Job {
     
     @Override
     public void doJob() throws Exception {

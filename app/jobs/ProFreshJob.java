@@ -3,11 +3,12 @@ package jobs;
 import enums.ProStatus;
 import models.back.Pro;
 import play.jobs.Every;
+import play.jobs.Job;
 
 import java.util.List;
 
 @Every("30s")
-public class ProFreshJob extends BaseJob {
+public class ProFreshJob extends Job {
     
     
     @Override
