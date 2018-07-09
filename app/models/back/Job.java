@@ -87,10 +87,6 @@ public class Job extends MongoModel {
             sqls.add("endTime");
             params.add(new BasicDBObject("$lte", jobVO.endTime));
         }
-        if (StringUtils.isNotBlank(jobVO.env)) {
-            sqls.add("env");
-            params.add(Pattern.compile("^.*" + jobVO.env + ".*$"));
-        }
         if (jobVO.error != null && jobVO.error == 1) {
             sqls.add("exception");
             params.add(new BasicDBObject("$ne", null));
