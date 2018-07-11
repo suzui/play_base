@@ -1,6 +1,7 @@
 package controllers.back;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.Gson;
 import models.back.Api;
 import play.libs.WS;
 import utils.BaseUtils;
@@ -30,7 +31,8 @@ public class ApiController extends BackController {
     
     public static void mock(ApiVO vo) {
         Api api = Api.findByID(vo.apiId);
-        WS.url(BaseUtils.BASE_URL + api.url).post();
+        Map<String, String> params = new Gson().fromJson(api.param, Map.class);
+        WS.url(BaseUtils.BASE_URL + api.url).setHeader("accesstoken", api.personToken).setParameters(params).post();
         renderJSON(Result.succeed());
     }
     

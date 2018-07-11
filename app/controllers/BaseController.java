@@ -1,5 +1,7 @@
 package controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import enums.ClientType;
 import jobs.UpdateLoginInfoJob;
 import models.back.Admin;
@@ -24,13 +26,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @With(DocController.class)
 public class BaseController extends Controller {
     
     private static final String VO = "vo";
     private static final String DOC = "doc";
+    private static Gson gson = new GsonBuilder().disableHtmlEscaping().create();
     
     @Before(priority = 0)
     static void api() {
@@ -41,18 +43,15 @@ public class BaseController extends Controller {
         apiVO.action = request.action;
         apiVO.method = request.method;
         apiVO.body = String.format("", request.body);
-        apiVO.header = request.headers.entrySet().stream()
-                .map(e -> e.getKey() + ":" + e.getValue()).collect(Collectors.toList()) + "";
-        apiVO.param = request.params.allSimple().entrySet().stream()
-                .map(e -> e.getKey() + ":" + e.getValue()).collect(Collectors.toList()) + "";
+        apiVO.header = gson.toJson(request.headers);
+        apiVO.param = gson.toJson(request.params.allSimple());
         CacheUtils.add(request.hashCode() + "", apiVO);
     }
     
     @Before(priority = 1)
     static void requestInfo() {
         Logger.info("[requestInfo start]:================");
-        Logger.info("[requestInfo header]:%s", request.headers.entrySet().stream()
-                .map(e -> e.getKey() + ":" + e.getValue()).collect(Collectors.toList()));
+        Logger.info("[requestInfo header]:%s", gson.toJson(request.headers));
         Logger.info("[requestInfo action]:%s,%s,%s,%s", request.isAjax(), request.method, request.url, request.action);
         Logger.info("[requestInfo end]:================");
     }
@@ -78,8 +77,7 @@ public class BaseController extends Controller {
     static void params() {
         Logger.info("[params start]:================");
         request.params.put(VO, "");
-        Logger.info("[params]:%s", request.params.allSimple().entrySet().stream()
-                .map(e -> e.getKey() + ":" + e.getValue()).collect(Collectors.toList()));
+        Logger.info("[params]:%s", gson.toJson(request.params.allSimple()));
         Logger.info("[params end]:================");
     }
     
