@@ -40,5 +40,8 @@ table.on('tool(api_table)', function (obj) {
         layui.code({
             title: '', skin: 'notepad'
         });
+    } else if (e === 'mock') {
+        $.post('/back/api/mock', {apiId: d.apiId}, function (result, status) {
+        });
     }
 });

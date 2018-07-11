@@ -2,6 +2,8 @@ package controllers.back;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import models.back.Api;
+import play.libs.WS;
+import utils.BaseUtils;
 import vos.PageData;
 import vos.Result;
 import vos.back.ApiVO;
@@ -24,6 +26,12 @@ public class ApiController extends BackController {
         ApiVO apiVO = new ApiVO(api);
         apiVO.complete(api);
         renderJSON(Result.succeed(apiVO));
+    }
+    
+    public static void mock(ApiVO vo) {
+        Api api = Api.findByID(vo.apiId);
+        WS.url(BaseUtils.BASE_URL + api.url).post();
+        renderJSON(Result.succeed());
     }
     
     public static void page(ApiVO vo) {
