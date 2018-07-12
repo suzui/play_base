@@ -3,6 +3,7 @@ package controllers.back;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 import models.back.Api;
+import org.apache.commons.lang.StringUtils;
 import play.libs.WS;
 import utils.BaseUtils;
 import vos.PageData;
@@ -26,13 +27,15 @@ public class ApiController extends BackController {
         Api api = Api.findByID(vo.apiId);
         ApiVO apiVO = new ApiVO(api);
         apiVO.complete(api);
+        apiVO.apiId = vo.apiId;
         renderJSON(Result.succeed(apiVO));
     }
     
     public static void mock(ApiVO vo) {
         Api api = Api.findByID(vo.apiId);
-        Map<String, String> params = new Gson().fromJson(api.param, Map.class);
-        WS.url(BaseUtils.BASE_URL + api.url).setHeader("accesstoken", api.personToken).setParameters(params).post();
+        Map<String, String> param = new Gson().fromJson(StringUtils.isBlank(vo.param) ? api.param : vo.param, Map.class);
+        if (param != null) param.remove("body");
+        WS.url(BaseUtils.BASE_URL + api.url.split("\\?")[0]).setHeader("mock", "").setHeader("accesstoken", api.personToken).setParameters(param).post();
         renderJSON(Result.succeed());
     }
     

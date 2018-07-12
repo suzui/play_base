@@ -35,6 +35,7 @@ public class Api extends MongoModel {
     public String personToken;//请求用户token
     public String personInfo;//请求用户信息用户名、名字、手机
     
+    public String mock;
     public String env;
     
     public static Api add(ApiVO apiVO) {
@@ -59,6 +60,7 @@ public class Api extends MongoModel {
         this.personId = apiVO.personId != null ? apiVO.personId : personId;
         this.personToken = apiVO.personToken != null ? apiVO.personToken : personToken;
         this.personInfo = apiVO.personInfo != null ? apiVO.personInfo : personInfo;
+        this.mock = apiVO.header.contains("mock") ? "mock" : null;
         this.save();
     }
     
@@ -118,6 +120,10 @@ public class Api extends MongoModel {
         }
         if (apiVO.error != null && apiVO.error == 1) {
             sqls.add("exception");
+            params.add(new BasicDBObject("$ne", null));
+        }
+        if (apiVO.mock != null && apiVO.mock == 1) {
+            sqls.add("mock");
             params.add(new BasicDBObject("$ne", null));
         }
         return new Object[]{sqls, params};

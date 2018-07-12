@@ -20,6 +20,7 @@ form.on('submit(api_search)', function (data) {
     param.startTime = new Date(param.startTime).getTime();
     param.endTime = new Date(param.endTime).getTime();
     param.error = param.error == 1 ? 1 : 0;
+    param.mock = param.mock == 1 ? 1 : 0;
     table.reload('api_table', {where: param, page: {curr: 1}});
 });
 
@@ -40,6 +41,13 @@ table.on('tool(api_table)', function (obj) {
         layui.code({
             title: '', skin: 'notepad'
         });
+
+        form.on('submit(api_mock)', function (data) {
+            $.post('/back/api/mock', {apiId: data.field.apiId, param: data.field.param}, function (result, status) {
+            });
+            return false;
+        });
+
     } else if (e === 'mock') {
         $.post('/back/api/mock', {apiId: d.apiId}, function (result, status) {
         });

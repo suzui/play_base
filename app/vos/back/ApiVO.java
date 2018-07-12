@@ -3,6 +3,7 @@ package vos.back;
 import annotations.DataField;
 import models.back.Api;
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import utils.JSONUtils;
 import vos.OneData;
 
@@ -44,6 +45,8 @@ public class ApiVO extends OneData implements Serializable {
     
     @DataField(name = "是否异常")
     public Integer error;
+    @DataField(name = "是否模拟")
+    public Integer mock;
     
     @DataField(name = "运行环境")
     public String env;
@@ -66,6 +69,7 @@ public class ApiVO extends OneData implements Serializable {
         this.personToken = api.personToken;
         this.personInfo = api.personInfo;
         this.error = BooleanUtils.toIntegerObject(api.exception != null);
+        this.mock = BooleanUtils.toIntegerObject(StringUtils.isNotBlank(api.mock));
         this.env = api.env;
         
     }

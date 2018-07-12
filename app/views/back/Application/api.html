@@ -69,6 +69,11 @@
                         <input type="checkbox" name="error" lay-skin="switch" lay-text="on|off" value="1"
                                lay-filter="api_error">
                     </div>
+                    <div class="layui-input-inline">
+                        <label class="layui-form-label">只显示mock</label>
+                        <input type="checkbox" name="mock" lay-skin="switch" lay-text="on|off" value="1"
+                               lay-filter="api_mock">
+                    </div>
                     <div class="layui-btn-group">
                         <button class="layui-btn" lay-submit lay-filter="api_search">查询</button>
                     </div>
@@ -82,7 +87,7 @@
 </script>
 <script id="api_form" type="text/html">
     <div class="layui-fluid" style="margin: 10px">
-        <div class="layui-form layui-form-pane">
+        <form class="layui-form layui-form-pane">
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">url</label>
@@ -115,13 +120,13 @@
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">header</label>
                 <div class="layui-input-block">
-                    <textarea placeholder="" class="layui-textarea">{{d.header}}</textarea>
+                    <textarea placeholder="" class="layui-textarea" name="header">{{d.header}}</textarea>
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">param</label>
                 <div class="layui-input-block">
-                    <textarea placeholder="" class="layui-textarea">{{d.param}}</textarea>
+                    <textarea placeholder="" class="layui-textarea" name="param">{{d.param}}</textarea>
                 </div>
             </div>
             <div class="layui-collapse">
@@ -142,19 +147,20 @@
                     <div class="layui-colla-content layui-show">{{d.personId+","+d.personToken+","+d.personInfo}}</div>
                 </div>
             </div>
-        *{<div class="layui-form-item" style="margin-top: 10px">}*
-        *{<div class="layui-inline">}*
-        *{<div class="layui-input-inline"></div>}*
-        *{</div>}*
-        *{<div class="layui-inline">}*
-        *{<div class="layui-input-inline">}*
-        *{<button class="layui-btn" lay-submit lay-filter="api_close">}*
-        *{关闭}*
-        *{</button>}*
-        *{<button type="reset" class="layui-btn layui-btn-primary">重置</button>}*
-        *{</div>}*
-        *{</div>}*
-        *{</div>}*
-        </div>
+            <div class="layui-form-item" style="margin-top: 10px">
+                <div class="layui-inline">
+                    <div class="layui-input-inline"></div>
+                </div>
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="hidden" name="apiId" value="{{d.apiId}}">
+                        <button class="layui-btn" lay-submit lay-filter="api_mock">
+                            模拟
+                        </button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </script>
