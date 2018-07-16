@@ -11,6 +11,7 @@ import play.mvc.Http;
 import play.mvc.Scope;
 import play.utils.Java;
 
+import java.util.Collection;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.ScheduledFuture;
@@ -184,6 +185,13 @@ public class BaseUtils {
             }
         }
     }
-    
-    
+
+
+    public static Boolean collectionEmpty(Collection collection) {
+        return collection == null || collection.isEmpty();
+    }
+
+    public static Boolean collectionNotEmpty(Collection collection) {
+        return collection != null && !collection.isEmpty();
+    }
 }

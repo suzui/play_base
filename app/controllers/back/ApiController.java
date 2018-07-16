@@ -2,6 +2,7 @@ package controllers.back;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import models.back.Api;
 import org.apache.commons.lang.StringUtils;
 import play.libs.WS;
@@ -10,6 +11,7 @@ import vos.PageData;
 import vos.Result;
 import vos.back.ApiVO;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +37,12 @@ public class ApiController extends BackController {
         Api api = Api.findByID(vo.apiId);
         Map<String, String> param = new Gson().fromJson(StringUtils.isBlank(vo.param) ? api.param : vo.param, Map.class);
         if (param != null) param.remove("body");
-        WS.url(BaseUtils.BASE_URL + api.url.split("\\?")[0]).setHeader("mock", "").setHeader("accesstoken", api.personToken).setParameters(param).post();
+        Map<String, LinkedTreeMap> header = new Gson().fromJson(StringUtils.isBlank(vo.header) ? api.header : vo.header, Map.class);
+        WS.WSRequest request = WS.url(BaseUtils.BASE_URL + api.url.split("\\?")[0]);
+        request.setHeader("mock", "").setParameters(param);
+        for (LinkedTreeMap map : header.values()) {
+            request.setHeader((String) map.get("name"), ((ArrayList<String>) map.get("values")).get(0));
+        }
         renderJSON(Result.succeed());
     }
     
