@@ -39,10 +39,11 @@ public class ApiController extends BackController {
         if (param != null) param.remove("body");
         Map<String, LinkedTreeMap> header = new Gson().fromJson(StringUtils.isBlank(vo.header) ? api.header : vo.header, Map.class);
         WS.WSRequest request = WS.url(BaseUtils.BASE_URL + api.url.split("\\?")[0]);
-        request.setHeader("mock", "").setParameters(param);
+        request.setHeader("mock", "");
         for (LinkedTreeMap map : header.values()) {
             request.setHeader((String) map.get("name"), ((ArrayList<String>) map.get("values")).get(0));
         }
+        request.setParameters(param).post();
         renderJSON(Result.succeed());
     }
     
