@@ -24,7 +24,9 @@ public class Pro extends BaseModel {
     public String branch;
     public String shell;
     public String url;
-    
+    public String user;
+    public String password;
+
     @Enumerated(EnumType.STRING)
     public ProStatus status;
     
@@ -42,6 +44,8 @@ public class Pro extends BaseModel {
         this.branch = proVO.branch != null ? proVO.branch : branch;
         this.shell = proVO.shell != null ? proVO.shell : shell;
         this.url = proVO.url != null ? proVO.url : url;
+        this.user = proVO.user != null ? proVO.user : user;
+        this.password = proVO.password != null ? proVO.password : password;
         this.save();
     }
     
@@ -49,25 +53,33 @@ public class Pro extends BaseModel {
         this.status = status;
         this.save();
     }
-    
+
+    public String user() {
+        return StringUtils.isBlank(this.user) ? ConfigUtils.user : this.user;
+    }
+
+    public String password() {
+        return StringUtils.isBlank(this.password) ? ConfigUtils.password : this.password;
+    }
+
     public ShellUtils.Result gitbranch() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/gitbranch.sh", ConfigUtils.user, ConfigUtils.password, this.location);
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/gitbranch.sh", this.user(), this.password(), this.location);
     }
     
     public ShellUtils.Result gitlog() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/gitlog.sh", ConfigUtils.user, ConfigUtils.password, this.location);
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/gitlog.sh", this.user(), this.password(), this.location);
     }
     
     public ShellUtils.Result update() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/update.sh", ConfigUtils.user, ConfigUtils.password, this.location, this.branch);
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/update.sh", this.user(), this.password(), this.location, this.branch);
     }
     
     public ShellUtils.Result restart() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/restart.sh", ConfigUtils.user, ConfigUtils.password, this.location);
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/restart.sh", this.user(), this.password(), this.location);
     }
     
     public ShellUtils.Result check() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/check.sh", ConfigUtils.user, ConfigUtils.password, this.location);
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/check.sh", this.user(), this.password(), this.location);
     }
     
     public void del() {

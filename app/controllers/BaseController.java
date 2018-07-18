@@ -25,7 +25,6 @@ import javax.persistence.EntityTransaction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @With(DocController.class)
 public class BaseController extends Controller {
@@ -168,12 +167,11 @@ public class BaseController extends Controller {
         apiVO.personInfo = StringUtils.join(Arrays.asList(token.person.username, token.person.name, token.person.phone).stream().filter(s -> StringUtils.isNotBlank(s)).toArray(), ",");
         CacheUtils.replace(request.hashCode() + "", apiVO);
         Logger.info("[accesstoken]:%s,%s,%s", token.person.id, token.person.name, token.person.username);
-        final Map<String, Header> headers = request.headers;
-        final String appVersion = headers.get("appversion") == null ? null : headers.get("appversion").value();
-        final String appType = headers.get("apptype") == null ? null : headers.get("apptype").value();
-        final String osVersion = headers.get("osversion") == null ? null : headers.get("osversion").value();
-        final String clientType = headers.get("clienttype") == null ? null : headers.get("clienttype").value();
-        final String deviceToken = headers.get("devicetoken") == null ? null : headers.get("devicetoken").value();
+        final String appVersion = BaseUtils.getHeader("appversion");
+        final String appType = BaseUtils.getHeader("apptype");
+        final String osVersion = BaseUtils.getHeader("osversion");
+        final String clientType = BaseUtils.getHeader("clienttype");
+        final String deviceToken = BaseUtils.getHeader("devicetoken");
         if (StringUtils.isBlank(token.appVersion) || System.currentTimeMillis() - token.updateTime > 3 * 60 * 1000) {
             new UpdateLoginInfoJob(accesstoken, appVersion, appType, osVersion, clientType, deviceToken).now();
         }

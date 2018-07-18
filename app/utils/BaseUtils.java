@@ -10,6 +10,7 @@ import play.jobs.JobsPlugin;
 import play.mvc.Http;
 import play.mvc.Scope;
 import play.utils.Java;
+import vos.VersionVO;
 
 import java.util.Collection;
 import java.util.concurrent.BlockingQueue;
@@ -22,7 +23,6 @@ public class BaseUtils {
     private static final String KEEP_ADMIN_ID = "keepAdminId";
     public static final String BASE_URL = Play.configuration.getProperty("application.baseUrl");
     
-    
     public static boolean isProd() {
         return "p".equals(Play.id);
     }
@@ -30,40 +30,32 @@ public class BaseUtils {
     public static void setSession(String key, String value) {
         Scope.Session.current().put(key, value);
     }
-    
-    
+
     public static void removeSession(String key) {
         Scope.Session.current().remove(key);
     }
     
-    
     public static String getSession(String key) {
         Scope.Session session = Scope.Session.current();
-        
         return session != null && session.contains(key) ? session.get(key) : null;
     }
-    
     
     public static void setCookie(String key, String value) {
         Http.Response.current().setCookie(key, value, "365d");
     }
-    
-    
+
     public static void removeCookie(String key) {
         Http.Response.current().removeCookie(key);
     }
-    
-    
+
     public static String getCookie(String key) {
         Http.Cookie cookie = Http.Request.current().cookies.get(key);
         return null != cookie ? cookie.value : null;
     }
     
-    
     public static void setHeader(String key, String value) {
         Http.Request.current().headers.put(key, new Http.Header(key, value));
     }
-    
     
     public static void removeHeader(String key) {
         Http.Request.current().headers.remove(key);
@@ -171,6 +163,32 @@ public class BaseUtils {
         return Long.parseLong(organize);
     }
     
+    public static String getAppversion() {
+        return getHeader("appversion");
+    }
+
+    public static String getApptype() {
+        return getHeader("apptype");
+    }
+
+    public static String getOsversion() {
+        return getHeader("osversion");
+    }
+
+    public static String getClienttype() {
+        return getHeader("clienttype");
+    }
+
+    public static String getDevicetoken() {
+        return getHeader("devicetoken");
+    }
+
+    public static Boolean isOldVersion() {
+        VersionVO versionVO = (VersionVO) CacheUtils.get(VersionVO.key(getApptype(), getClienttype()));
+        String appversion = getAppversion();
+        return appversion != null && versionVO != null && versionVO.version.compareTo(appversion) > 0;
+    }
+
     public static void cancelJob(Class clazz) {
         BlockingQueue<Runnable> queue = JobsPlugin.executor.getQueue();
         for (final Object o : queue) {

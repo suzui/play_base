@@ -25,14 +25,18 @@ public class ProVO extends OneData implements Serializable {
     public String url;
     @DataField(name = "状态")
     public Integer status;
-    
+    @DataField(name = "用户")
+    public String user;
+    @DataField(name = "密码")
+    public String password;
+
     @DataField(name = "branchs")
     public String branchs;
     @DataField(name = "gitlog")
     public String gitlog;
     
     public ProVO() {
-    
+
     }
     
     public ProVO(Pro pro) {
@@ -44,14 +48,14 @@ public class ProVO extends OneData implements Serializable {
         this.branch = pro.branch;
         this.shell = pro.shell;
         this.url = pro.url;
+        this.user = pro.user;
+        this.password = pro.password;
         if (pro.status == null) {
             this.status = ProStatus.STOP.code();
         } else {
             this.status = pro.status.code();
         }
     }
-    
-    
     
     
 }

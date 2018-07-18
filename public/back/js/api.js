@@ -43,7 +43,11 @@ table.on('tool(api_table)', function (obj) {
         });
 
         form.on('submit(api_mock)', function (data) {
-            $.post('/back/api/mock', {apiId: data.field.apiId, param: data.field.param}, function (result, status) {
+            $.post('/back/api/mock', {
+                apiId: data.field.apiId,
+                header: data.field.header,
+                param: data.field.param
+            }, function (result, status) {
             });
             return false;
         });
