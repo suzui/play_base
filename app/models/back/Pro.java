@@ -75,11 +75,11 @@ public class Pro extends BaseModel {
     }
     
     public ShellUtils.Result stop() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/stop.sh", this.user(), this.password(), this.location, this.branch);
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/stop.sh", this.user(), this.password(), this.location);
     }
     
     public ShellUtils.Result start() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/start.sh", this.user(), this.password(), this.location, this.branch);
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/start.sh", this.user(), this.password(), this.location);
     }
     
     public ShellUtils.Result restart() {
