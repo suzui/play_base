@@ -29,14 +29,14 @@ public class ProVO extends OneData implements Serializable {
     public String user;
     @DataField(name = "密码")
     public String password;
-
+    
     @DataField(name = "branchs")
     public String branchs;
     @DataField(name = "gitlog")
     public String gitlog;
     
     public ProVO() {
-
+        this.condition = "order by name";
     }
     
     public ProVO(Pro pro) {
