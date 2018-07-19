@@ -1,7 +1,6 @@
 package vos.back;
 
 import annotations.DataField;
-import enums.ProStatus;
 import models.back.Pro;
 import vos.OneData;
 
@@ -51,7 +50,7 @@ public class ProVO extends OneData implements Serializable {
         this.user = pro.user;
         this.password = pro.password;
         if (pro.status == null) {
-            this.status = ProStatus.STOP.code();
+            this.status = 0;
         } else {
             this.status = pro.status.code();
         }

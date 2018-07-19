@@ -38,6 +38,30 @@ public class ProController extends BackController {
         renderJSON(Result.succeed(proVO));
     }
     
+    public static void stop(ProVO vo) {
+        Pro pro = Pro.findByID(vo.proId);
+        pro.status(ProStatus.STOP);
+        new Job() {
+            @Override
+            public void doJob() throws Exception {
+                pro.stop();
+            }
+        }.now();
+        renderJSON(Result.succeed());
+    }
+    
+    public static void start(ProVO vo) {
+        Pro pro = Pro.findByID(vo.proId);
+        pro.status(ProStatus.START);
+        new Job() {
+            @Override
+            public void doJob() throws Exception {
+                pro.start();
+            }
+        }.now();
+        renderJSON(Result.succeed());
+    }
+    
     public static void update(ProVO vo) {
         Pro pro = Pro.findByID(vo.proId);
         new Job() {

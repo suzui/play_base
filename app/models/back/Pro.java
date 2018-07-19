@@ -26,7 +26,7 @@ public class Pro extends BaseModel {
     public String url;
     public String user;
     public String password;
-
+    
     @Enumerated(EnumType.STRING)
     public ProStatus status;
     
@@ -53,15 +53,15 @@ public class Pro extends BaseModel {
         this.status = status;
         this.save();
     }
-
+    
     public String user() {
         return StringUtils.isBlank(this.user) ? ConfigUtils.user : this.user;
     }
-
+    
     public String password() {
         return StringUtils.isBlank(this.password) ? ConfigUtils.password : this.password;
     }
-
+    
     public ShellUtils.Result gitbranch() {
         return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/gitbranch.sh", this.user(), this.password(), this.location);
     }
@@ -72,6 +72,14 @@ public class Pro extends BaseModel {
     
     public ShellUtils.Result update() {
         return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/update.sh", this.user(), this.password(), this.location, this.branch);
+    }
+    
+    public ShellUtils.Result stop() {
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/stop.sh", this.user(), this.password(), this.location, this.branch);
+    }
+    
+    public ShellUtils.Result start() {
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/start.sh", this.user(), this.password(), this.location, this.branch);
     }
     
     public ShellUtils.Result restart() {

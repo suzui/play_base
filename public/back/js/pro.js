@@ -34,7 +34,31 @@ form.on('submit(pro_add)', function (data) {
 
 table.on('tool(pro_table)', function (obj) {
     var e = obj.event, d = obj.data;
-    if (e === 'edit') {
+    if (e === 'update') {
+        layer.confirm('确定更新' + d.name, function (index) {
+            $.post('/back/pro/update', d, function (result, status) {
+
+            });
+        });
+    } else if (e === 'stop') {
+        layer.confirm('确定停止' + d.name, function (index) {
+            $.post('/back/pro/stop', d, function (result, status) {
+
+            });
+        });
+    } else if (e === 'start') {
+        layer.confirm('确定启动' + d.name, function (index) {
+            $.post('/back/pro/start', d, function (result, status) {
+
+            });
+        });
+    } else if (e === 'restart') {
+        layer.confirm('确定重启' + d.name, function (index) {
+            $.post('/back/pro/restart', d, function (result, status) {
+
+            });
+        });
+    } else if (e === 'edit') {
         var pro_form_html = laytpl($('#pro_form').html()).render(d);
         layer_index = layer.open({
             type: 1,
@@ -45,18 +69,6 @@ table.on('tool(pro_table)', function (obj) {
             var param = data.field;
             $.post('/back/pro/edit', param, function (result, status) {
                 obj.update(param);
-            });
-        });
-    } else if (e === 'update') {
-        layer.confirm('确定更新项目', function (index) {
-            $.post('/back/pro/update', d, function (result, status) {
-
-            });
-        });
-    } else if (e === 'restart') {
-        layer.confirm('确定重启项目', function (index) {
-            $.post('/back/pro/restart', d, function (result, status) {
-
             });
         });
     } else if (e === 'git') {
