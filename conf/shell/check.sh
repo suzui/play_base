@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 cd $3;
-sudo -u $1 ps -p `less server.pid` << EOF
+su $1 << EOF
 $2
 EOF
+ps -p `less server.pid`;

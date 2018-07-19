@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 cd $3;
-sudo -u $1 git branch -va << EOF
+su $1 << EOF
 $2
 EOF
+git branch -va;
