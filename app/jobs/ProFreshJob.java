@@ -7,7 +7,7 @@ import play.jobs.Job;
 
 import java.util.List;
 
-@Every("30s")
+@Every("1mn")
 public class ProFreshJob extends Job {
     
     
