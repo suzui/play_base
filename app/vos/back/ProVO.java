@@ -36,7 +36,7 @@ public class ProVO extends OneData implements Serializable {
     public String gitlog;
     
     public ProVO() {
-        this.condition = "order by name";
+        this.condition = " order by name";
     }
     
     public ProVO(Pro pro) {
