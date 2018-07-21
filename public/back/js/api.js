@@ -3,8 +3,8 @@ var api_tab = function () {
     var api_tab_html = $('#api_tab').html();
     element.tabAdd('tab', {title: nav_name, content: api_tab_html, id: nav_name});
     element.tabChange('tab', nav_name);
-    var startTime = new Date(new Date().setDate(new Date().getDate() - 7));
-    var endTime = new Date();
+    var startTime = new Date(new Date().setDate(new Date().getDate() - 3));
+    var endTime = new Date(new Date().setDate(new Date().getDate() + 1));
     laydate.render({elem: '#apiStartTime', type: 'datetime', value: startTime});
     laydate.render({elem: '#apiEndTime', type: 'datetime', value: endTime});
     form.render('checkbox');

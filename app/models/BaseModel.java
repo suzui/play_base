@@ -126,4 +126,8 @@ public class BaseModel extends Model {
         return BaseUtils.getHeader(key);
     }
     
+    public static void main(String[] args) {
+        System.err.println(defaultSql(""));
+    }
+    
 }
