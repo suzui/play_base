@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 cd $3;
-su $1 << EOF
+sudo -u $1 ls << EOF
 $2
 EOF
-git checkout $4;
-git pull;
+sudo -u $1 git checkout $4;
+sudo -u $1 git pull;
