@@ -32,11 +32,9 @@ public class ShellUtils {
             Logger.info("[shell param]:%s", StringUtils.join(params, ","));
             Process process = Runtime.getRuntime().exec(cmd);
             InputStream inputStream = process.getInputStream();
-            InputStream errorStream = process.getErrorStream();
             String read = IOUtils.read(inputStream);
             result.read = read;
             Logger.info("[shell read]:%s", read);
-            Logger.info("[shell error]:%s", IOUtils.read(errorStream));
             int status = process.waitFor();
             result.status = status;
             Logger.info("[shell status]:%d", status);
