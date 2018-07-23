@@ -10,7 +10,7 @@ import play.Play;
 import java.io.IOException;
 import java.io.Serializable;
 
-public class VersionVO extends OneData implements Serializable{
+public class VersionVO extends OneData implements Serializable {
     
     @DataField(name = "版本号")
     public String version = "";
@@ -56,7 +56,4 @@ public class VersionVO extends OneData implements Serializable{
         return "version_" + app + "_" + client;
     }
     
-    public static void main(String[] args) {
-        System.err.println("2.1.0".compareTo("2.0.5"));
-    }
 }
