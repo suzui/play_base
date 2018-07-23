@@ -35,9 +35,8 @@ public class ShellUtils {
             InputStream errorStream = process.getErrorStream();
             String read = IOUtils.read(inputStream);
             result.read = read;
-            Logger.info("[shell inputStream]:%s", IOUtils.read(inputStream));
-            Logger.info("[shell errorStream]:%s", IOUtils.read(errorStream));
-            //Logger.info("[shell read]:%s", read);
+            Logger.info("[shell read]:%s", read);
+            Logger.info("[shell error]:%s", IOUtils.read(errorStream));
             int status = process.waitFor();
             result.status = status;
             Logger.info("[shell status]:%d", status);
