@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 cd $3;
-su $1 << EOF
+sudo -u $1 -S ls << EOF
 $2
 EOF
 git branch -va;
