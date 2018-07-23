@@ -71,7 +71,7 @@ public class Pro extends BaseModel {
     }
     
     public ShellUtils.Result update() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/update.sh", this.location, this.branch);
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/update.sh", this.user(), this.password(), this.location, this.branch);
     }
     
     public ShellUtils.Result stop() {
