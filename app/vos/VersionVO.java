@@ -25,6 +25,7 @@ public class VersionVO extends OneData implements Serializable {
     }
     
     public VersionVO(AppType app, ClientType client) {
+        super(0l);
         try {
             for (String line : FileUtils.readLines(
                     Play.getFile("/documentation/version/" + "VERSION_" + app.name() + "_" + client.name()), "utf8")) {
