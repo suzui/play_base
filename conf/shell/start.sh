@@ -3,7 +3,7 @@ cd $3;
 sudo -u $1 -S ls << EOF
 $2
 EOF
-play deps --sync;
-play clean;
-play start;
-play precompile;
+sudo -u $1 play deps --sync;
+sudo -u $1 play clean;
+sudo -u $1 play start;
+sudo -u $1 play precompile;
