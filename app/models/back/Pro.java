@@ -50,6 +50,9 @@ public class Pro extends BaseModel {
     }
     
     public void status(ProStatus status) {
+        if (!this.location.contains("app")) {
+            return;
+        }
         this.status = status;
         this.save();
     }
@@ -88,6 +91,10 @@ public class Pro extends BaseModel {
     
     public ShellUtils.Result check() {
         return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/check.sh", this.user(), this.password(), this.location);
+    }
+    
+    public static boolean canStart() {
+        return Pro.find(defaultSql("status = ?"), ProStatus.START).fetch().isEmpty();
     }
     
     public void del() {
