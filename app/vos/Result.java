@@ -70,6 +70,10 @@ public class Result {
         return result(Status.FAIL, (int) codemessage[0], (String) codemessage[1], null);
     }
     
+    public static String failed(Object[] codemessage, String message) {
+        return result(Status.FAIL, (int) codemessage[0], message, null);
+    }
+    
     public static String succeed() {
         return result(Status.SUCC, (int) StatusCode.SUCCESS[0], (String) StatusCode.SUCCESS[1], null);
     }
