@@ -14,7 +14,6 @@ import org.apache.commons.lang.StringUtils;
 import play.Play;
 import play.mvc.Before;
 import play.mvc.Controller;
-import utils.JSONUtils;
 import vos.Data;
 import vos.OneData;
 import vos.PageData;
@@ -159,11 +158,10 @@ public class DocController extends Controller {
             Class<? extends Data>[] clazz = am.clazz();
             String result = "";
             if (clazz.length == 1 && OneData.class.isAssignableFrom(clazz[0])) {
-                result = JSONUtils.format(new Gson().toJson(((OneData) clazz[0].newInstance()).doc()));
+                result = new Gson().toJson(((OneData) clazz[0].newInstance()).doc());
             } else if (clazz.length == 2 && PageData.class.isAssignableFrom(clazz[0])
                     && OneData.class.isAssignableFrom(clazz[1])) {
-                result = JSONUtils.format(new Gson()
-                        .toJson(((PageData) clazz[0].newInstance()).doc((Class<? extends OneData>) clazz[1])));
+                result = new Gson().toJson(((PageData) clazz[0].newInstance()).doc((Class<? extends OneData>) clazz[1]));
             }
             renderTemplate("doc.html", url, api, param, result, codes, enums);
         } catch (Exception e) {
