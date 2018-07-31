@@ -3,6 +3,7 @@ package controllers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import enums.ClientType;
+import exceptions.ResultException;
 import jobs.UpdateLoginInfoJob;
 import models.back.Admin;
 import models.token.AccessToken;
@@ -116,7 +117,11 @@ public class BaseController extends Controller {
             CacheUtils.replace(request.hashCode() + "", apiVO);
             Logger.info("[exception]:%s", apiVO.exception);
             Logger.info("[exception end]:================");
-            renderJSON(Result.failed());
+            Object[] codemessage = StatusCode.FAIL;
+            if (throwable instanceof ResultException) {
+                codemessage = ((ResultException) throwable).codemessage;
+            }
+            renderJSON(Result.failed(codemessage));
         }
     }
     

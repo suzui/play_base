@@ -88,7 +88,7 @@ public class Job extends MongoModel {
             params.add(new BasicDBObject("$lte", jobVO.endTime));
         }
         if (jobVO.error != null && jobVO.error == 1) {
-            sqls.add("exception");
+            sqls.add("exceptions");
             params.add(new BasicDBObject("$ne", null));
         }
         return new Object[]{sqls, params};

@@ -1,5 +1,6 @@
 package binders;
 
+import annotations.ActionMethod;
 import com.google.gson.Gson;
 import play.Logger;
 import play.data.binding.Global;
@@ -22,6 +23,7 @@ public class DataBinder implements TypeBinder<OneData> {
     
     @Override
     public Object bind(String name, Annotation[] annotations, String value, Class actualClass, Type genericType) {
+        //ActionMethod am = Request.current().invokedMethod.getAnnotation(ActionMethod.class);
         Map<String, Object> params = new HashMap<>();
         String lang = Lang.get();
         for (Entry<String, String> e : Request.current().params.allSimple().entrySet()) {
