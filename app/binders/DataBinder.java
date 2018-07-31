@@ -2,7 +2,9 @@ package binders;
 
 import annotations.ActionMethod;
 import com.google.gson.Gson;
+import org.apache.commons.lang.StringUtils;
 import play.Logger;
+import play.Play;
 import play.data.binding.Global;
 import play.data.binding.TypeBinder;
 import play.i18n.Lang;
@@ -25,7 +27,7 @@ public class DataBinder implements TypeBinder<OneData> {
     public Object bind(String name, Annotation[] annotations, String value, Class actualClass, Type genericType) {
         //ActionMethod am = Request.current().invokedMethod.getAnnotation(ActionMethod.class);
         Map<String, Object> params = new HashMap<>();
-        String lang = Lang.get();
+        String lang = Play.configuration.getProperty("i18n", "off").equals("on") ? Lang.get() : null;
         for (Entry<String, String> e : Request.current().params.allSimple().entrySet()) {
             String k = e.getKey();
             String v = e.getValue();
@@ -50,9 +52,11 @@ public class DataBinder implements TypeBinder<OneData> {
             if (v.startsWith("[") && v.endsWith("]")) {
                 params.put(k, GSON.fromJson(v, List.class));
             } else if (!"vo,body".contains(k)) {
-                char[] cs = k.toCharArray();
-                cs[0] -= 32;
-                params.put(lang + String.valueOf(cs), v);
+                if (StringUtils.isNotBlank(lang)) {
+                    char[] cs = k.toCharArray();
+                    cs[0] -= 32;
+                    params.put(lang + String.valueOf(cs), v);
+                }
                 params.put(k, v);
             }
         }
