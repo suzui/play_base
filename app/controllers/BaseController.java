@@ -106,7 +106,7 @@ public class BaseController extends Controller {
                 emptys.add(e.getKey());
             } else {
                 String value = e.getValue().value();
-                if (StringUtils.isBlank(value) || StringUtils.equals(value, "null") || StringUtils.equals(value, "(null)") || StringUtils.equals(value, "undefined")) {
+                if (StringUtils.isBlank(value) || StringUtils.equals(value, "null") || StringUtils.equals(value, "(null)") || StringUtils.equals(value, "undefined") || StringUtils.equals(value, "NaN")) {
                     emptys.add(e.getKey());
                 }
             }
