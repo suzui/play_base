@@ -1,9 +1,9 @@
 package plugins;
 
 import play.Logger;
-import play.Play;
 import play.PlayPlugin;
 import play.jobs.JobsPlugin;
+import utils.BaseUtils;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ScheduledFuture;
@@ -20,7 +20,7 @@ public class SchedulePlugin extends PlayPlugin {
     @Override
     public void afterApplicationStart() {
         super.afterApplicationStart();
-        if (Play.configuration.getProperty("schedule", "off").equals("on")) {
+        if (BaseUtils.propertyOn("schedule")) {
             return;
         }
         BlockingQueue<Runnable> queue = JobsPlugin.executor.getQueue();

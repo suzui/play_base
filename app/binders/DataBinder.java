@@ -1,14 +1,13 @@
 package binders;
 
-import annotations.ActionMethod;
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
-import play.Play;
 import play.data.binding.Global;
 import play.data.binding.TypeBinder;
 import play.i18n.Lang;
 import play.mvc.Http.Request;
+import utils.BaseUtils;
 import vos.OneData;
 
 import java.lang.annotation.Annotation;
@@ -24,10 +23,9 @@ public class DataBinder implements TypeBinder<OneData> {
     private static final Gson GSON = new Gson();
     
     @Override
-    public Object bind(String name, Annotation[] annotations, String value, Class actualClass, Type genericType) {
-        //ActionMethod am = Request.current().invokedMethod.getAnnotation(ActionMethod.class);
+    public Object bind(String name, Annotation[] annotations, String value, Class actualClass, Type genericType) throws Exception {
         Map<String, Object> params = new HashMap<>();
-        String lang = Play.configuration.getProperty("i18n", "off").equals("on") ? Lang.get() : null;
+        String lang = BaseUtils.propertyOn("i18n") ? Lang.get() : null;
         for (Entry<String, String> e : Request.current().params.allSimple().entrySet()) {
             String k = e.getKey();
             String v = e.getValue();
@@ -35,17 +33,16 @@ public class DataBinder implements TypeBinder<OneData> {
                 continue;
             }
             if (v.equals("")) {
-                Field field = null;
                 try {
-                    field = actualClass.getField(k);
+                    Field field = actualClass.getField(k);
+                    Type type = field.getType();
+                    if (List.class.isAssignableFrom((Class<?>) type)) {
+                        continue;
+                    }
+                    if (!String.class.isAssignableFrom((Class<?>) type)) {
+                        continue;
+                    }
                 } catch (NoSuchFieldException nsfe) {
-                    continue;
-                }
-                Type type = field.getType();
-                if (List.class.isAssignableFrom((Class<?>) type)) {
-                    continue;
-                }
-                if (!String.class.isAssignableFrom((Class<?>) type)) {
                     continue;
                 }
             }

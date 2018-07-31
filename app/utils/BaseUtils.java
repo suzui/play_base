@@ -26,6 +26,10 @@ public class BaseUtils {
     public static boolean isProd() {
         return "p".equals(Play.id);
     }
+
+    public static boolean propertyOn(String property) {
+        return Play.configuration.getProperty(property, "off").equals("on");
+    }
     
     public static void setSession(String key, String value) {
         Scope.Session.current().put(key, value);

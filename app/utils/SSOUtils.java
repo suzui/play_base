@@ -27,7 +27,7 @@ public class SSOUtils {
     public static String SECRET;
     
     public static boolean isOn() {
-        return Play.configuration.getProperty("sso", "off").equals("on");
+        return BaseUtils.propertyOn("sso");
     }
     
     public static AppResult auth() {

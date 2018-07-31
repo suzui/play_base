@@ -1,5 +1,6 @@
 package controllers;
 
+import annotations.ActionMethod;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import enums.ClientType;
@@ -26,6 +27,7 @@ import javax.persistence.EntityTransaction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @With(DocController.class)
 public class BaseController extends Controller {
@@ -77,7 +79,21 @@ public class BaseController extends Controller {
     static void params() {
         Logger.info("[params start]:================");
         request.params.put(VO, "");
-        Logger.info("[params]:%s", gson.toJson(request.params.allSimple()));
+        Map<String, String> params = request.params.allSimple();
+        Logger.info("[params]:%s", gson.toJson(params));
+        if (BaseUtils.propertyOn("validation")) {
+            ActionMethod am = request.invokedMethod.getAnnotation(ActionMethod.class);
+            if (am != null && StringUtils.isNotBlank(am.param())) {
+                for (String param : StringUtils.split(am.param().replaceAll("\\+", ""), ",")) {
+                    if (StringUtils.isBlank(param) || param.startsWith("-")) {
+                        continue;
+                    }
+                    if (!params.containsKey(param)) {
+                        throw new ResultException((Integer) Result.StatusCode.SYSTEM_PARAM_ERROR[0], param + "不能为空");
+                    }
+                }
+            }
+        }
         Logger.info("[params end]:================");
     }
     
@@ -101,6 +117,7 @@ public class BaseController extends Controller {
     
     @Catch
     static void exception(Throwable throwable) {
+        System.err.println("xxx");
         if (!request.params._contains(DOC)) {
             EntityTransaction transaction = JPA.em().getTransaction();
             if (transaction.isActive()) {
