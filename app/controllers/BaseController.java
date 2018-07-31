@@ -89,7 +89,7 @@ public class BaseController extends Controller {
                         continue;
                     }
                     if (!params.containsKey(param)) {
-                        throw new ResultException((Integer) Result.StatusCode.SYSTEM_PARAM_ERROR[0], param + "不能为空");
+                        renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, param + "不能为空"));
                     }
                 }
             }

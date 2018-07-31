@@ -13,4 +13,9 @@ public class ResultException extends RuntimeException {
         this(new Object[]{code, message});
     }
     
+    public ResultException(Object[] codemessage, String message) {
+        this(new Object[]{codemessage[0], message});
+    }
+    
+    
 }
