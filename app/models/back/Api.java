@@ -119,7 +119,7 @@ public class Api extends MongoModel {
             params.add(Pattern.compile("^.*" + apiVO.env + ".*$"));
         }
         if (apiVO.error != null && apiVO.error == 1) {
-            sqls.add("exceptions");
+            sqls.add("exception");
             params.add(new BasicDBObject("$ne", null));
         }
         if (apiVO.mock != null && apiVO.mock == 1) {
