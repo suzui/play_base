@@ -128,5 +128,4 @@ public class Api extends MongoModel {
         }
         return new Object[]{sqls, params};
     }
-    
 }
