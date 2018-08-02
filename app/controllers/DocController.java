@@ -5,7 +5,7 @@ import annotations.DataField;
 import annotations.EnumClass;
 import annotations.ParamField;
 import com.google.gson.Gson;
-import interfaces.BaseEnum;
+import com.google.gson.GsonBuilder;
 import javassist.*;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.LocalVariableAttribute;
@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import play.Play;
 import play.mvc.Before;
 import play.mvc.Controller;
+import utils.BaseUtils;
 import vos.Data;
 import vos.OneData;
 import vos.PageData;
@@ -28,6 +29,7 @@ import java.util.*;
 
 public class DocController extends Controller {
     private static final String DOC = "doc";
+    private static Gson gson = new GsonBuilder().disableHtmlEscaping().create();
     
     @Before(priority = -1)
     static void doc() {
@@ -57,13 +59,7 @@ public class DocController extends Controller {
                     if (ec == null || !ec.visible()) {
                         continue;
                     }
-                    Method method = clazz.getMethod("values");
-                    BaseEnum[] values = (BaseEnum[]) method.invoke(null, null);
-                    List<String[]> list = new ArrayList<>();
-                    for (BaseEnum value : values) {
-                        list.add(new String[]{value.code() + "", value.intro()});
-                    }
-                    enums.put(ec.name(), list);
+                    enums.put(ec.name(), BaseUtils.enums(clazz));
                 }
             }
             
@@ -94,7 +90,7 @@ public class DocController extends Controller {
                         o[2] = f.getType().getSimpleName();
                         o[3] = p.startsWith("-") ? "否" : "是";
                         o[4] = df.demo();
-                        o[5] = df.comment();
+                        o[5] = df.comment() + " " + (df.enums().length > 0 ? gson.toJson(BaseUtils.enums(df.enums()[0])) : "");
                         param.add(o);
                     }
                 } else if (StringUtils.isNotBlank(am.except())) {
@@ -115,7 +111,7 @@ public class DocController extends Controller {
                         o[2] = f.getType().getSimpleName();
                         o[3] = am.required().contains(f.getName()) ? "是" : "否";
                         o[4] = df.demo();
-                        o[5] = df.comment();
+                        o[5] = df.comment() + " " + (df.enums().length > 0 ? gson.toJson(BaseUtils.enums(df.enums()[0])) : "");
                         param.add(o);
                     }
                 }
@@ -149,7 +145,7 @@ public class DocController extends Controller {
                             o[2] = p.getType().getSimpleName();
                             o[3] = pf.required() ? "是" : "否";
                             o[4] = pf.demo();
-                            o[5] = pf.comment();
+                            o[5] = pf.comment() + " " + (pf.enums().length > 0 ? gson.toJson(BaseUtils.enums(pf.enums()[0])) : "");
                             param.add(o);
                         }
                     }

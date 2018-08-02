@@ -1,5 +1,6 @@
 package utils;
 
+import interfaces.BaseEnum;
 import models.back.Admin;
 import models.token.AccessToken;
 import models.token.BasePerson;
@@ -12,7 +13,11 @@ import play.mvc.Scope;
 import play.utils.Java;
 import vos.VersionVO;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.ScheduledFuture;
@@ -26,7 +31,7 @@ public class BaseUtils {
     public static boolean isProd() {
         return "p".equals(Play.id);
     }
-
+    
     public static boolean propertyOn(String property) {
         return Play.configuration.getProperty(property, "off").equals("on");
     }
@@ -34,7 +39,7 @@ public class BaseUtils {
     public static void setSession(String key, String value) {
         Scope.Session.current().put(key, value);
     }
-
+    
     public static void removeSession(String key) {
         Scope.Session.current().remove(key);
     }
@@ -47,11 +52,11 @@ public class BaseUtils {
     public static void setCookie(String key, String value) {
         Http.Response.current().setCookie(key, value, "365d");
     }
-
+    
     public static void removeCookie(String key) {
         Http.Response.current().removeCookie(key);
     }
-
+    
     public static String getCookie(String key) {
         Http.Cookie cookie = Http.Request.current().cookies.get(key);
         return null != cookie ? cookie.value : null;
@@ -170,29 +175,29 @@ public class BaseUtils {
     public static String getAppversion() {
         return getHeader("appversion");
     }
-
+    
     public static String getApptype() {
         return getHeader("apptype");
     }
-
+    
     public static String getOsversion() {
         return getHeader("osversion");
     }
-
+    
     public static String getClienttype() {
         return getHeader("clienttype");
     }
-
+    
     public static String getDevicetoken() {
         return getHeader("devicetoken");
     }
-
+    
     public static Boolean isOldVersion() {
         VersionVO versionVO = (VersionVO) CacheUtils.get(VersionVO.key(getApptype(), getClienttype()));
         String appversion = getAppversion();
         return appversion != null && versionVO != null && versionVO.version.compareTo(appversion) > 0;
     }
-
+    
     public static void cancelJob(Class clazz) {
         BlockingQueue<Runnable> queue = JobsPlugin.executor.getQueue();
         for (final Object o : queue) {
@@ -207,13 +212,30 @@ public class BaseUtils {
             }
         }
     }
-
-
+    
+    
     public static Boolean collectionEmpty(Collection collection) {
         return collection == null || collection.isEmpty();
     }
-
+    
     public static Boolean collectionNotEmpty(Collection collection) {
         return collection != null && !collection.isEmpty();
     }
+    
+    public static List<String[]> enums(Class clazz) {
+        try {
+            Method method = clazz.getMethod("values");
+            BaseEnum[] values = (BaseEnum[]) method.invoke(null, null);
+            List<String[]> list = new ArrayList<>();
+            for (BaseEnum value : values) {
+                list.add(new String[]{value.code() + "", value.intro()});
+            }
+            return list;
+        } catch (Exception e) {
+            return Collections.EMPTY_LIST;
+        }
+    }
+    
+    
 }
+

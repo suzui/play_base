@@ -5,11 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.Gson;
 import models.BaseModel;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.i18n.Lang;
+import utils.BaseUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -124,7 +126,11 @@ public class OneData extends Data {
                 } else if (OneData.class.isAssignableFrom((Class<?>) type)) {
                     map.put(f.getName(), ((Class<OneData>) type).newInstance().doc());
                 } else {
-                    map.put(f.getName(), StringUtils.join(Arrays.asList(df.name(), f.getType().getSimpleName(), df.demo(), df.comment()), "|").replace("||", ""));
+                    String enums = "";
+                    if (df.enums().length > 0) {
+                        enums = (df.enums().length > 0 ? new Gson().toJson(BaseUtils.enums(df.enums()[0])).replaceAll("\\\"", "") : "");
+                    }
+                    map.put(f.getName(), StringUtils.join(Arrays.asList(df.name(), f.getType().getSimpleName(), df.demo(), df.comment(), enums), "|").replace("||", ""));
                 }
             }
         } catch (Exception e) {
