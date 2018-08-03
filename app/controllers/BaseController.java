@@ -85,7 +85,7 @@ public class BaseController extends Controller {
             ActionMethod am = request.invokedMethod.getAnnotation(ActionMethod.class);
             if (am != null && StringUtils.isNotBlank(am.param())) {
                 for (String param : StringUtils.split(am.param().replaceAll("\\+", ""), ",")) {
-                    if (StringUtils.isBlank(param) || param.startsWith("-")) {
+                    if (StringUtils.isBlank(param) || param.startsWith("-")||StringUtils.equals(param,"page")||StringUtils.equals(param,"size")) {
                         continue;
                     }
                     if (!params.containsKey(param)) {
@@ -117,7 +117,6 @@ public class BaseController extends Controller {
     
     @Catch
     static void exception(Throwable throwable) {
-        System.err.println("xxx");
         if (!request.params._contains(DOC)) {
             EntityTransaction transaction = JPA.em().getTransaction();
             if (transaction.isActive()) {
