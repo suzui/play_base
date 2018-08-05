@@ -15,14 +15,8 @@ public class BasePermission extends BaseModel {
     public String name;
     
     @ManyToOne
-    public BaseOrganize organize;
+    public BaseOrganize organize;//机构权限组
     
-    public static BasePermission add(String name, BaseOrganize organize) {
-        BasePermission permission = new BasePermission();
-        permission.name = name;
-        permission.organize = organize;
-        return permission.save();
-    }
     
     public void del() {
         this.logicDelete();

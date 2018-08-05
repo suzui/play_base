@@ -18,17 +18,6 @@ public class BasePermissionAccess extends BaseModel {
     @ManyToOne
     public BaseAccess access;
     
-    public static BasePermissionAccess add(BasePermission permission, BaseAccess access) {
-        BasePermissionAccess permissionAccess = findByPermissionAndAccess(permission, access);
-        if (permissionAccess != null) {
-            return permissionAccess;
-        }
-        permissionAccess = new BasePermissionAccess();
-        permissionAccess.permission = permission;
-        permissionAccess.access = access;
-        return permissionAccess.save();
-    }
-    
     public void del() {
         this.logicDelete();
     }

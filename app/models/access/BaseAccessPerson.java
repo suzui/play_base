@@ -20,26 +20,8 @@ public class BaseAccessPerson extends BaseModel {
     public BasePerson person;
     
     @ManyToOne
-    public BaseOrganize organize;
+    public BaseOrganize organize;//机构权限分配
     
-    public static BaseAccessPerson add(BaseAccess access, BasePerson person) {
-        BaseAccessPerson accessPerson = BaseAccessPerson.findByAccessAndPerson(access, person);
-        if (accessPerson != null) return accessPerson;
-        accessPerson = new BaseAccessPerson();
-        accessPerson.access = access;
-        accessPerson.person = person;
-        return accessPerson.save();
-    }
-    
-    public static BaseAccessPerson add(BaseAccess access, BasePerson person, BaseOrganize organize) {
-        BaseAccessPerson accessPerson = BaseAccessPerson.findByAccessAndPersonAndOrganize(access, person, organize);
-        if (accessPerson != null) return accessPerson;
-        accessPerson = new BaseAccessPerson();
-        accessPerson.access = access;
-        accessPerson.person = person;
-        accessPerson.organize = organize;
-        return accessPerson.save();
-    }
     
     public void del() {
         this.logicDelete();

@@ -19,17 +19,6 @@ public class BasePermissionPerson extends BaseModel {
     @ManyToOne
     public BasePerson person;
     
-    public static BasePermissionPerson add(BasePermission permission, BasePerson person) {
-        BasePermissionPerson permissionPerson = findByPermissionAndPerson(permission, person);
-        if (permissionPerson != null) {
-            return permissionPerson;
-        }
-        permissionPerson = new BasePermissionPerson();
-        permissionPerson.permission = permission;
-        permissionPerson.person = person;
-        return permissionPerson.save();
-    }
-    
     public void del() {
         this.logicDelete();
     }
