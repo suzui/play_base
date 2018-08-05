@@ -3,12 +3,19 @@ package models.token;
 import enums.PersonType;
 import enums.Sex;
 import models.BaseModel;
+import models.access.BaseAccess;
+import models.access.BaseAccessPerson;
+import models.access.BasePermissionPerson;
 import org.apache.commons.lang.StringUtils;
 import play.data.validation.MaxSize;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Person")
@@ -90,5 +97,18 @@ public class BasePerson extends BaseModel {
         return (T) basePerson;
     }
     
+    //超级后台管理员权限
+    public List<BaseAccess> access() {
+        List<BaseAccessPerson> accessPersons = BasePermissionPerson.fetchByPerson(this).stream().map(pp -> BaseAccessPerson.fetchByPerson(this)).flatMap(aps -> aps.stream()).collect(Collectors.toList());
+        accessPersons.addAll(BaseAccessPerson.fetchByPerson(this));
+        return new ArrayList<>(new HashSet<>(accessPersons.stream().map(ap -> ap.access).collect(Collectors.toList())));
+    }
+    
+    //机构后台管理员权限
+    public List<BaseAccess> access(BaseOrganize organize) {
+        List<BaseAccessPerson> accessPersons = BasePermissionPerson.fetchByPersonAndOrganize(this, organize).stream().map(pp -> BaseAccessPerson.fetchByPersonAndOrganize(this, organize)).flatMap(aps -> aps.stream()).collect(Collectors.toList());
+        accessPersons.addAll(BaseAccessPerson.fetchByPersonAndOrganize(this, organize));
+        return new ArrayList<>(new HashSet<>(accessPersons.stream().map(ap -> ap.access).collect(Collectors.toList())));
+    }
     
 }

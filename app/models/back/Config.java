@@ -47,7 +47,6 @@ public class Config extends BaseModel {
         }
     }
     
-    
     public void del() {
         this.logicDelete();
     }
