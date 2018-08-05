@@ -198,6 +198,10 @@ public class BaseUtils {
         return appversion != null && versionVO != null && versionVO.version.compareTo(appversion) > 0;
     }
     
+    public static String initPassword() {
+        return CodeUtils.md5("123456");
+    }
+    
     public static void cancelJob(Class clazz) {
         BlockingQueue<Runnable> queue = JobsPlugin.executor.getQueue();
         for (final Object o : queue) {
