@@ -32,6 +32,14 @@ public class BaseUtils {
         return "p".equals(Play.id);
     }
     
+    public static boolean isTest() {
+        return "t".equals(Play.id);
+    }
+    
+    public static boolean isDev() {
+        return "d".equals(Play.id);
+    }
+    
     public static boolean propertyOn(String property) {
         return Play.configuration.getProperty(property, "off").equals("on");
     }

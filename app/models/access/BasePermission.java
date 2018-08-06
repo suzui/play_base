@@ -2,6 +2,7 @@ package models.access;
 
 import models.BaseModel;
 import models.token.BaseOrganize;
+import play.jobs.Job;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -19,6 +20,15 @@ public class BasePermission extends BaseModel {
     
     
     public void del() {
+        BasePermission permission = this;
+        new Job() {
+            @Override
+            public void doJob() throws Exception {
+                super.doJob();
+                BasePermissionAccess.fetchByPermission(permission).forEach(pa -> pa.del());
+                BasePermissionPerson.fetchByPermission(permission).forEach(pp -> pp.del());
+            }
+        }.now();
         this.logicDelete();
     }
     

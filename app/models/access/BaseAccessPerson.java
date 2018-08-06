@@ -35,6 +35,10 @@ public class BaseAccessPerson extends BaseModel {
         return BaseAccessPerson.find(defaultSql("access = ? and person = ? and organize=?"), access, person, organize).first();
     }
     
+    public static List<BaseAccessPerson> fetchByAccess(BaseAccess access) {
+        return BaseAccessPerson.find(defaultSql("access = ?"), access).fetch();
+    }
+    
     public static List<BaseAccessPerson> fetchByPerson(BasePerson person) {
         return BaseAccessPerson.find(defaultSql("person = ?"), person).fetch();
     }

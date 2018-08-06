@@ -86,9 +86,12 @@ public class BaseModel extends Model {
     }
     
     public static Boolean withNull(long v) {
-        return v == -1;
+        return v == -1l;
     }
     
+    public static Boolean withNotNull(long v) {
+        return v == -2l;
+    }
     
     public static Long getApp() {
         return BaseUtils.getApp();
@@ -125,4 +128,5 @@ public class BaseModel extends Model {
     public static String getHeader(String key) {
         return BaseUtils.getHeader(key);
     }
+    
 }

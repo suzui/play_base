@@ -1,6 +1,7 @@
 package models.access;
 
 import models.BaseModel;
+import play.jobs.Job;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +25,15 @@ public class BaseAccess extends BaseModel {
     }
     
     public void del() {
+        BaseAccess access = this;
+        new Job() {
+            @Override
+            public void doJob() throws Exception {
+                super.doJob();
+                BaseAccessPerson.fetchByAccess(access).forEach(ap -> ap.del());
+                BasePermissionAccess.fetchByAccess(access).forEach(pa -> pa.del());
+            }
+        }.now();
         this.logicDelete();
     }
     

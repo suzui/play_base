@@ -99,6 +99,9 @@ public class BasePerson extends BaseModel {
     
     //超级后台管理员权限
     public List<BaseAccess> access() {
+        if (this.username.equals("admin")) {
+            return BaseAccess.findAll();
+        }
         List<BaseAccessPerson> accessPersons = BasePermissionPerson.fetchByPerson(this).stream().map(pp -> BaseAccessPerson.fetchByPerson(this)).flatMap(aps -> aps.stream()).collect(Collectors.toList());
         accessPersons.addAll(BaseAccessPerson.fetchByPerson(this));
         return new ArrayList<>(new HashSet<>(accessPersons.stream().map(ap -> ap.access).collect(Collectors.toList())));
