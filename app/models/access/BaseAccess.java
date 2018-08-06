@@ -1,11 +1,10 @@
 package models.access;
 
+import enums.AccessType;
 import models.BaseModel;
 import play.jobs.Job;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Access")
@@ -19,6 +18,9 @@ public class BaseAccess extends BaseModel {
     
     @Column(length = 1000)
     public String routes;
+    
+    @Enumerated(EnumType.STRING)
+    public AccessType type;
     
     public String parentCode() {
         return this.code.length() > 3 ? this.code.substring(0, 3) : null;
