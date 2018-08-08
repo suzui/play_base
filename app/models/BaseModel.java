@@ -27,12 +27,6 @@ public class BaseModel extends Model {
     
     public long updateTime = System.currentTimeMillis();
     
-    private static final String AND = " and ";
-    private static final String FROM = " from ";
-    private static final String WHERE = " where ";
-    private static final String FROM_WHERE_PATTERN = "from\\s([\\S].*?)\\swhere\\s";
-    
-    
     public static final String STRING = "varchar(255) comment ";
     public static final String STRING_1000 = "varchar(1000) comment ";
     public static final String STRING_2000 = "varchar(2000) comment ";
@@ -43,8 +37,11 @@ public class BaseModel extends Model {
     public static final String FLOAT = "float comment ";
     public static final String DOUBLE = "double comment ";
     public static final String BOOLEAN = "tinyint(1) comment ";
-
-
+    
+    private static final String AND = " and ";
+    private static final String FROM = " from ";
+    private static final String WHERE = " where ";
+    private static final String FROM_WHERE_PATTERN = "from\\s([\\S].*?)\\swhere\\s";
     
     private static String defaultCondition() {
         return "deleted=false";
