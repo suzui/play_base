@@ -32,7 +32,7 @@ public class SSOUtils {
     
     public static AppResult auth() {
         if (!isOn()) return null;
-        HttpResponse response = WS.url(HOST + "/source/app/auth").setParameter("master", MASTER).post();
+        HttpResponse response = WS.url(HOST + "/organize/app/auth").setParameter("master", MASTER).post();
         if (response.success()) {
             AppResult result = new Gson().fromJson(response.getString(), AppResult.class);
             SECRET = result.data.secret;

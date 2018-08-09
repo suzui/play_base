@@ -24,6 +24,8 @@ public class BaseAccess extends BaseModel {
     @Column(columnDefinition = STRING + "'app对应scheme'")
     public String scheme;
     
+    @Column(columnDefinition = DOUBLE + "'排序'")
+    public Double rank;
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = STRING + "'权限类型'")
     public AccessType type;
@@ -31,7 +33,6 @@ public class BaseAccess extends BaseModel {
     public String parentCode() {
         return this.code.length() > 3 ? this.code.substring(0, 3) : null;
     }
-    
     
     public void url(String url) {
         this.url = url;
@@ -57,10 +58,18 @@ public class BaseAccess extends BaseModel {
     }
     
     public static <T extends BaseAccess> T findByID(Long id) {
-        return BaseAccess.find(defaultSql("id =?"), id).first();
+        return BaseAccess.find(defaultSql("id=?"), id).first();
     }
     
-    public static <T extends BaseAccess> T findByCode(String code) {
-        return BaseAccess.find(defaultSql("code =?"), code).first();
+    public static <T extends BaseAccess> T findByCodeAndType(String code, AccessType type) {
+        return BaseAccess.find(defaultSql("code=? and type=?"), code, type).first();
     }
+    
+    public <T extends BaseAccess> T parent() {
+        if (code.length() <= 3) {
+            return null;
+        }
+        return BaseAccess.find(defaultSql("code=? and type=?"), code.substring(0, code.length() - 3), this.type).first();
+    }
+    
 }
