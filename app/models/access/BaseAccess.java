@@ -10,20 +10,37 @@ import javax.persistence.*;
 @Table(name = "Access")
 public class BaseAccess extends BaseModel {
     
+    @Column(columnDefinition = STRING + "'权限code'")
     public String code;
-    
+    @Column(columnDefinition = STRING + "'权限名称'")
     public String name;
-    
+    @Column(columnDefinition = STRING + "'权限简介'")
     public String intro;
-    
-    @Column(length = 1000)
+    @Column(columnDefinition = STRING_1000 + "'权限路由'")
     public String routes;
     
+    @Column(columnDefinition = STRING + "'web对应url'")
+    public String url;
+    @Column(columnDefinition = STRING + "'app对应scheme'")
+    public String scheme;
+    
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = STRING + "'权限类型'")
     public AccessType type;
     
     public String parentCode() {
         return this.code.length() > 3 ? this.code.substring(0, 3) : null;
+    }
+    
+    
+    public void url(String url) {
+        this.url = url;
+        this.save();
+    }
+    
+    public void scheme(String scheme) {
+        this.scheme = scheme;
+        this.save();
     }
     
     public void del() {

@@ -4,27 +4,27 @@ import annotations.EnumClass;
 import interfaces.BaseEnum;
 import org.apache.commons.lang.StringUtils;
 
-@EnumClass(name = "权限类型")
-public enum AccessType implements BaseEnum {
-    BOS(100, "超级后台"), ORGANIZE(101, "机构后台"), PERSON(102, "用户端");
+@EnumClass(name = "权限级别")
+public enum AccessLevel implements BaseEnum {
+    FIRST(101, "一级权限"), SECOND(101, "二级权限"), THIRD(102, "三级权限");
     private int code;
     private String intro;
     
-    private AccessType(int code, String intro) {
+    private AccessLevel(int code, String intro) {
         this.code = code;
         this.intro = intro;
     }
     
-    public static AccessType convert(int code) {
-        for (AccessType type : AccessType.values()) {
-            if (type.code == code) {
-                return type;
+    public static AccessLevel convert(int code) {
+        for (AccessLevel level : AccessLevel.values()) {
+            if (level.code == code) {
+                return level;
             }
         }
         return null;
     }
     
-    public static AccessType convert(String code) {
+    public static AccessLevel convert(String code) {
         if (StringUtils.isBlank(code)) {
             return null;
         }

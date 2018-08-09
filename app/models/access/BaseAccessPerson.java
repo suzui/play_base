@@ -14,10 +14,10 @@ import java.util.List;
 public class BaseAccessPerson extends BaseModel {
     
     @ManyToOne
-    public BaseAccess access;
+    public BaseAccess access;//权限
     
     @ManyToOne
-    public BasePerson person;
+    public BasePerson person;//人员
     
     @ManyToOne
     public BaseOrganize organize;//机构权限分配
