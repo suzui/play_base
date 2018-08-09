@@ -23,31 +23,66 @@ public class BasePerson extends BaseModel {
     @Required
     @MinSize(2)
     @MaxSize(10)
-    public String username;//用户名
-    public String password;//密码
-    public String zone;//地区
-    public String phone;//手机
-    public String email;//邮箱
-    public String name;//姓名
-    public String number;//工号
-    public String nickname;//昵称
-    public String pinyin;//拼音
-    public String avatar;//头像
-    public Long birthday;//出生日期
-    @Column(length = 1000)
-    public String intro;//简介
+    @Column(columnDefinition = STRING + "'用户名'")
+    public String username;
+    @Column(columnDefinition = STRING + "'密码'")
+    public String password;
+    @Column(columnDefinition = STRING + "'地区'")
+    public String zone;
+    @Column(columnDefinition = STRING + "'手机'")
+    public String phone;
+    @Column(columnDefinition = STRING + "'邮箱'")
+    public String email;
+    @Column(columnDefinition = STRING + "'姓名'")
+    public String name;
+    @Column(columnDefinition = STRING + "'昵称'")
+    public String nickname;
+    @Column(columnDefinition = STRING + "'拼音'")
+    public String pinyin;
+    @Column(columnDefinition = STRING + "'头像'")
+    public String avatar;
+    @Column(columnDefinition = LONG + "'出生日期'")
+    public Long birthday;
+    @Column(columnDefinition = STRING_1000 + "'简介'")
+    public String intro;
+    @Column(columnDefinition = STRING_1000 + "'备注'")
+    public String remark;
+    @Column(columnDefinition = STRING + "'工号'")
+    public String number;
+    @Column(columnDefinition = STRING + "'座机'")
+    public String landline;
+    @Column(columnDefinition = STRING + "'办公地点'")
+    public String office;
+    @Column(columnDefinition = LONG + "'面试时间'")
+    public Long interviewday;
+    @Column(columnDefinition = LONG + "'入职时间'")
+    public Long entryday;
+    @Column(columnDefinition = STRING + "'学校'")
+    public String school;
+    @Column(columnDefinition = STRING + "'专业'")
+    public String major;
+    @Column(columnDefinition = LONG + "'毕业时间'")
+    public Long graduateday;
+    @Column(columnDefinition = STRING + "'籍贯'")
+    public String register;
     @Enumerated(EnumType.STRING)
-    public Sex sex = Sex.NOPOINT;//person中无需重复声明 enum需定义
+    @Column(columnDefinition = STRING + "'性别'")
+    public Sex sex = Sex.NOPOINT;
     @Enumerated(EnumType.STRING)
-    public PersonType type;//person中无需重复声明 enum需定义
-    public Long firstLoginTime;//首次登录时间
-    public Long lastLoginTime;//最后登录时间
-    public Integer loginAmount;//登录次数
+    @Column(columnDefinition = STRING + "'用户类型'")
+    public PersonType type;//项目enum需定义
+    @Column(columnDefinition = LONG + "'首次登录时间'")
+    public Long firstLoginTime;
+    @Column(columnDefinition = LONG + "'最后登录时间'")
+    public Long lastLoginTime;
+    @Column(columnDefinition = LONG + "'登录次数'")
+    public Integer loginAmount;
     
-    public Boolean increase = false;//是否需要做全增量标识 根据场景标识
+    @Column(columnDefinition = BOOLEAN + "'是否需要做全增量标识 根据场景标识'")
+    public Boolean increase = false;
     
     @ManyToOne
-    public BaseOrganize organize;//机构
+    public BaseOrganize organize;//所属机构
     
     public static boolean isPhoneLegal(String phone) {
         String regExp = "^(1)\\d{10}$";
