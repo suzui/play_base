@@ -2,8 +2,8 @@ package models.access;
 
 import models.BaseModel;
 import models.token.BaseOrganize;
-import org.apache.commons.lang.StringUtils;
 import play.jobs.Job;
+import utils.BaseUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,7 +29,7 @@ public class BasePermission extends BaseModel {
     }
     
     public <T extends BaseAccess> List<T> access() {
-        return BaseAccess.fetchByIds(StringUtils.split(this.accessIds, ","));
+        return BaseAccess.fetchByIds(BaseUtils.idsToList(this.accessIds));
     }
     
     public void del() {

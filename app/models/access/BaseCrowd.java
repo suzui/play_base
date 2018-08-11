@@ -3,6 +3,7 @@ package models.access;
 import models.BaseModel;
 import models.token.BaseOrganize;
 import play.jobs.Job;
+import utils.BaseUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,6 +26,10 @@ public class BaseCrowd extends BaseModel {
     
     public <T extends BaseOrganize> T organize() {
         return this.organize == null ? null : (T) this.organize;
+    }
+    
+    public <T extends BaseOrganize> List<T> organizes() {
+        return T.fetchByIds(BaseUtils.idsToList(this.organizeIds));
     }
     
     public void del() {

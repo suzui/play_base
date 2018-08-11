@@ -5,10 +5,8 @@ import models.BaseModel;
 import utils.BaseUtils;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Access")
@@ -80,13 +78,6 @@ public class BaseAccess extends BaseModel {
             return Collections.EMPTY_LIST;
         }
         return T.find(defaultSql("id in(:ids)")).bind("ids", ids.toArray()).fetch();
-    }
-    
-    public static <T extends BaseAccess> List<T> fetchByIds(String[] ids) {
-        if (ids == null || ids.length == 0) {
-            return Collections.EMPTY_LIST;
-        }
-        return T.fetchByIds(Arrays.stream(ids).map(id -> Long.parseLong(id)).collect(Collectors.toList()));
     }
     
     public static <T extends BaseAccess> List<T> fetchAll() {
