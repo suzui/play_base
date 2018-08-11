@@ -19,8 +19,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Person")
@@ -171,10 +169,13 @@ public class BasePerson extends BaseModel {
     //超级后台管理员权限
     public <T extends BaseAccess> List<T> access() {
         if (BooleanUtils.isTrue(this.origin)) {
-            return BaseAccess.fetchByType(AccessType.ADMIN);
+            return T.fetchByType(AccessType.ADMIN);
         }
-        Set<BaseAccess> accessSet = BaseAuthorization.fetchByPerson(this).stream().flatMap(a -> a.permission.access().stream()).collect(Collectors.toSet());
-        return new ArrayList(accessSet);
+        List<T> access = new ArrayList<>();
+        for (BaseAuthorization a : BaseAuthorization.fetchByPerson(this)) {
+            access.addAll(a.permission.access());
+        }
+        return access;
     }
     
     //机构后台管理员授权
@@ -185,10 +186,13 @@ public class BasePerson extends BaseModel {
     //机构后台管理员权限
     public <T extends BaseAccess> List<T> access(BaseOrganize organize) {
         if (BooleanUtils.isTrue(this.origin)) {
-            return BaseAccess.fetchByType(AccessType.ORGANIZE);
+            return T.fetchByType(AccessType.ORGANIZE);
         }
-        Set<BaseAccess> accessSet = BaseAuthorization.fetchByPersonAndOrganize(this, organize).stream().flatMap(a -> a.permission.access().stream()).collect(Collectors.toSet());
-        return new ArrayList(accessSet);
+        List<T> access = new ArrayList<>();
+        for (BaseAuthorization a : BaseAuthorization.fetchByPersonAndOrganize(this, organize)) {
+            access.addAll(a.permission.access());
+        }
+        return access;
     }
     
 }
