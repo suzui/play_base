@@ -2,9 +2,13 @@ package models.access;
 
 import enums.AccessType;
 import models.BaseModel;
-import play.jobs.Job;
+import utils.BaseUtils;
 
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Access")
@@ -45,31 +49,48 @@ public class BaseAccess extends BaseModel {
     }
     
     public void del() {
-        BaseAccess access = this;
-        new Job() {
-            @Override
-            public void doJob() throws Exception {
-                super.doJob();
-                BaseAccessPerson.fetchByAccess(access).forEach(ap -> ap.del());
-                BasePermissionAccess.fetchByAccess(access).forEach(pa -> pa.del());
-            }
-        }.now();
         this.logicDelete();
-    }
-    
-    public static <T extends BaseAccess> T findByID(Long id) {
-        return BaseAccess.find(defaultSql("id=?"), id).first();
-    }
-    
-    public static <T extends BaseAccess> T findByCodeAndType(String code, AccessType type) {
-        return BaseAccess.find(defaultSql("code=? and type=?"), code, type).first();
     }
     
     public <T extends BaseAccess> T parent() {
         if (code.length() <= 3) {
             return null;
         }
-        return BaseAccess.find(defaultSql("code=? and type=?"), code.substring(0, code.length() - 3), this.type).first();
+        return T.find(defaultSql("code=? and type=?"), code.substring(0, code.length() - 3), this.type).first();
+    }
+    
+    public static <T extends BaseAccess> T findByID(Long id) {
+        return T.find(defaultSql("id=?"), id).first();
+    }
+    
+    public static <T extends BaseAccess> T findByCode(String code) {
+        return T.find(defaultSql("code=? and type=?"), code, AccessType.ADMIN).first();
+    }
+    
+    public static <T extends BaseAccess> T findByCodeAndType(String code, AccessType type) {
+        return T.find(defaultSql("code=? and type=?"), code, type).first();
+    }
+    
+    public static <T extends BaseAccess> List<T> fetchByType(AccessType type) {
+        return T.find(defaultSql("type=?"), type).first();
+    }
+    
+    public static <T extends BaseAccess> List<T> fetchByIds(List<Long> ids) {
+        if (BaseUtils.collectionEmpty(ids)) {
+            return Collections.EMPTY_LIST;
+        }
+        return T.find(defaultSql("id in(:ids)")).bind("ids", ids.toArray()).fetch();
+    }
+    
+    public static <T extends BaseAccess> List<T> fetchByIds(String[] ids) {
+        if (ids == null || ids.length == 0) {
+            return Collections.EMPTY_LIST;
+        }
+        return T.fetchByIds(Arrays.stream(ids).map(id -> Long.parseLong(id)).collect(Collectors.toList()));
+    }
+    
+    public static <T extends BaseAccess> List<T> fetchAll() {
+        return T.find(defaultSql("type=?"), AccessType.ADMIN).fetch();
     }
     
 }

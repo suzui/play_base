@@ -37,7 +37,6 @@ public class Auth extends BaseModel {
     
     public void del() {
         this.logicDelete();
-        AuthAdmin.delByAuth(this);
     }
     
     public static Auth findByID(Long id) {
@@ -49,6 +48,13 @@ public class Auth extends BaseModel {
             return Collections.EMPTY_LIST;
         }
         return Auth.find(defaultSql("id in(:ids)")).bind("ids", ids.toArray()).fetch();
+    }
+
+    public static List<Auth> fetchByIds(String[] ids) {
+        if (ids == null || ids.length == 0) {
+            return Collections.EMPTY_LIST;
+        }
+        return Auth.find(defaultSql("id in(:ids)")).bind("ids", Arrays.stream(ids).map(id -> Long.parseLong(id)).collect(Collectors.toList()).toArray()).fetch();
     }
     
     public static List<Auth> fetchAll() {

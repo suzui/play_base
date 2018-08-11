@@ -2,7 +2,6 @@ package controllers.back;
 
 import binders.PasswordBinder;
 import models.back.Admin;
-import models.back.AuthAdmin;
 import play.data.binding.As;
 import vos.Result;
 import vos.Result.StatusCode;
@@ -40,7 +39,7 @@ public class Application extends BackController {
     
     public static void home() {
         Admin currAdmin = getCurrAdmin();
-        AdminVO admin = new AdminVO(currAdmin).codes(AuthAdmin.fetchAuthByAdmin(currAdmin));
+        AdminVO admin = new AdminVO(currAdmin).codes(currAdmin.access());
         List<AccessVO> access = AccessVO.init();
         render(admin, access);
     }

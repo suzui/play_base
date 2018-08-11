@@ -26,7 +26,11 @@ public class AccessToken extends BaseModel {
     public String deviceToken;
     public String pushToken;
     public Boolean notify = true;
-    
+
+    public <T extends BasePerson> T person() {
+        return this.person == null ? null : (T) this.person;
+    }
+
     public static AccessToken add(BasePerson person) {
         AccessToken at = new AccessToken();
         at.person = person;

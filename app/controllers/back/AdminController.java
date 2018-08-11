@@ -2,7 +2,6 @@ package controllers.back;
 
 import models.back.Admin;
 import models.back.Auth;
-import models.back.AuthAdmin;
 import vos.PageData;
 import vos.Result;
 import vos.back.AdminVO;
@@ -48,7 +47,7 @@ public class AdminController extends BackController {
     public static void auths(AdminVO vo) {
         Admin admin = Admin.findByID(vo.adminId);
         List<Auth> auths = Auth.fetchAll();
-        List<Auth> adminAuths = AuthAdmin.fetchAuthByAdmin(admin);
+        List<Auth> adminAuths = admin.auths();
         List<AuthVO> authVOs = auths.stream().map(a -> new AuthVO(a).flag(adminAuths.contains(a)))
                 .collect(Collectors.toList());
         renderJSON(Result.succeed(new PageData(authVOs)));
@@ -56,8 +55,7 @@ public class AdminController extends BackController {
     
     public static void auth(AdminVO vo) {
         Admin admin = Admin.findByID(vo.adminId);
-        List<Auth> auths = Auth.fetchByIds(vo.authIds);
-        auths.forEach(a -> AuthAdmin.add(a, admin));
+        admin.edit(vo);
         renderJSON(Result.succeed());
     }
     

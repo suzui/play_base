@@ -1,20 +1,25 @@
 package models.token;
 
+import enums.AccessType;
 import enums.PersonType;
 import enums.Sex;
 import models.BaseModel;
 import models.access.BaseAccess;
-import models.access.BaseAccessPerson;
-import models.access.BasePermissionPerson;
+import models.access.BaseAuthorization;
+import models.person.Person;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import play.data.validation.MaxSize;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
+import play.jobs.Job;
+import utils.BaseUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -80,9 +85,15 @@ public class BasePerson extends BaseModel {
     
     @Column(columnDefinition = BOOLEAN + "'是否需要做全增量标识 根据场景标识'")
     public Boolean increase = false;
+    @Column(columnDefinition = BOOLEAN + "'是否初始管理员'")
+    public Boolean origin = false;
     
     @ManyToOne
     public BaseOrganize organize;//所属机构
+    
+    public <T extends BaseOrganize> T organize() {
+        return this.organize == null ? null : (T) this.organize;
+    }
     
     public static boolean isPhoneLegal(String phone) {
         String regExp = "^(1)\\d{10}$";
@@ -116,8 +127,28 @@ public class BasePerson extends BaseModel {
         this.save();
     }
     
+    public void del() {
+        BasePerson person = this;
+        new Job() {
+            @Override
+            public void doJob() throws Exception {
+                super.doJob();
+                BaseAuthorization.fetchByPerson(person).forEach(a -> a.del());
+                BaseRelation.fetchByPerson(person).forEach(r -> r.del());
+            }
+        }.now();
+        this.logicDelete();
+    }
+    
     public static <T extends BasePerson> T findByID(Long id) {
         return BasePerson.find(defaultSql("id=?"), id).first();
+    }
+    
+    public static <T extends BasePerson> List<T> fetchByIds(List<Long> ids) {
+        if (BaseUtils.collectionEmpty(ids)) {
+            return Collections.EMPTY_LIST;
+        }
+        return Person.find(defaultSql("id in (:ids)")).bind("ids", ids.toArray()).fetch();
     }
     
     public static <T extends BasePerson> T findByUsername(String username, Integer type) {
@@ -132,21 +163,32 @@ public class BasePerson extends BaseModel {
         return (T) basePerson;
     }
     
+    //超级后台管理员授权
+    public <T extends BaseAuthorization> List<T> authorizations() {
+        return T.fetchByPerson(this);
+    }
+    
     //超级后台管理员权限
-    public List<BaseAccess> access() {
-        if (this.username.equals("admin")) {
-            return BaseAccess.findAll();
+    public <T extends BaseAccess> List<T> access() {
+        if (BooleanUtils.isTrue(this.origin)) {
+            return BaseAccess.fetchByType(AccessType.ADMIN);
         }
-        List<BaseAccessPerson> accessPersons = BasePermissionPerson.fetchByPerson(this).stream().map(pp -> BaseAccessPerson.fetchByPerson(this)).flatMap(aps -> aps.stream()).collect(Collectors.toList());
-        accessPersons.addAll(BaseAccessPerson.fetchByPerson(this));
-        return new ArrayList<>(new HashSet<>(accessPersons.stream().map(ap -> ap.access).collect(Collectors.toList())));
+        Set<BaseAccess> accessSet = BaseAuthorization.fetchByPerson(this).stream().flatMap(a -> a.permission.access().stream()).collect(Collectors.toSet());
+        return new ArrayList(accessSet);
+    }
+    
+    //机构后台管理员授权
+    public <T extends BaseAuthorization> List<T> authorizations(BaseOrganize organize) {
+        return T.fetchByPersonAndOrganize(this, organize);
     }
     
     //机构后台管理员权限
-    public List<BaseAccess> access(BaseOrganize organize) {
-        List<BaseAccessPerson> accessPersons = BasePermissionPerson.fetchByPersonAndOrganize(this, organize).stream().map(pp -> BaseAccessPerson.fetchByPersonAndOrganize(this, organize)).flatMap(aps -> aps.stream()).collect(Collectors.toList());
-        accessPersons.addAll(BaseAccessPerson.fetchByPersonAndOrganize(this, organize));
-        return new ArrayList<>(new HashSet<>(accessPersons.stream().map(ap -> ap.access).collect(Collectors.toList())));
+    public <T extends BaseAccess> List<T> access(BaseOrganize organize) {
+        if (BooleanUtils.isTrue(this.origin)) {
+            return BaseAccess.fetchByType(AccessType.ORGANIZE);
+        }
+        Set<BaseAccess> accessSet = BaseAuthorization.fetchByPersonAndOrganize(this, organize).stream().flatMap(a -> a.permission.access().stream()).collect(Collectors.toSet());
+        return new ArrayList(accessSet);
     }
     
 }

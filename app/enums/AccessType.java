@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringUtils;
 
 @EnumClass(name = "权限类型")
 public enum AccessType implements BaseEnum {
-    BOS(100, "超级后台"), ORGANIZE(101, "机构后台"), PERSON(102, "用户端");
+    ADMIN(100, "超级后台"), ORGANIZE(101, "机构后台"), PERSON(102, "用户端");
     private int code;
     private String intro;
     

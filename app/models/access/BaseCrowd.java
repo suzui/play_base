@@ -2,7 +2,6 @@ package models.access;
 
 import models.BaseModel;
 import models.token.BaseOrganize;
-import org.apache.commons.lang.StringUtils;
 import play.jobs.Job;
 
 import javax.persistence.Column;
@@ -12,14 +11,14 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "Permission")
-public class BasePermission extends BaseModel {
+@Table(name = "Crowd")
+public class BaseCrowd extends BaseModel {
     
-    @Column(columnDefinition = STRING + "'权限组名称'")
+    @Column(columnDefinition = STRING + "'分组范围名称'")
     public String name;
     
-    @Column(columnDefinition = STRING_5000 + "'权限ids'")
-    public String accessIds;
+    @Column(columnDefinition = STRING_5000 + "'组织ids'")
+    public String organizeIds;
     
     @ManyToOne
     public BaseOrganize organize;//所属机构
@@ -28,21 +27,17 @@ public class BasePermission extends BaseModel {
         return this.organize == null ? null : (T) this.organize;
     }
     
-    public <T extends BaseAccess> List<T> access() {
-        return BaseAccess.fetchByIds(StringUtils.split(this.accessIds, ","));
-    }
-    
     public void del() {
-        BasePermission permission = this;
+        BaseCrowd crowd = this;
         new Job() {
             @Override
             public void doJob() throws Exception {
                 super.doJob();
-                BaseAuthorization.fetchByPermission(permission).forEach(a -> {
-                    if (a.crowd == null) {
+                BaseAuthorization.fetchByCrowd(crowd).forEach(a -> {
+                    if (a.permission == null) {
                         a.del();
                     } else {
-                        a.permission = null;
+                        a.crowd = null;
                         a.save();
                     }
                 });
@@ -51,11 +46,11 @@ public class BasePermission extends BaseModel {
         this.logicDelete();
     }
     
-    public static <T extends BasePermission> T findByID(Long id) {
-        return T.find(defaultSql("id =?"), id).first();
+    public static <T extends BaseCrowd> T findByID(Long id) {
+        return T.find(defaultSql("id=?"), id).first();
     }
     
-    public static <T extends BasePermission> List<T> fetchByOrganize(BaseOrganize organize) {
+    public static <T extends BaseCrowd> List<T> fetchByOrganize(BaseOrganize organize) {
         return T.find(defaultSql("organize = ?"), organize).fetch();
     }
     

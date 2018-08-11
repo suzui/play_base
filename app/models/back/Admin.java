@@ -1,15 +1,15 @@
 package models.back;
 
+import enums.Access;
 import models.BaseModel;
 import org.apache.commons.lang.StringUtils;
-import utils.CodeUtils;
+import utils.BaseUtils;
 import vos.back.AdminVO;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Admin extends BaseModel {
@@ -23,7 +23,10 @@ public class Admin extends BaseModel {
     public String avatar;//头像
     @Column(length = 1000)
     public String intro;//简介
-    public Boolean origin = false;
+    public Boolean origin = false;//是否初始管理员
+    
+    @Column(length = 1000)
+    public String authIds;//权限组ids
     
     public static Admin add(AdminVO adminVO) {
         Admin admin = new Admin();
@@ -40,6 +43,7 @@ public class Admin extends BaseModel {
         this.intro = adminVO.intro != null ? adminVO.intro : intro;
         this.password = adminVO.password != null ? adminVO.password : password;
         this.origin = adminVO.origin != null ? convert(adminVO.origin) : origin;
+        this.authIds = adminVO.authIds != null ? StringUtils.join(adminVO.authIds, ",") : authIds;
         this.save();
     }
     
@@ -48,7 +52,7 @@ public class Admin extends BaseModel {
             Admin admin = new Admin();
             admin.username = "admin";
             admin.name = "超级管理员";
-            admin.password = CodeUtils.md5("123456");
+            admin.password = BaseUtils.initPassword();
             admin.origin = true;
             admin.save();
         }
@@ -60,6 +64,19 @@ public class Admin extends BaseModel {
     
     public static boolean isUsernameAvailable(String username) {
         return Admin.findByUsername(username) == null;
+    }
+    
+    
+    public List<Auth> auths() {
+        return Auth.fetchByIds(StringUtils.split(this.authIds, ","));
+    }
+    
+    public List<Access> access() {
+        if (this.origin) {
+            return Arrays.asList(Access.values());
+        }
+        Set<Access> accessSet = this.auths().stream().flatMap(a -> Arrays.stream(StringUtils.split(a.codes, ","))).map(c -> Access.covert(Integer.parseInt(c))).collect(Collectors.toSet());
+        return new ArrayList(accessSet);
     }
     
     public void del() {

@@ -14,13 +14,11 @@ import play.utils.Java;
 import vos.VersionVO;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.ScheduledFuture;
+import java.util.stream.Collectors;
 
 public class BaseUtils {
     
@@ -225,13 +223,26 @@ public class BaseUtils {
         }
     }
     
-    
     public static Boolean collectionEmpty(Collection collection) {
         return collection == null || collection.isEmpty();
     }
     
     public static Boolean collectionNotEmpty(Collection collection) {
         return collection != null && !collection.isEmpty();
+    }
+
+    public static List<Long> idsToList(String ids) {
+        if (StringUtils.isBlank(ids)) {
+            return Collections.EMPTY_LIST;
+        }
+        return Arrays.stream(StringUtils.split(ids, ",")).map(id -> Long.parseLong(id)).collect(Collectors.toList());
+    }
+
+    public static List<Integer> codesToList(String codes) {
+        if (StringUtils.isBlank(codes)) {
+            return Collections.EMPTY_LIST;
+        }
+        return Arrays.stream(StringUtils.split(codes, ",")).map(code -> Integer.parseInt(code)).collect(Collectors.toList());
     }
     
     public static List<String[]> enums(Class clazz) {

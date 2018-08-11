@@ -2,13 +2,12 @@ package vos.back;
 
 import annotations.DataField;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import enums.Access;
 import models.back.Admin;
-import models.back.Auth;
 import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.StringUtils;
 import vos.OneData;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class AdminVO extends OneData {
@@ -43,7 +42,7 @@ public class AdminVO extends OneData {
     public List<Long> authIds;
     
     public AdminVO() {
-    
+
     }
     
     public AdminVO(Admin admin) {
@@ -57,9 +56,8 @@ public class AdminVO extends OneData {
         this.origin = BooleanUtils.toIntegerObject(admin.origin);
     }
     
-    public AdminVO codes(List<Auth> auths) {
-        Set<Integer> set = auths.stream().flatMap(a -> Arrays.stream(StringUtils.split(a.codes, ","))).map(c -> Integer.parseInt(c)).collect(Collectors.toSet());
-        this.codes = new ArrayList<>(set);
+    public AdminVO codes(List<Access> accessList) {
+        this.codes = accessList.stream().map(a -> a.code()).collect(Collectors.toList());
         return this;
     }
     

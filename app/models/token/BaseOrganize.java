@@ -2,17 +2,28 @@ package models.token;
 
 import enums.OrganizeType;
 import models.BaseModel;
+import models.access.BaseAuthorization;
+import models.access.BaseCrowd;
+import models.access.BasePermission;
+import play.jobs.Job;
+import utils.BaseUtils;
 
 import javax.persistence.*;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "Organize")
 public class BaseOrganize extends BaseModel {
     
-    public String logo;//组织logo
-    public String name;//组织名称
-    public Double rank;//组织排序
+    @Column(columnDefinition = STRING + "'组织logo'")
+    public String logo;
+    @Column(columnDefinition = STRING + "'组织名称'")
+    public String name;
+    @Column(columnDefinition = DOUBLE + "'组织排序'")
+    public Double rank;
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = DOUBLE + "'组织类型'")
     public OrganizeType type;//organize中无需重复声明 enum需定义
     @ManyToOne
     public BasePerson person;//组织负责人
@@ -26,8 +37,58 @@ public class BaseOrganize extends BaseModel {
     @ManyToOne
     public BaseOrganize root;//总根机构
     
+    public <T extends BasePerson> T person() {
+        return this.person == null ? null : (T) this.person;
+    }
+    
+    public <T extends BaseOrganize> T organize() {
+        return this.organize == null ? null : (T) this.organize;
+    }
+    
+    public <T extends BaseOrganize> T parent() {
+        return this.parent == null ? null : (T) this.parent;
+    }
+    
+    public <T extends BaseOrganize> T root() {
+        return this.root == null ? null : (T) this.root;
+    }
+    
+    public <T extends BaseOrganize> List<T> children() {
+        return T.find(defaultSql("parent=?"), this).fetch();
+    }
+    
+    public void del() {
+        BaseOrganize organize = this;
+        new Job() {
+            @Override
+            public void doJob() throws Exception {
+                super.doJob();
+                BaseRelation.fetchByOrganize(organize).forEach(r -> r.del());
+                BaseAuthorization.fetchOrganzie(organize).forEach(a -> a.del());
+                BasePermission.fetchByOrganize(organize).forEach(p -> p.del());
+                BaseCrowd.fetchByOrganize(organize).forEach(c -> c.del());
+            }
+        }.now();
+        this.logicDelete();
+    }
+    
     public static <T extends BaseOrganize> T findByID(Long id) {
-        return BaseOrganize.find(defaultSql("id=?"), id).first();
+        return T.find(defaultSql("id=?"), id).first();
+    }
+    
+    public static <T extends BaseOrganize> List<T> fetchByIds(List<Long> ids) {
+        if (BaseUtils.collectionEmpty(ids)) {
+            return Collections.EMPTY_LIST;
+        }
+        return T.find(defaultSql("id in (:ids)")).bind("ids", ids.toArray()).fetch();
+    }
+    
+    public static <T extends BaseOrganize> List<T> fetchByOrganize(BaseOrganize organize) {
+        return T.find(defaultSql("organize=?"), organize).fetch();
+    }
+    
+    public static <T extends BaseOrganize> List<T> fetchByRoot(BaseOrganize organize) {
+        return T.find(defaultSql("root=?"), organize).fetch();
     }
     
 }
