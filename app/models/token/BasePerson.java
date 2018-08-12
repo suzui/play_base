@@ -185,15 +185,19 @@ public class BasePerson extends BaseModel {
         return T.findByUsername(username, PersonType.convert(type));
     }
     
-    public static <T extends BasePerson> List<T> fetchByOrganize(BaseOrganize organize) {
-        return T.find(defaultSql("organize=?"), organize).fetch();
-    }
-    
     public static <T extends BasePerson> List<T> fetchByIds(List<Long> ids) {
         if (BaseUtils.collectionEmpty(ids)) {
             return Collections.EMPTY_LIST;
         }
         return Person.find(defaultSql("id in (:ids)")).bind("ids", ids.toArray()).fetch();
+    }
+    
+    public static <T extends BasePerson> List<T> fetchByOrganize(BaseOrganize organize) {
+        return T.find(defaultSql("organize=?"), organize).fetch();
+    }
+    
+    public static <T extends BasePerson> List<T> fetchByType(PersonType type) {
+        return T.find(defaultSql("type=?"), type).fetch();
     }
     
     public static <T extends BasePerson> List<T> fetchAll() {
