@@ -6,6 +6,7 @@ import enums.Sex;
 import models.BaseModel;
 import models.access.BaseAccess;
 import models.access.BaseAuthorization;
+import models.access.BaseRole;
 import models.person.Person;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -210,6 +211,13 @@ public class BasePerson extends BaseModel {
         return T.fetchByPerson(this);
     }
     
+    //超级后台管理员角色列表
+    public <T extends BaseRole> List<T> roles() {
+        List<T> roles = new ArrayList<>();
+        this.authorizations().forEach(a -> roles.add(a.role()));
+        return roles;
+    }
+    
     //超级后台管理员权限列表
     public <T extends BaseAccess> List<T> access() {
         if (BooleanUtils.isTrue(this.origin)) {
@@ -227,6 +235,13 @@ public class BasePerson extends BaseModel {
         return T.fetchByPersonAndOrganize(this, organize);
     }
     
+    //机构后台管理员角色列表
+    public <T extends BaseRole> List<T> roles(BaseOrganize organize) {
+        List<T> roles = new ArrayList<>();
+        this.authorizations(organize).forEach(a -> roles.add(a.role()));
+        return roles;
+    }
+    
     //机构后台管理员权限列表
     public <T extends BaseAccess> List<T> access(BaseOrganize organize) {
         if (BooleanUtils.isTrue(this.origin)) {
@@ -238,5 +253,6 @@ public class BasePerson extends BaseModel {
         }
         return access;
     }
+    
     
 }
