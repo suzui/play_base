@@ -24,7 +24,7 @@ public class BaseOrganize extends BaseModel {
     public Double rank;
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = DOUBLE + "'组织类型'")
-    public OrganizeType type;//organize中无需重复声明 enum需定义
+    public OrganizeType type;//项目enum需定义
     @ManyToOne
     public BasePerson person;//组织负责人
     
@@ -55,6 +55,24 @@ public class BaseOrganize extends BaseModel {
     
     public <T extends BaseOrganize> List<T> children() {
         return T.find(defaultSql("parent=?"), this).fetch();
+    }
+    
+    public Double initRank() {
+        Double rank = BaseOrganize.find(defaultSql("select max(rank) from Organize where parent.id=?"), this.id).first();
+        return rank == null ? 0 : rank + 1;
+    }
+    
+    public void move(BaseOrganize pre, BaseOrganize next) {
+        if (pre == null || next == null) {
+            if (pre == null) {
+                this.rank = next.rank - 1;
+            } else {
+                this.rank = pre.rank + 1;
+            }
+        } else {
+            this.rank = (pre.rank + next.rank) / 2;
+        }
+        this.save();
     }
     
     public void del() {
