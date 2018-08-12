@@ -260,6 +260,4 @@ public class BasePerson extends BaseModel {
     public String organizeNames() {
         return StringUtils.join(organizes().stream().map(o -> o.name).collect(Collectors.toList()), ",");
     }
-    
-    
 }
