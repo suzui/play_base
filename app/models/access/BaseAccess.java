@@ -80,8 +80,4 @@ public class BaseAccess extends BaseModel {
         return T.find(defaultSql("id in(:ids)")).bind("ids", ids.toArray()).fetch();
     }
     
-    public static <T extends BaseAccess> List<T> fetchAll() {
-        return T.find(defaultSql("type=?"), AccessType.ADMIN).fetch();
-    }
-    
 }
