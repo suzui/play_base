@@ -107,7 +107,6 @@ public class BasePerson extends BaseModel {
         return StringUtils.isNotBlank(password) && password.length() >= 6;
     }
     
-    
     public static <T extends BasePerson> boolean isPhoneAvailable(String phone, PersonType type) {
         return T.findByPhone(phone, type) == null;
     }
@@ -172,6 +171,14 @@ public class BasePerson extends BaseModel {
             basePerson = BasePerson.find(defaultSql("phone=? and type=?"), username, type).first();
         }
         return (T) basePerson;
+    }
+    
+    public static <T extends BasePerson> T findByPhone(String phone, Integer type) {
+        return T.findByPhone(phone, PersonType.convert(type));
+    }
+    
+    public static <T extends BasePerson> T findByEmail(String email, Integer type) {
+        return T.findByEmail(email, PersonType.convert(type));
     }
     
     public static <T extends BasePerson> T findByUsername(String username, Integer type) {
