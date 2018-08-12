@@ -47,6 +47,10 @@ public class BaseRelation extends BaseModel {
         return this.organize == null ? null : (T) this.organize;
     }
     
+    public static Boolean isAdmin(BaseOrganize organize, BasePerson person) {
+        return organize.person.id.equals(person.id);
+    }
+    
     public void del() {
         this.logicDelete();
     }

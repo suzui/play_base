@@ -83,7 +83,7 @@ public class BasePerson extends BaseModel {
     
     @Column(columnDefinition = BOOLEAN + "'是否需要做全增量标识 根据场景标识'")
     public Boolean increase = false;
-    @Column(columnDefinition = BOOLEAN + "'是否初始管理员（超级后台|机构后台）'")
+    @Column(columnDefinition = BOOLEAN + "'是否初始超级管理员'")
     public Boolean origin = false;
     
     @ManyToOne
@@ -239,7 +239,7 @@ public class BasePerson extends BaseModel {
     
     //机构后台管理员权限列表
     public <T extends BaseAccess> List<T> access(BaseOrganize organize) {
-        if (BooleanUtils.isTrue(this.origin)) {
+        if (BaseRelation.isAdmin(organize, this)) {
             return T.fetchByType(AccessType.ORGANIZE);
         }
         Set<T> access = new HashSet<>();
