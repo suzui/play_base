@@ -83,6 +83,10 @@ public class BaseOrganize extends BaseModel {
         return T.find(defaultSql("id in (:ids)")).bind("ids", ids.toArray()).fetch();
     }
     
+    public static <T extends BaseOrganize> List<T> fetchByParent(BaseOrganize organize) {
+        return T.find(defaultSql("parent=?"), organize).fetch();
+    }
+    
     public static <T extends BaseOrganize> List<T> fetchByOrganize(BaseOrganize organize) {
         return T.find(defaultSql("organize=?"), organize).fetch();
     }
@@ -90,5 +94,14 @@ public class BaseOrganize extends BaseModel {
     public static <T extends BaseOrganize> List<T> fetchByRoot(BaseOrganize organize) {
         return T.find(defaultSql("root=?"), organize).fetch();
     }
+    
+    public static <T extends BaseOrganize> List<T> fetchByType(OrganizeType type) {
+        return T.find(defaultSql("type=?"), type).fetch();
+    }
+    
+    public static <T extends BaseOrganize> List<T> fetchAll() {
+        return T.find(defaultSql()).fetch();
+    }
+    
     
 }
