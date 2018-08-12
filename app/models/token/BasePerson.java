@@ -107,8 +107,21 @@ public class BasePerson extends BaseModel {
         return StringUtils.isNotBlank(password) && password.length() >= 6;
     }
     
+    
+    public static <T extends BasePerson> boolean isPhoneAvailable(String phone, PersonType type) {
+        return T.findByPhone(phone, type) == null;
+    }
+    
+    public static <T extends BasePerson> boolean isEmailAvailable(String email, PersonType type) {
+        return T.findByEmail(email, type) == null;
+    }
+    
+    public boolean isAdmin() {
+        return PersonType.ADMIN == this.type;
+    }
+    
     public boolean isPasswordRight(String password) {
-        return StringUtils.equalsIgnoreCase(password, this.password);
+        return StringUtils.equals(password, this.password);
     }
     
     public void editPassword(String password) {
@@ -139,7 +152,34 @@ public class BasePerson extends BaseModel {
     }
     
     public static <T extends BasePerson> T findByID(Long id) {
-        return BasePerson.find(defaultSql("id=?"), id).first();
+        return T.find(defaultSql("id=?"), id).first();
+    }
+    
+    public static <T extends BasePerson> T findByPhone(String phone, PersonType type) {
+        return T.find(defaultSql("phone=? and type=?"), phone, type).first();
+    }
+    
+    public static <T extends BasePerson> T findByEmail(String email, PersonType type) {
+        return T.find(defaultSql("email=? and type=?"), email, type).first();
+    }
+    
+    public static <T extends BasePerson> T findByUsername(String username, PersonType type) {
+        BasePerson basePerson = BasePerson.find(defaultSql("username=? and type=?"), username, type).first();
+        if (basePerson == null) {
+            basePerson = BasePerson.find(defaultSql("email=? and type=?"), username, type).first();
+        }
+        if (basePerson == null) {
+            basePerson = BasePerson.find(defaultSql("phone=? and type=?"), username, type).first();
+        }
+        return (T) basePerson;
+    }
+    
+    public static <T extends BasePerson> T findByUsername(String username, Integer type) {
+        return T.findByUsername(username, PersonType.convert(type));
+    }
+    
+    public static <T extends BasePerson> List<T> fetchByOrganize(BaseOrganize organize) {
+        return T.find(defaultSql("organize=?"), organize).fetch();
     }
     
     public static <T extends BasePerson> List<T> fetchByIds(List<Long> ids) {
@@ -149,24 +189,17 @@ public class BasePerson extends BaseModel {
         return Person.find(defaultSql("id in (:ids)")).bind("ids", ids.toArray()).fetch();
     }
     
-    public static <T extends BasePerson> T findByUsername(String username, Integer type) {
-        PersonType personType = PersonType.convert(type);
-        BasePerson basePerson = BasePerson.find(defaultSql("username=? and type=?"), username, personType).first();
-        if (basePerson == null) {
-            basePerson = BasePerson.find(defaultSql("email=? and type=?"), username, personType).first();
-        }
-        if (basePerson == null) {
-            basePerson = BasePerson.find(defaultSql("phone=? and type=?"), username, personType).first();
-        }
-        return (T) basePerson;
+    public static <T extends BasePerson> List<T> fetchAll() {
+        return T.find(defaultSql()).fetch();
     }
     
-    //超级后台管理员授权
+    
+    //超级后台管理员授权列表
     public <T extends BaseAuthorization> List<T> authorizations() {
         return T.fetchByPerson(this);
     }
     
-    //超级后台管理员权限
+    //超级后台管理员权限列表
     public <T extends BaseAccess> List<T> access() {
         if (BooleanUtils.isTrue(this.origin)) {
             return T.fetchByType(AccessType.ADMIN);
@@ -178,12 +211,12 @@ public class BasePerson extends BaseModel {
         return access;
     }
     
-    //机构后台管理员授权
+    //机构后台管理员授权列表
     public <T extends BaseAuthorization> List<T> authorizations(BaseOrganize organize) {
         return T.fetchByPersonAndOrganize(this, organize);
     }
     
-    //机构后台管理员权限
+    //机构后台管理员权限列表
     public <T extends BaseAccess> List<T> access(BaseOrganize organize) {
         if (BooleanUtils.isTrue(this.origin)) {
             return T.fetchByType(AccessType.ORGANIZE);
