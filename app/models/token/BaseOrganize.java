@@ -129,5 +129,4 @@ public class BaseOrganize extends BaseModel {
         return T.find(defaultSql()).fetch();
     }
     
-    
 }

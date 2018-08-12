@@ -17,9 +17,7 @@ import play.jobs.Job;
 import utils.BaseUtils;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -85,7 +83,7 @@ public class BasePerson extends BaseModel {
     
     @Column(columnDefinition = BOOLEAN + "'是否需要做全增量标识 根据场景标识'")
     public Boolean increase = false;
-    @Column(columnDefinition = BOOLEAN + "'是否初始管理员'")
+    @Column(columnDefinition = BOOLEAN + "'是否初始管理员（超级后台|机构后台）'")
     public Boolean origin = false;
     
     @ManyToOne
@@ -115,10 +113,6 @@ public class BasePerson extends BaseModel {
     
     public static <T extends BasePerson> boolean isEmailAvailable(String email, PersonType type) {
         return T.findByEmail(email, type) == null;
-    }
-    
-    public boolean isAdmin() {
-        return PersonType.ADMIN == this.type;
     }
     
     public boolean isPasswordRight(String password) {
@@ -224,11 +218,11 @@ public class BasePerson extends BaseModel {
         if (BooleanUtils.isTrue(this.origin)) {
             return T.fetchByType(AccessType.ADMIN);
         }
-        List<T> access = new ArrayList<>();
+        Set<T> access = new HashSet<>();
         for (BaseAuthorization a : BaseAuthorization.fetchByPerson(this)) {
             access.addAll(a.role.access());
         }
-        return access;
+        return new ArrayList<>(access);
     }
     
     //机构后台管理员授权列表
@@ -248,11 +242,11 @@ public class BasePerson extends BaseModel {
         if (BooleanUtils.isTrue(this.origin)) {
             return T.fetchByType(AccessType.ORGANIZE);
         }
-        List<T> access = new ArrayList<>();
+        Set<T> access = new HashSet<>();
         for (BaseAuthorization a : BaseAuthorization.fetchByPersonAndOrganize(this, organize)) {
             access.addAll(a.role.access());
         }
-        return access;
+        return new ArrayList<>(access);
     }
     
     //用户所在所有机构
