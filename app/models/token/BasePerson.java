@@ -217,7 +217,7 @@ public class BasePerson extends BaseModel {
         }
         List<T> access = new ArrayList<>();
         for (BaseAuthorization a : BaseAuthorization.fetchByPerson(this)) {
-            access.addAll(a.permission.access());
+            access.addAll(a.role.access());
         }
         return access;
     }
@@ -234,7 +234,7 @@ public class BasePerson extends BaseModel {
         }
         List<T> access = new ArrayList<>();
         for (BaseAuthorization a : BaseAuthorization.fetchByPersonAndOrganize(this, organize)) {
-            access.addAll(a.permission.access());
+            access.addAll(a.role.access());
         }
         return access;
     }

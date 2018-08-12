@@ -17,20 +17,20 @@ public class BaseAuthorization extends BaseModel {
     public BasePerson person;//人员
     
     @ManyToOne
-    public BasePermission permission;//权限组
+    public BaseRole role;//角色
     
     @ManyToOne
-    public BaseCrowd crowd;//范围组
+    public BaseCrowd crowd;//范围
     
     @ManyToOne
     public BaseOrganize organize;//所属机构
-
+    
     public <T extends BasePerson> T person() {
         return this.person == null ? null : (T) this.person;
     }
     
-    public <T extends BasePermission> T permission() {
-        return this.permission == null ? null : (T) this.permission;
+    public <T extends BaseRole> T role() {
+        return this.role == null ? null : (T) this.role;
     }
     
     public <T extends BaseCrowd> T crowd() {
@@ -45,12 +45,12 @@ public class BaseAuthorization extends BaseModel {
         this.logicDelete();
     }
     
-    public static <T extends BaseAuthorization> T findByPersonAndPermissionAndCrowd(BasePerson person, BasePermission permission, BaseCrowd crowd) {
-        return T.find(defaultSql("person=? and permission=? and crowd=?"), person, permission, crowd).first();
+    public static <T extends BaseAuthorization> T findByPersonAndRoleAndCrowd(BasePerson person, BaseRole role, BaseCrowd crowd) {
+        return T.find(defaultSql("person=? and role=? and crowd=?"), person, role, crowd).first();
     }
     
-    public static <T extends BaseAuthorization> T findByPersonAndPermission(BasePerson person, BasePermission permission) {
-        return T.find(defaultSql("person=? and permission=?"), person, permission).first();
+    public static <T extends BaseAuthorization> T findByPersonAndRole(BasePerson person, BaseRole role) {
+        return T.find(defaultSql("person=? and role=?"), person, role).first();
     }
     
     public static <T extends BaseAuthorization> List<T> fetchByPersonAndOrganize(BasePerson person, BaseOrganize organize) {
@@ -61,8 +61,8 @@ public class BaseAuthorization extends BaseModel {
         return T.find(defaultSql("person=?"), person).fetch();
     }
     
-    public static <T extends BaseAuthorization> List<T> fetchByPermission(BasePermission permission) {
-        return T.find(defaultSql("permission=?"), permission).fetch();
+    public static <T extends BaseAuthorization> List<T> fetchByRole(BaseRole role) {
+        return T.find(defaultSql("role=?"), role).fetch();
     }
     
     public static <T extends BaseAuthorization> List<T> fetchByCrowd(BaseCrowd crowd) {

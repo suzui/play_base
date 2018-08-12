@@ -12,10 +12,10 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "Permission")
-public class BasePermission extends BaseModel {
+@Table(name = "Role")
+public class BaseRole extends BaseModel {
     
-    @Column(columnDefinition = STRING + "'权限组名称'")
+    @Column(columnDefinition = STRING + "'角色名称'")
     public String name;
     
     @Column(columnDefinition = STRING_5000 + "'权限ids'")
@@ -33,16 +33,16 @@ public class BasePermission extends BaseModel {
     }
     
     public void del() {
-        BasePermission permission = this;
+        BaseRole role = this;
         new Job() {
             @Override
             public void doJob() throws Exception {
                 super.doJob();
-                BaseAuthorization.fetchByPermission(permission).forEach(a -> {
+                BaseAuthorization.fetchByRole(role).forEach(a -> {
                     if (a.crowd == null) {
                         a.del();
                     } else {
-                        a.permission = null;
+                        a.role = null;
                         a.save();
                     }
                 });
@@ -51,12 +51,17 @@ public class BasePermission extends BaseModel {
         this.logicDelete();
     }
     
-    public static <T extends BasePermission> T findByID(Long id) {
+    public static <T extends BaseRole> T findByID(Long id) {
         return T.find(defaultSql("id =?"), id).first();
     }
     
-    public static <T extends BasePermission> List<T> fetchByOrganize(BaseOrganize organize) {
+    public static <T extends BaseRole> List<T> fetchByOrganize(BaseOrganize organize) {
         return T.find(defaultSql("organize = ?"), organize).fetch();
     }
+    
+    public static <T extends BaseRole> List<T> fetchAll() {
+        return T.find(defaultSql("organize is null")).fetch();
+    }
+    
     
 }

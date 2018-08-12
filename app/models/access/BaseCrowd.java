@@ -39,7 +39,7 @@ public class BaseCrowd extends BaseModel {
             public void doJob() throws Exception {
                 super.doJob();
                 BaseAuthorization.fetchByCrowd(crowd).forEach(a -> {
-                    if (a.permission == null) {
+                    if (a.role == null) {
                         a.del();
                     } else {
                         a.crowd = null;

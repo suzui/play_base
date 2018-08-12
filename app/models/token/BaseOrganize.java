@@ -4,7 +4,7 @@ import enums.OrganizeType;
 import models.BaseModel;
 import models.access.BaseAuthorization;
 import models.access.BaseCrowd;
-import models.access.BasePermission;
+import models.access.BaseRole;
 import play.jobs.Job;
 import utils.BaseUtils;
 
@@ -83,7 +83,7 @@ public class BaseOrganize extends BaseModel {
                 super.doJob();
                 BaseRelation.fetchByOrganize(organize).forEach(r -> r.del());
                 BaseAuthorization.fetchOrganzie(organize).forEach(a -> a.del());
-                BasePermission.fetchByOrganize(organize).forEach(p -> p.del());
+                BaseRole.fetchByOrganize(organize).forEach(p -> p.del());
                 BaseCrowd.fetchByOrganize(organize).forEach(c -> c.del());
             }
         }.now();
