@@ -75,6 +75,14 @@ public class BaseOrganize extends BaseModel {
         this.save();
     }
     
+    public boolean isOrganize() {
+        return this.organize.id.equals(this.id);
+    }
+    
+    public boolean isRoot() {
+        return this.root.id.equals(this.id);
+    }
+    
     public void del() {
         BaseOrganize organize = this;
         new Job() {

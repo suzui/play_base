@@ -73,11 +73,32 @@ public class BaseAccess extends BaseModel {
         return T.find(defaultSql("type=?"), type).first();
     }
     
+    public static <T extends BaseAccess> List<T> fetchByCodes(List<String> codes) {
+        if (BaseUtils.collectionEmpty(codes)) {
+            return Collections.EMPTY_LIST;
+        }
+        return T.find(defaultSql("type = ? and code in(:codes)"), AccessType.ADMIN).bind("codes", codes.toArray()).fetch();
+    }
+    
+    public static <T extends BaseAccess> List<T> fetchByCodesAndType(List<String> codes, AccessType type) {
+        if (BaseUtils.collectionEmpty(codes)) {
+            return Collections.EMPTY_LIST;
+        }
+        return T.find(defaultSql("type = ? and code in(:codes)"), type).bind("codes", codes.toArray()).fetch();
+    }
+    
+    public static <T extends BaseAccess> List<T> fetchAllAdmin() {
+        return fetchByType(AccessType.ADMIN);
+    }
+    
+    public static <T extends BaseAccess> List<T> fetchAllOrganize() {
+        return fetchByType(AccessType.ORGANIZE);
+    }
+    
     public static <T extends BaseAccess> List<T> fetchByIds(List<Long> ids) {
         if (BaseUtils.collectionEmpty(ids)) {
             return Collections.EMPTY_LIST;
         }
         return T.find(defaultSql("id in(:ids)")).bind("ids", ids.toArray()).fetch();
     }
-    
 }

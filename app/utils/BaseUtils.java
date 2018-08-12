@@ -1,6 +1,7 @@
 package utils;
 
 import interfaces.BaseEnum;
+import models.BaseModel;
 import models.back.Admin;
 import models.token.AccessToken;
 import models.token.BasePerson;
@@ -230,19 +231,23 @@ public class BaseUtils {
     public static Boolean collectionNotEmpty(Collection collection) {
         return collection != null && !collection.isEmpty();
     }
-
+    
     public static List<Long> idsToList(String ids) {
         if (StringUtils.isBlank(ids)) {
             return Collections.EMPTY_LIST;
         }
         return Arrays.stream(StringUtils.split(ids, ",")).map(id -> Long.parseLong(id)).collect(Collectors.toList());
     }
-
+    
     public static List<Integer> codesToList(String codes) {
         if (StringUtils.isBlank(codes)) {
             return Collections.EMPTY_LIST;
         }
         return Arrays.stream(StringUtils.split(codes, ",")).map(code -> Integer.parseInt(code)).collect(Collectors.toList());
+    }
+    
+    public static <T extends BaseModel> List<Long> modelToId(List<T> models) {
+        return models.stream().map(m -> m.id).collect(Collectors.toList());
     }
     
     public static List<String[]> enums(Class clazz) {

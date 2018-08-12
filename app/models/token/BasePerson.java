@@ -20,6 +20,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Person")
@@ -252,6 +253,18 @@ public class BasePerson extends BaseModel {
             access.addAll(a.role.access());
         }
         return access;
+    }
+    
+    //用户所在所有机构
+    public <T extends BaseOrganize> List<T> organizes() {
+        List<T> organizes = new ArrayList<>();
+        BaseRelation.fetchByPerson(this).stream().filter(r -> r.organize.isOrganize()).forEach(r -> organizes.add(r.organize()));
+        return organizes;
+    }
+    
+    //用户所在所有机构名称
+    public String organizeNames() {
+        return StringUtils.join(organizes().stream().map(o -> o.name).collect(Collectors.toList()), ",");
     }
     
     
