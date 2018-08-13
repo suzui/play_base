@@ -217,7 +217,7 @@ public class BasePerson extends BaseModel {
     //超级后台管理员权限列表
     public <T extends BaseAccess> List<T> access() {
         if (BooleanUtils.isTrue(this.origin)) {
-            return T.fetchByType(AccessType.ADMIN);
+            return T.fetchByType(AccessType.BOS);
         }
         Set<T> access = new HashSet<>();
         for (BaseAuthorization a : BaseAuthorization.fetchByPerson(this)) {
