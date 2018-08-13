@@ -117,7 +117,7 @@ public class BasePerson extends BaseModel {
     }
     
     public boolean isPasswordRight(String password) {
-        return StringUtils.equals(password, this.password);
+        return StringUtils.equalsIgnoreCase(password, this.password);
     }
     
     public void editPassword(String password) {
