@@ -6,6 +6,7 @@ import enums.Sex;
 import models.BaseModel;
 import models.access.BaseAccess;
 import models.access.BaseAuthorization;
+import models.access.BaseCrowd;
 import models.access.BaseRole;
 import models.person.Person;
 import org.apache.commons.lang.BooleanUtils;
@@ -249,6 +250,13 @@ public class BasePerson extends BaseModel {
         return new ArrayList<>(access);
     }
     
+    //机构后台管理员有权限的范围列表
+    public <T extends BaseCrowd> List<T> crowds(BaseOrganize organize, BaseAccess access) {
+        List<T> crowds = new ArrayList<>();
+        this.authorizations(organize).stream().filter(a -> a.role != null && BaseUtils.idsToList(a.role.accessIds).contains(access.id)).forEach(a -> crowds.add(a.crowd()));
+        return crowds;
+    }
+    
     //用户所在所有机构
     public <T extends BaseOrganize> List<T> organizes() {
         List<T> organizes = new ArrayList<>();
@@ -260,4 +268,6 @@ public class BasePerson extends BaseModel {
     public String organizeNames() {
         return StringUtils.join(organizes().stream().map(o -> o.name).collect(Collectors.toList()), ",");
     }
+    
+    
 }
