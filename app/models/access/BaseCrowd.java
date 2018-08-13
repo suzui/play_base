@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "Crowd")
 public class BaseCrowd extends BaseModel {
     
-    @Column(columnDefinition = STRING + "'分组范围名称'")
+    @Column(columnDefinition = STRING + "'范围名称'")
     public String name;
     
     @Column(columnDefinition = STRING_5000 + "'组织ids'")
