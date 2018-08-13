@@ -70,7 +70,7 @@ public class BaseAccess extends BaseModel {
     }
     
     public static <T extends BaseAccess> List<T> fetchByType(AccessType type) {
-        return T.find(defaultSql("type=?"), type).first();
+        return T.find(defaultSql("type=?"), type).fetch();
     }
     
     public static <T extends BaseAccess> List<T> fetchByCodes(List<String> codes) {
