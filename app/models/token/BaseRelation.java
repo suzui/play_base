@@ -20,7 +20,6 @@ public class BaseRelation extends BaseModel {
     @Column(columnDefinition = DOUBLE + "'排序'")
     public Double rank;
     
-    
     public void move(BaseRelation pre, BaseRelation next) {
         if (pre == null || next == null) {
             if (pre == null) {
@@ -47,20 +46,44 @@ public class BaseRelation extends BaseModel {
         return this.organize == null ? null : (T) this.organize;
     }
     
+    public Boolean isAdmin() {
+        return this.organize.person != null && this.organize.person.id.equals(person.id);
+    }
+    
     public static Boolean isAdmin(BaseOrganize organize, BasePerson person) {
-        return organize.person.id.equals(person.id);
+        return organize.person != null && organize.person.id.equals(person.id);
+    }
+    
+    public static Boolean isJoined(BaseOrganize organize, BasePerson person) {
+        return findByOrganizeAndPerson(organize, person) != null;
+    }
+    
+    public static Boolean isJoined(Long organizeId, Long personId) {
+        return findByOrganizeAndPerson(organizeId, personId) != null;
     }
     
     public void del() {
         this.logicDelete();
     }
     
+    public static <T extends BaseRelation> T findByOrganizeAndPerson(Long organizeId, Long personId) {
+        return T.find(defaultSql("organize.id=? and person.id=?"), organizeId, personId).first();
+    }
+    
     public static <T extends BaseRelation> T findByOrganizeAndPerson(BaseOrganize organize, BasePerson person) {
         return T.find(defaultSql("organize=? and person=?"), organize, person).first();
     }
     
+    public static <T extends BaseRelation> List<T> fetchByPerson(Long personId) {
+        return T.find(defaultSql("person.id=?"), personId).fetch();
+    }
+    
     public static <T extends BaseRelation> List<T> fetchByPerson(BasePerson person) {
         return T.find(defaultSql("person=?"), person).fetch();
+    }
+    
+    public static <T extends BaseRelation> List<T> fetchByOrganize(Long organizeId) {
+        return T.find(defaultSql("organize.id=?"), organizeId).fetch();
     }
     
     public static <T extends BaseRelation> List<T> fetchByOrganize(BaseOrganize organize) {

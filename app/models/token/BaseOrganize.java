@@ -16,6 +16,8 @@ import java.util.List;
 @Table(name = "Organize")
 public class BaseOrganize extends BaseModel {
     
+    @Column(columnDefinition = STRING + "'组织code'")
+    public String code;
     @Column(columnDefinition = STRING + "'组织logo'")
     public String logo;
     @Column(columnDefinition = STRING + "'组织名称'")
@@ -102,11 +104,23 @@ public class BaseOrganize extends BaseModel {
         return T.find(defaultSql("id=?"), id).first();
     }
     
+    public static <T extends BaseOrganize> T findByCode(String code) {
+        return T.find(defaultSql("code=?"), code).first();
+    }
+    
+    public static <T extends BaseOrganize> T findByNameAndOrganize(String name, BaseOrganize organize) {
+        return T.find(defaultSql("name=? and organize=?"), name, organize).first();
+    }
+    
     public static <T extends BaseOrganize> List<T> fetchByIds(List<Long> ids) {
         if (BaseUtils.collectionEmpty(ids)) {
             return Collections.EMPTY_LIST;
         }
         return T.find(defaultSql("id in (:ids)")).bind("ids", ids.toArray()).fetch();
+    }
+    
+    public static <T extends BaseOrganize> List<T> fetchByPerson(BasePerson person) {
+        return T.find(defaultSql("person=?"), person).fetch();
     }
     
     public static <T extends BaseOrganize> List<T> fetchByParent(BaseOrganize organize) {

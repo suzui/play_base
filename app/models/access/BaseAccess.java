@@ -36,6 +36,13 @@ public class BaseAccess extends BaseModel {
         return this.code.length() > 3 ? this.code.substring(0, 3) : null;
     }
     
+    public <T extends BaseAccess> T parent() {
+        if (code.length() <= 3) {
+            return null;
+        }
+        return T.find(defaultSql("code=? and type=?"), code.substring(0, code.length() - 3), this.type).first();
+    }
+    
     public void url(String url) {
         this.url = url;
         this.save();
@@ -48,13 +55,6 @@ public class BaseAccess extends BaseModel {
     
     public void del() {
         this.logicDelete();
-    }
-    
-    public <T extends BaseAccess> T parent() {
-        if (code.length() <= 3) {
-            return null;
-        }
-        return T.find(defaultSql("code=? and type=?"), code.substring(0, code.length() - 3), this.type).first();
     }
     
     public static <T extends BaseAccess> T findByID(Long id) {
