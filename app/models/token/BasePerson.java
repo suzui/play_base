@@ -67,12 +67,12 @@ public class BasePerson extends BaseModel {
     public String major;
     @Column(columnDefinition = LONG + "'毕业时间'")
     public Long graduateday;
-    @Column(columnDefinition = STRING + "'国籍'")
-    public String nationality;
+    @Column(columnDefinition = STRING + "'国家'")
+    public String country;
+    @Column(columnDefinition = STRING + "'籍贯'")
+    public String place;
     @Column(columnDefinition = STRING + "'民族'")
     public String nation;
-    @Column(columnDefinition = STRING + "'籍贯'")
-    public String register;
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = STRING + "'性别'")
     public Sex sex = Sex.NOPOINT;
