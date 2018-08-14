@@ -64,6 +64,10 @@ public class BaseOrganize extends BaseModel {
         return rank == null ? 0 : rank + 1;
     }
     
+    public void move(Long preId, Long nextId) {
+        move(preId == null ? null : BaseOrganize.findByID(preId), nextId == null ? null : BaseOrganize.findByID(nextId));
+    }
+    
     public void move(BaseOrganize pre, BaseOrganize next) {
         if (pre == null || next == null) {
             if (pre == null) {
@@ -83,6 +87,19 @@ public class BaseOrganize extends BaseModel {
     
     public boolean isRoot() {
         return this.root.id.equals(this.id);
+    }
+    
+    public void person(BasePerson person) {
+        if (person == null) {
+            BaseRelation.fetchByOrganize(this).forEach(r -> r.setAdmin(false));
+        } else {
+            BaseRelation relation = BaseRelation.findByOrganizeAndPerson(this, person);
+            if (relation != null) {
+                relation.setAdmin();
+            }
+        }
+        this.person = person;
+        this.save();
     }
     
     public void del() {

@@ -20,6 +20,25 @@ public class BaseRelation extends BaseModel {
     @Column(columnDefinition = DOUBLE + "'排序'")
     public Double rank;
     
+    @Column(columnDefinition = BOOLEAN + "'是否管理员'")
+    public Boolean isAdmin = false;
+    
+    
+    public void setAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
+        this.save();
+    }
+    
+    public void setAdmin() {
+        BaseRelation.fetchByOrganize(this.organize).forEach(r -> r.setAdmin(false));
+        this.isAdmin = true;
+        this.save();
+    }
+    
+    public void move(Long preId, Long nextId) {
+        move(preId == null ? null : BaseRelation.findByID(preId), nextId == null ? null : BaseRelation.findByID(nextId));
+    }
+    
     public void move(BaseRelation pre, BaseRelation next) {
         if (pre == null || next == null) {
             if (pre == null) {
@@ -65,6 +84,11 @@ public class BaseRelation extends BaseModel {
     public void del() {
         this.logicDelete();
     }
+    
+    public static <T extends BaseRelation> T findByID(Long id) {
+        return T.find(defaultSql("id=?"), id).first();
+    }
+    
     
     public static <T extends BaseRelation> T findByOrganizeAndPerson(Long organizeId, Long personId) {
         return T.find(defaultSql("organize.id=? and person.id=?"), organizeId, personId).first();
