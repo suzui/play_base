@@ -113,4 +113,8 @@ public class BaseRelation extends BaseModel {
     public static <T extends BaseRelation> List<T> fetchByOrganize(BaseOrganize organize) {
         return T.find(defaultSql("organize=?"), organize).fetch();
     }
+    
+    public static <T extends BaseRelation> List<T> fetchAll() {
+        return T.find(defaultSql()).fetch();
+    }
 }
