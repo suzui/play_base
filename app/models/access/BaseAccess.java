@@ -16,6 +16,8 @@ public class BaseAccess extends BaseModel {
     public String code;
     @Column(columnDefinition = STRING + "'权限名称'")
     public String name;
+    @Column(columnDefinition = STRING + "'权限logo'")
+    public String logo;
     @Column(columnDefinition = STRING + "'权限简介'")
     public String intro;
     @Column(columnDefinition = STRING_1000 + "'权限路由'")
