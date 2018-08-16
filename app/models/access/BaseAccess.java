@@ -25,6 +25,10 @@ public class BaseAccess extends BaseModel {
     
     @Column(columnDefinition = STRING + "'web对应url'")
     public String url;
+    @Column(columnDefinition = STRING + "'ios对应scheme'")
+    public String ios;
+    @Column(columnDefinition = STRING + "'安卓对应scheme'")
+    public String android;
     @Column(columnDefinition = STRING + "'app对应scheme'")
     public String scheme;
     
