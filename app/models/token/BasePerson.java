@@ -73,6 +73,8 @@ public class BasePerson extends BaseModel {
     public String place;
     @Column(columnDefinition = STRING + "'民族'")
     public String nation;
+    @Column(columnDefinition = STRING + "'身份证'")
+    public String idcard;
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = STRING + "'性别'")
     public Sex sex = Sex.NOPOINT;
