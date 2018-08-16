@@ -4,7 +4,6 @@ public class ResultException extends RuntimeException {
     
     public Object[] codemessage;
     
-    
     public ResultException(Object[] codemessage) {
         this.codemessage = codemessage;
     }

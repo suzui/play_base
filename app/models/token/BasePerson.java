@@ -263,6 +263,17 @@ public class BasePerson extends BaseModel {
         return crowds;
     }
     
+    //机构后台管理员对一个节点的权限列表
+    public <T extends BaseAccess> List<T> accesses(BaseOrganize organize) {
+        Set<Long> accessIds = new HashSet<>();
+        this.authorizations(organize.root).forEach(a -> {
+            if (a.crowd != null && a.role != null && BaseUtils.idsToList(a.crowd.organizeIds).contains(organize.id)) {
+                accessIds.addAll(BaseUtils.idsToList(a.role.accessIds));
+            }
+        });
+        return T.fetchByIds(new ArrayList<>(accessIds));
+    }
+    
     //用户所在所有机构
     public <T extends BaseOrganize> List<T> organizes() {
         List<T> organizes = new ArrayList<>();
