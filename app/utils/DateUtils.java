@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import play.templates.JavaExtensions;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtils {
@@ -39,5 +39,47 @@ public class DateUtils {
         } catch (ParseException e) {
             return null;
         }
+    }
+    
+    public static int dayBetween(Long startDay, Long endDay) {
+        return (int) ((org.apache.commons.lang.time.DateUtils.truncate(endDay, Calendar.DAY_OF_MONTH).getTime() - org.apache.commons.lang.time.DateUtils.truncate(startDay, Calendar.DAY_OF_MONTH).getTime()) / (24 * 60 * 60 * 1000));
+    }
+    
+    public static int dayOfWeek(Long current) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date(current));
+        int day = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        return day == 0 ? 7 : day;
+    }
+    
+    public static int dayOfMonth(Long current) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date(current));
+        return cal.get(Calendar.DAY_OF_MONTH);
+    }
+    
+    public static int month(Long current) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date(current));
+        return cal.get(Calendar.MONTH) + 1;
+    }
+    
+    public static int totalMonth(Long current) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date(current));
+        return cal.get(Calendar.YEAR) * 12 + cal.get(Calendar.MONTH) + 1;
+    }
+    
+    public static int lastDayOfMonth(Long current) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date(current));
+        cal.add(Calendar.MONTH, 1);
+        cal.set(Calendar.DAY_OF_MONTH, 0);
+        return cal.get(Calendar.DAY_OF_MONTH);
+    }
+    
+    public static void main(String[] args) {
+        Long current = System.currentTimeMillis();
+        System.err.println(lastDayOfMonth(current));
     }
 }
