@@ -250,6 +250,11 @@ public class BaseUtils {
         return models.stream().map(m -> m.id).collect(Collectors.toList());
     }
     
+    
+    public static String listToHql(List<String> list) {
+        return StringUtils.join(list.stream().map(s -> "'" + s + "'").collect(Collectors.toList()), ",");
+    }
+    
     public static List<String[]> enums(Class clazz) {
         try {
             Method method = clazz.getMethod("values");
