@@ -15,7 +15,6 @@ public class DateUtils {
         return JavaExtensions.format(new Date(date), "yyyy/MM/dd HH:mm");
     }
     
-    
     public static String format(Long date, String format) {
         if (date == null) {
             return null;
@@ -78,8 +77,22 @@ public class DateUtils {
         return cal.get(Calendar.DAY_OF_MONTH);
     }
     
-    public static void main(String[] args) {
-        Long current = System.currentTimeMillis();
-        System.err.println(lastDayOfMonth(current));
+    public static long cronToTime(String cron) {
+        if (StringUtils.isBlank(cron)) {
+            return 0l;
+        }
+        if (cron.contains("秒") || cron.contains("s")) {
+            return Integer.parseInt(cron.replace("秒", "").replace("s", "")) * 1000;
+        }
+        if (cron.contains("分钟") || cron.contains("mn")) {
+            return Integer.parseInt(cron.replace("分钟", "").replace("mn", "")) * 60 * 1000;
+        }
+        if (cron.contains("小时") || cron.contains("h")) {
+            return Integer.parseInt(cron.replace("小时", "").replace("h", "")) * 60 * 60 * 1000;
+        }
+        if (cron.contains("天") || cron.contains("d")) {
+            return Integer.parseInt(cron.replace("天", "").replace("d", "")) * 24 * 60 * 60 * 1000;
+        }
+        return 0l;
     }
 }
