@@ -1,10 +1,13 @@
 package vos;
 
 import annotations.DataField;
+import enums.ClientType;
+import enums.Sex;
 import interfaces.BaseEnum;
 import utils.BaseUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -16,6 +19,10 @@ public class EnumVO extends OneData implements Serializable {
     public Integer code;
     @DataField(name = "枚举描述")
     public String intro;
+    
+    public EnumVO() {
+    
+    }
     
     public EnumVO(BaseEnum baseEnum) {
         this.code = baseEnum.code();
@@ -29,11 +36,21 @@ public class EnumVO extends OneData implements Serializable {
         return enums.stream().map(e -> new EnumVO(e)).collect(Collectors.toList());
     }
     
-    public static List<EnumVO> list(BaseEnum[] enums) {
+    public static List<EnumVO> list(BaseEnum... enums) {
         if (enums == null || enums.length == 0) {
             return Collections.EMPTY_LIST;
         }
         return list(Arrays.asList(enums));
     }
+    
+    
+    public static void main(String[] args) {
+        List<BaseEnum> enums = new ArrayList<>();
+        enums.add(Sex.FEMALE);
+        enums.add(Sex.MALE);
+        enums.add(ClientType.IOS);
+        enums.add(ClientType.ANDROID);
+    }
+    
     
 }
