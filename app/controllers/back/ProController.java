@@ -97,5 +97,11 @@ public class ProController extends BackController {
         renderJSON(Result.succeed());
     }
     
+    public static void dels(ProVO vo) {
+        List<Pro> pros = Pro.fetchByIds(vo.proIds);
+        pros.forEach(p -> p.del());
+        renderJSON(Result.succeed());
+    }
+    
     
 }

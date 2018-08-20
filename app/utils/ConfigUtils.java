@@ -11,6 +11,8 @@ public class ConfigUtils {
     public static String user;
     @ConfigField(value = "password", intro = "服务器项目部署密码")
     public static String password;
+    @ConfigField(value = "host", intro = "服务器host")
+    public static String host;
     
     public static void load() {
         for (Field f : ConfigUtils.class.getFields()) {

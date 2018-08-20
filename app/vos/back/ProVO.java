@@ -1,10 +1,12 @@
 package vos.back;
 
 import annotations.DataField;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import models.back.Pro;
 import vos.OneData;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ProVO extends OneData implements Serializable {
     
@@ -33,6 +35,10 @@ public class ProVO extends OneData implements Serializable {
     public String branchs;
     @DataField(name = "gitlog")
     public String gitlog;
+    
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @DataField(name = "项目ids")
+    public List<Long> proIds;
     
     public ProVO() {
         this.condition = " order by name";

@@ -32,6 +32,18 @@ form.on('submit(pro_add)', function (data) {
     });
 });
 
+form.on('submit(pro_list_del)', function () {
+    var checkStatus = table.checkStatus('pro_table');
+    var proIds = checkStatus.data.map(function (item) {
+        return item.proId;
+    });
+    layer.confirm('确定删除批量项目', function (index) {
+        $.post('/back/pro/dels', {adminIds: JSON.stringify(proIds)}, function (result, status) {
+            pro_table();
+        });
+    });
+});
+
 table.on('tool(pro_table)', function (obj) {
     var e = obj.event, d = obj.data;
     if (e === 'update') {
@@ -58,19 +70,6 @@ table.on('tool(pro_table)', function (obj) {
 
             });
         });
-    } else if (e === 'edit') {
-        var pro_form_html = laytpl($('#pro_form').html()).render(d);
-        layer_index = layer.open({
-            type: 1,
-            area: area_7_5,
-            content: pro_form_html
-        });
-        form.on('submit(pro_edit)', function (data) {
-            var param = data.field;
-            $.post('/back/pro/edit', param, function (result, status) {
-                obj.update(param);
-            });
-        });
     } else if (e === 'git') {
         $.post('/back/pro/git', d, function (result, status) {
             d = result.data;
@@ -84,6 +83,19 @@ table.on('tool(pro_table)', function (obj) {
         element.render("collapse");
         layui.code({
             title: '', skin: 'notepad'
+        });
+    } else if (e === 'edit') {
+        var pro_form_html = laytpl($('#pro_form').html()).render(d);
+        layer_index = layer.open({
+            type: 1,
+            area: area_7_5,
+            content: pro_form_html
+        });
+        form.on('submit(pro_edit)', function (data) {
+            var param = data.field;
+            $.post('/back/pro/edit', param, function (result, status) {
+                obj.update(param);
+            });
         });
     } else if (e === 'del') {
         layer.confirm('确定删除项目', function (index) {
