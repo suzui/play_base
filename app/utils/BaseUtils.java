@@ -245,11 +245,10 @@ public class BaseUtils {
         }
         return Arrays.stream(StringUtils.split(codes, ",")).map(code -> Integer.parseInt(code)).collect(Collectors.toList());
     }
-    
+
     public static <T extends BaseModel> List<Long> modelToId(List<T> models) {
         return models.stream().map(m -> m.id).collect(Collectors.toList());
     }
-    
     
     public static String listToHql(List<String> list) {
         return StringUtils.join(list.stream().map(s -> "'" + s + "'").collect(Collectors.toList()), ",");
