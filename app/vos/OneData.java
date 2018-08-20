@@ -17,7 +17,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OneData extends Data {
@@ -79,10 +78,7 @@ public class OneData extends Data {
     }
     
     public static List<Long> convert(String ids) {
-        if (StringUtils.isBlank(ids)) {
-            return Collections.EMPTY_LIST;
-        }
-        return Arrays.stream(StringUtils.split(ids, ",")).map(id -> Long.valueOf(id)).collect(Collectors.toList());
+        return BaseUtils.idsToList(ids);
     }
     
     public void condition(String condition) {
