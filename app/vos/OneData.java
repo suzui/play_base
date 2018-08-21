@@ -73,6 +73,14 @@ public class OneData extends Data {
         this(baseModel.id, baseModel.createTime, baseModel.updateTime, baseModel.deleted);
     }
     
+    public Integer page() {
+        return this.page != null ? this.page : 1;
+    }
+    
+    public Integer size() {
+        return this.size != null ? this.size : Integer.MAX_VALUE;
+    }
+    
     public static String convert(String en, String zh) {
         return StringUtils.equals(Lang.get(), "en") ? en : zh;
     }

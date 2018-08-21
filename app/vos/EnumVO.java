@@ -1,13 +1,10 @@
 package vos;
 
 import annotations.DataField;
-import enums.ClientType;
-import enums.Sex;
 import interfaces.BaseEnum;
 import utils.BaseUtils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -41,15 +38,6 @@ public class EnumVO extends OneData implements Serializable {
             return Collections.EMPTY_LIST;
         }
         return list(Arrays.asList(enums));
-    }
-    
-    
-    public static void main(String[] args) {
-        List<BaseEnum> enums = new ArrayList<>();
-        enums.add(Sex.FEMALE);
-        enums.add(Sex.MALE);
-        enums.add(ClientType.IOS);
-        enums.add(ClientType.ANDROID);
     }
     
     
