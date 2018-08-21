@@ -40,17 +40,4 @@ public class EnumVO extends OneData implements Serializable {
         return list(Arrays.asList(enums));
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    public static void main(String[] args) {
-    
-    }
-    
 }
