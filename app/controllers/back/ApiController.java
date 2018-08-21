@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import models.back.Api;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import play.libs.WS;
 import utils.BaseUtils;
@@ -43,6 +44,7 @@ public class ApiController extends BackController {
         for (LinkedTreeMap map : header.values()) {
             request.setHeader((String) map.get("name"), ((ArrayList<String>) map.get("values")).get(0));
         }
+        request.setHeader("random", RandomStringUtils.randomAlphanumeric(16));
         request.setParameters(param).post();
         renderJSON(Result.succeed());
     }

@@ -41,4 +41,16 @@ public class EnumVO extends OneData implements Serializable {
     }
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    public static void main(String[] args) {
+    
+    }
+    
 }
