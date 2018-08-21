@@ -116,6 +116,9 @@ public class OneData extends Data {
                     } else {
                         list.add(((Class<OneData>) one).newInstance().doc());
                     }
+                    Map<String, String> intro = new HashMap<>();
+                    intro.put("数组说明,解析忽略", StringUtils.join(Arrays.asList(df.name(), df.comment()), "|"));
+                    list.add(intro);
                     map.put(f.getName(), list);
                 } else if (this.getClass().isAssignableFrom((Class<?>) type)) {
                     map.put(f.getName(), new HashMap<>());
