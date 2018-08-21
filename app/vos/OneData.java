@@ -105,30 +105,32 @@ public class OneData extends Data {
                 }
                 Type type = f.getType();
                 if (List.class.isAssignableFrom((Class<?>) type)) {
+                    //List类型
                     Type genericType = f.getGenericType();
-                    List<Object> list = new ArrayList<>();
+                    List list = new ArrayList();
+                    list.add(StringUtils.join(Arrays.asList("//" + df.name(), f.getType().getSimpleName(), df.comment()), "|"));
                     ParameterizedType pt = (ParameterizedType) genericType;
-                    Type one = pt.getActualTypeArguments()[0];
-                    if (!OneData.class.isAssignableFrom((Class<?>) one)) {
-                        list.add(df.name() + "|" + ((Class<?>) one).getSimpleName());
-                    } else if (this.getClass().isAssignableFrom((Class<?>) one)) {
+                    Type one = pt.getActualTypeArguments()[0];//List内对象type
+                    if (this.getClass().isAssignableFrom((Class<?>) one)) {
+                        //当前data及子类
                         list.add(new HashMap<>());
-                    } else {
+                    } else if (OneData.class.isAssignableFrom((Class<?>) one)) {
+                        //与当前data无关的onedata及子类
                         list.add(((Class<OneData>) one).newInstance().doc());
+                    } else {
+                        //非onedata及子类的其它类型
+                        list.add(StringUtils.join(Arrays.asList(df.name().replace("s", "").replace("列表", "").replace("数组", "").replace("集合", ""), ((Class<?>) one).getSimpleName()), "|"));
                     }
-                    Map<String, String> intro = new HashMap<>();
-                    intro.put("数组说明,解析忽略", StringUtils.join(Arrays.asList(df.name(), df.comment()), "|"));
-                    list.add(intro);
                     map.put(f.getName(), list);
                 } else if (this.getClass().isAssignableFrom((Class<?>) type)) {
+                    //当前data及子类
                     map.put(f.getName(), new HashMap<>());
                 } else if (OneData.class.isAssignableFrom((Class<?>) type)) {
+                    //与当前data无关的onedata及子类
                     map.put(f.getName(), ((Class<OneData>) type).newInstance().doc());
                 } else {
-                    String enums = "";
-                    if (df.enums().length > 0) {
-                        enums = (df.enums().length > 0 ? new Gson().toJson(BaseUtils.enums(df.enums()[0])).replaceAll("\\\"", "") : "");
-                    }
+                    //非onedata及子类的其它类型
+                    String enums = (df.enums().length > 0 ? new Gson().toJson(BaseUtils.enums(df.enums()[0])).replaceAll("\\\"", "") : "");
                     map.put(f.getName(), StringUtils.join(Arrays.asList(df.name(), f.getType().getSimpleName(), df.demo(), df.comment(), enums), "|").replace("||", ""));
                 }
             }
