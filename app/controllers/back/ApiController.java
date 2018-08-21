@@ -44,7 +44,7 @@ public class ApiController extends BackController {
         for (LinkedTreeMap map : header.values()) {
             request.setHeader((String) map.get("name"), ((ArrayList<String>) map.get("values")).get(0));
         }
-        request.setHeader("random", RandomStringUtils.randomAlphanumeric(16));
+        request.setHeader("randomseed", RandomStringUtils.randomAlphanumeric(16));
         request.setParameters(param).post();
         renderJSON(Result.succeed());
     }
