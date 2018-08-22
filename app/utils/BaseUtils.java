@@ -40,8 +40,16 @@ public class BaseUtils {
         return "d".equals(Play.id);
     }
     
-    public static boolean propertyOn(String property) {
-        return Play.configuration.getProperty(property, "off").equals("on");
+    public static String property(String key, String defualt) {
+        return Play.configuration.getProperty(key, defualt);
+    }
+    
+    public static String property(String key) {
+        return Play.configuration.getProperty(key);
+    }
+    
+    public static boolean propertyOn(String key) {
+        return property(key, "off").equals("on");
     }
     
     public static void setSession(String key, String value) {
