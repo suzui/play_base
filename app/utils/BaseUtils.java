@@ -26,7 +26,8 @@ public class BaseUtils {
     private static final String CURRENT_ADMIN_ID = "currentAdminId";
     private static final String KEEP_ADMIN_ID = "keepAdminId";
     public static final String BASE_URL = Play.configuration.getProperty("application.baseUrl");
-    
+    public static final String QINIU_URL = Play.configuration.getProperty("qiniu.domain");
+
     public static boolean isProd() {
         return "p".equals(Play.id);
     }
