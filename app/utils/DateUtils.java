@@ -41,7 +41,7 @@ public class DateUtils {
     }
     
     public static int dayBetween(Long startDay, Long endDay) {
-        return (int) ((org.apache.commons.lang.time.DateUtils.truncate(endDay, Calendar.DAY_OF_MONTH).getTime() - org.apache.commons.lang.time.DateUtils.truncate(startDay, Calendar.DAY_OF_MONTH).getTime()) / (24 * 60 * 60 * 1000));
+        return (int) ((org.apache.commons.lang.time.DateUtils.truncate(new Date(endDay), Calendar.DAY_OF_MONTH).getTime() - org.apache.commons.lang.time.DateUtils.truncate(new Date(startDay), Calendar.DAY_OF_MONTH).getTime()) / (24 * 60 * 60 * 1000));
     }
     
     public static int dayOfWeek(Long current) {

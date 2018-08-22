@@ -27,7 +27,7 @@ public class BaseUtils {
     private static final String KEEP_ADMIN_ID = "keepAdminId";
     public static final String BASE_URL = Play.configuration.getProperty("application.baseUrl");
     public static final String QINIU_URL = Play.configuration.getProperty("qiniu.domain");
-
+    
     public static boolean isProd() {
         return "p".equals(Play.id);
     }
@@ -246,13 +246,17 @@ public class BaseUtils {
         }
         return Arrays.stream(StringUtils.split(codes, ",")).map(code -> Integer.parseInt(code)).collect(Collectors.toList());
     }
-
+    
     public static <T extends BaseModel> List<Long> modelToId(List<T> models) {
         return models.stream().map(m -> m.id).collect(Collectors.toList());
     }
     
     public static String listToHql(List<String> list) {
         return StringUtils.join(list.stream().map(s -> "'" + s + "'").collect(Collectors.toList()), ",");
+    }
+    
+    public static String genURL(String url, Object... params) {
+        return String.format(url, params);
     }
     
     public static List<String[]> enums(Class clazz) {
