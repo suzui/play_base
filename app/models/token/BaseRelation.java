@@ -70,7 +70,7 @@ public class BaseRelation extends BaseModel {
     }
     
     public static Boolean isAdmin(BaseOrganize organize, BasePerson person) {
-        return organize.person != null && organize.person.id.equals(person.id);
+        return organize != null && organize.person != null && organize.person.id.equals(person.id);
     }
     
     public static Boolean isJoined(BaseOrganize organize, BasePerson person) {

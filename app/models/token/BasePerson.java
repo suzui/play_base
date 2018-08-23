@@ -234,11 +234,17 @@ public class BasePerson extends BaseModel {
     
     //机构后台管理员授权列表
     public <T extends BaseAuthorization> List<T> authorizations(BaseOrganize organize) {
+        if (organize == null) {
+            return Collections.EMPTY_LIST;
+        }
         return T.fetchByPersonAndOrganize(this, organize);
     }
     
     //机构后台管理员角色列表
     public <T extends BaseRole> List<T> roles(BaseOrganize organize) {
+        if (organize == null) {
+            return Collections.EMPTY_LIST;
+        }
         List<T> roles = new ArrayList<>();
         this.authorizations(organize).forEach(a -> roles.add(a.role()));
         return roles;
@@ -246,6 +252,9 @@ public class BasePerson extends BaseModel {
     
     //机构后台管理员权限列表
     public <T extends BaseAccess> List<T> access(BaseOrganize organize) {
+        if (organize == null) {
+            return Collections.EMPTY_LIST;
+        }
         if (BaseRelation.isAdmin(organize, this)) {
             return T.fetchByType(AccessType.ORGANIZE);
         }
@@ -258,6 +267,9 @@ public class BasePerson extends BaseModel {
     
     //机构后台管理员有权限的范围列表
     public <T extends BaseCrowd> List<T> crowds(BaseOrganize organize, BaseAccess access) {
+        if (organize == null) {
+            return Collections.EMPTY_LIST;
+        }
         List<T> crowds = new ArrayList<>();
         this.authorizations(organize).stream().filter(a -> a.role != null && BaseUtils.idsToList(a.role.accessIds).contains(access.id)).filter(a -> a.crowd != null).forEach(a -> crowds.add(a.crowd()));
         return crowds;
@@ -265,6 +277,9 @@ public class BasePerson extends BaseModel {
     
     //机构后台管理员对一个节点的权限列表
     public <T extends BaseAccess> List<T> accesses(BaseOrganize organize) {
+        if (organize == null) {
+            return Collections.EMPTY_LIST;
+        }
         Set<Long> accessIds = new HashSet<>();
         this.authorizations(organize.root).forEach(a -> {
             if (a.crowd != null && a.role != null && BaseUtils.idsToList(a.crowd.organizeIds).contains(organize.id)) {
