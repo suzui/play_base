@@ -259,7 +259,7 @@ public class BasePerson extends BaseModel {
     //机构后台管理员有权限的范围列表
     public <T extends BaseCrowd> List<T> crowds(BaseOrganize organize, BaseAccess access) {
         List<T> crowds = new ArrayList<>();
-        this.authorizations(organize).stream().filter(a -> a.role != null && BaseUtils.idsToList(a.role.accessIds).contains(access.id)).forEach(a -> crowds.add(a.crowd()));
+        this.authorizations(organize).stream().filter(a -> a.role != null && BaseUtils.idsToList(a.role.accessIds).contains(access.id)).filter(a -> a.crowd != null).forEach(a -> crowds.add(a.crowd()));
         return crowds;
     }
     
