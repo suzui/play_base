@@ -34,7 +34,7 @@ public class DateUtils {
             return null;
         }
         try {
-            return org.apache.commons.lang.time.DateUtils.parseDate(date, new String[]{format, "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd"});
+            return org.apache.commons.lang.time.DateUtils.parseDate(date, new String[]{format, "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd", "HH:mm"});
         } catch (ParseException e) {
             return null;
         }
@@ -95,4 +95,6 @@ public class DateUtils {
         }
         return 0l;
     }
+    
+    
 }
