@@ -60,6 +60,9 @@ public class AccessToken extends BaseModel {
     }
     
     public void pushToken(String pushToken) {
+        if (StringUtils.equalsIgnoreCase(this.pushToken, pushToken)) {
+            return;
+        }
         this.pushToken = pushToken;
         this.save();
         this.fetchOthersByPushToken().forEach(at -> at.del());
