@@ -109,7 +109,7 @@ public class BaseOrganize extends BaseModel {
             public void doJob() throws Exception {
                 super.doJob();
                 BaseRelation.fetchByOrganize(organize).forEach(r -> r.del());
-                BaseAuthorization.fetchOrganzie(organize).forEach(a -> a.del());
+                BaseAuthorization.fetchByOrganzie(organize).forEach(a -> a.del());
                 BaseRole.fetchByOrganize(organize).forEach(p -> p.del());
                 BaseCrowd.fetchByOrganize(organize).forEach(c -> c.del());
             }

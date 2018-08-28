@@ -69,7 +69,7 @@ public class BaseAuthorization extends BaseModel {
         return T.find(defaultSql("crowd=?"), crowd).fetch();
     }
     
-    public static <T extends BaseAuthorization> List<T> fetchOrganzie(BaseOrganize organize) {
+    public static <T extends BaseAuthorization> List<T> fetchByOrganzie(BaseOrganize organize) {
         return T.find(defaultSql("organize=?"), organize).fetch();
     }
     
