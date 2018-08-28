@@ -6,13 +6,10 @@ import models.person.Person;
 import models.sso.SsoPerson;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.Session;
-import play.db.jpa.JPA;
 import results.sso.PersonResult;
 import utils.SSOUtils;
 
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.ManyToOne;
 import java.util.List;
 
@@ -65,12 +62,8 @@ public class AccessToken extends BaseModel {
         if (StringUtils.equalsIgnoreCase(this.pushToken, pushToken)) {
             return;
         }
-        EntityManager em = JPA.em();
-        Session s = (Session) em.getDelegate();
-        if (!s.getTransaction().isActive())
-            s.getTransaction().begin();
-        em.createNativeQuery("update AccessToken set pushToken=:pushToken where id=:id").setParameter("pushToken", pushToken).setParameter("id", this.id).executeUpdate();
-        s.getTransaction().commit();
+        this.pushToken = pushToken;
+        this.save();
         //this.fetchOthersByPushToken().forEach(at -> at.del());
     }
     

@@ -85,7 +85,7 @@ public class BaseController extends Controller {
             ActionMethod am = request.invokedMethod.getAnnotation(ActionMethod.class);
             if (am != null && StringUtils.isNotBlank(am.param())) {
                 for (String param : StringUtils.split(am.param().replaceAll("\\+", ""), ",")) {
-                    if (StringUtils.isBlank(param) || param.startsWith("-")||StringUtils.equals(param,"page")||StringUtils.equals(param,"size")) {
+                    if (StringUtils.isBlank(param) || param.startsWith("-") || StringUtils.equals(param, "page") || StringUtils.equals(param, "size")) {
                         continue;
                     }
                     if (!params.containsKey(param)) {
@@ -193,7 +193,7 @@ public class BaseController extends Controller {
         final String osVersion = BaseUtils.getHeader("osversion");
         final String clientType = BaseUtils.getHeader("clienttype");
         final String deviceToken = BaseUtils.getHeader("devicetoken");
-        if (StringUtils.isBlank(token.appVersion) || System.currentTimeMillis() - token.updateTime > 3 * 60 * 1000) {
+        if (token.version > 1 && System.currentTimeMillis() - token.updateTime > 3 * 60 * 1000) {
             new UpdateLoginInfoJob(accesstoken, appVersion, appType, osVersion, clientType, deviceToken).now();
         }
         if (appVersion != null && appType != null && clientType != null && !StringUtils.equals(clientType, ClientType.WEB.code() + "") && CacheUtils.get(VersionVO.key(appType, clientType)) != null) {
