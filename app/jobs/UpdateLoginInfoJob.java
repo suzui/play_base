@@ -1,6 +1,7 @@
 package jobs;
 
 import models.token.AccessToken;
+import org.apache.commons.lang.StringUtils;
 import play.jobs.Job;
 
 public class UpdateLoginInfoJob extends Job {
@@ -26,8 +27,8 @@ public class UpdateLoginInfoJob extends Job {
     @Override
     public void doJob() throws Exception {
         AccessToken token = AccessToken.findByAccesstoken(accesstoken);
-        if (token != null) {
-            token.update(appVersion,appType, osVersion, clientType,deviceToken);
+        if (token != null && StringUtils.isNotBlank(appVersion)) {
+            token.update(appVersion, appType, osVersion, clientType, deviceToken);
         }
     }
 }

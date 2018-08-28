@@ -193,8 +193,8 @@ public class BaseController extends Controller {
         final String osVersion = BaseUtils.getHeader("osversion");
         final String clientType = BaseUtils.getHeader("clienttype");
         final String deviceToken = BaseUtils.getHeader("devicetoken");
-        if (token.version > 1 && System.currentTimeMillis() - token.updateTime > 3 * 60 * 1000) {
-            new UpdateLoginInfoJob(accesstoken, appVersion, appType, osVersion, clientType, deviceToken).now();
+        if (System.currentTimeMillis() - token.updateTime > 3 * 60 * 1000) {
+            new UpdateLoginInfoJob(accesstoken, appVersion, appType, osVersion, clientType, deviceToken).in(5);
         }
         if (appVersion != null && appType != null && clientType != null && !StringUtils.equals(clientType, ClientType.WEB.code() + "") && CacheUtils.get(VersionVO.key(appType, clientType)) != null) {
             VersionVO versionVO = (VersionVO) CacheUtils.get(VersionVO.key(appType, clientType));
