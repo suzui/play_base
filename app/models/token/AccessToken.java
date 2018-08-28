@@ -64,7 +64,7 @@ public class AccessToken extends BaseModel {
         }
         this.pushToken = pushToken;
         this.save();
-        //this.fetchOthersByPushToken().forEach(at -> at.del());
+        this.fetchOthersByPushToken().forEach(at -> at.del());
     }
     
     public static void logout(Long personId, String appType) {
