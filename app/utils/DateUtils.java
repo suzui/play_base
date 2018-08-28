@@ -40,6 +40,22 @@ public class DateUtils {
         }
     }
     
+    public static Date truncate(Date date, int field) {
+        return org.apache.commons.lang.time.DateUtils.truncate(date, field);
+    }
+    
+    public static Date truncate(Date date) {
+        return truncate(date, Calendar.DAY_OF_MONTH);
+    }
+    
+    public static Date ceiling(Date date, int field) {
+        return org.apache.commons.lang.time.DateUtils.ceiling(date, field);
+    }
+    
+    public static Date ceiling(Date date) {
+        return ceiling(date, Calendar.DAY_OF_MONTH);
+    }
+    
     public static int dayBetween(Long startDay, Long endDay) {
         return (int) ((org.apache.commons.lang.time.DateUtils.truncate(new Date(endDay), Calendar.DAY_OF_MONTH).getTime() - org.apache.commons.lang.time.DateUtils.truncate(new Date(startDay), Calendar.DAY_OF_MONTH).getTime()) / (24 * 60 * 60 * 1000));
     }
@@ -95,6 +111,5 @@ public class DateUtils {
         }
         return 0l;
     }
-    
     
 }

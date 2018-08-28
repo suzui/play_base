@@ -26,11 +26,11 @@ public class AccessToken extends BaseModel {
     public String deviceToken;
     public String pushToken;
     public Boolean notify = true;
-
+    
     public <T extends BasePerson> T person() {
         return this.person == null ? null : (T) this.person;
     }
-
+    
     public static AccessToken add(BasePerson person) {
         AccessToken at = new AccessToken();
         at.person = person;
@@ -62,9 +62,18 @@ public class AccessToken extends BaseModel {
     public void pushToken(String pushToken) {
         this.pushToken = pushToken;
         this.save();
-        if (!(ClientType.WEB.code() + "").equals(this.clientType)) {
-            this.fetchOthersByPushToken().forEach(at -> at.del());
+        this.fetchOthersByPushToken().forEach(at -> at.del());
+    }
+    
+    public static void logout(Long personId, String appType) {
+        AccessToken at = AccessToken.find(defaultSql("person.id=? and appType=?"), personId, appType).first();
+        if (at != null) {
+            at.del();
         }
+    }
+    
+    public static void logout(Person person, String appType) {
+        logout(person.id, appType);
     }
     
     public boolean isWeb() {
