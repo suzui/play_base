@@ -6,10 +6,13 @@ import models.person.Person;
 import models.sso.SsoPerson;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Session;
+import play.db.jpa.JPA;
 import results.sso.PersonResult;
 import utils.SSOUtils;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.ManyToOne;
 import java.util.List;
 
@@ -37,8 +40,10 @@ public class AccessToken extends BaseModel {
         at.accesstoken = RandomStringUtils.randomAlphabetic(6) + "-" + System.currentTimeMillis();
         if (at.person.loginAmount == null) {
             at.person.loginAmount = 1;
+            at.person.firstLoginTime = System.currentTimeMillis();
         } else {
             at.person.loginAmount++;
+            at.person.lastLoginTime = System.currentTimeMillis();
         }
         at.person.save();
         return at.save();
@@ -50,9 +55,6 @@ public class AccessToken extends BaseModel {
         this.osVersion = osVersion;
         this.clientType = clientType;
         this.deviceToken = deviceToken;
-        //this.person.firstLoginTime = this.person.firstLoginTime == null ? System.currentTimeMillis() : this.person.firstLoginTime;
-        //this.person.lastLoginTime = System.currentTimeMillis();
-        //this.person.save();
         this.save();
         if (!(ClientType.WEB.code() + "").equals(this.clientType)) {
             this.fetchOthersByPerson().forEach(at -> at.del());
@@ -63,9 +65,13 @@ public class AccessToken extends BaseModel {
         if (StringUtils.equalsIgnoreCase(this.pushToken, pushToken)) {
             return;
         }
-        this.pushToken = pushToken;
-        this.save();
-        this.fetchOthersByPushToken().forEach(at -> at.del());
+        EntityManager em = JPA.em();
+        Session s = (Session) em.getDelegate();
+        if (!s.getTransaction().isActive())
+            s.getTransaction().begin();
+        em.createNativeQuery("update AccessToken set pushToken=:pushToken where id=:id").setParameter("pushToken", pushToken).setParameter("id", this.id).executeUpdate();
+        s.getTransaction().commit();
+        //this.fetchOthersByPushToken().forEach(at -> at.del());
     }
     
     public static void logout(Long personId, String appType) {
