@@ -248,6 +248,14 @@ public class BaseUtils {
         return Arrays.stream(StringUtils.split(ids, ",")).map(id -> Long.parseLong(id)).collect(Collectors.toList());
     }
     
+    
+    public static List<String> strToList(String string) {
+        if (StringUtils.isBlank(string)) {
+            return Collections.EMPTY_LIST;
+        }
+        return Arrays.asList(StringUtils.split(string, ","));
+    }
+    
     public static List<Integer> codesToList(String codes) {
         if (StringUtils.isBlank(codes)) {
             return Collections.EMPTY_LIST;
