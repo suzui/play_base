@@ -130,7 +130,15 @@ public class AccessToken extends BaseModel {
     public static AccessToken findMobile(Person person, String appType) {
         return findMobile(person.id, appType);
     }
-    
+
+    public static AccessToken findMobile(Long personId, int appType) {
+        return findMobile(personId, appType + "");
+    }
+
+    public static AccessToken findMobile(Person person, int appType) {
+        return findMobile(person.id, appType);
+    }
+
     public List<AccessToken> fetchOthersByPerson() {
         return AccessToken.find(defaultSql("person=? and appType=? and clientType<>'100' and id<>?"), this.person, this.appType, this.id).fetch();
     }

@@ -44,7 +44,7 @@ public class BaseModel extends Model {
     private static final String FROM = " from ";
     private static final String WHERE = " where ";
     private static final String FROM_WHERE_PATTERN = "from\\s([\\S].*?)\\swhere\\s";
-    
+
     private static String defaultCondition() {
         return "deleted=false";
     }
@@ -75,7 +75,12 @@ public class BaseModel extends Model {
         }
         return originSql;
     }
-    
+
+    public <T extends BaseModel> T _id(Long id) {
+        this.id = id;
+        return (T) this;
+    }
+
     public void logicDelete() {
         this.deleted = true;
         this.save();

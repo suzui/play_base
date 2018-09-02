@@ -5,6 +5,7 @@ import models.BaseModel;
 import models.back.Admin;
 import models.token.AccessToken;
 import models.token.BasePerson;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import play.Play;
 import play.jobs.Job;
@@ -240,7 +241,15 @@ public class BaseUtils {
     public static Boolean collectionNotEmpty(Collection collection) {
         return collection != null && !collection.isEmpty();
     }
-    
+
+
+    public static List<String> strToList(String string) {
+        if (StringUtils.isBlank(string)) {
+            return Collections.EMPTY_LIST;
+        }
+        return Arrays.asList(StringUtils.split(string, ","));
+    }
+
     public static List<Long> idsToList(String ids) {
         if (StringUtils.isBlank(ids)) {
             return Collections.EMPTY_LIST;
@@ -248,12 +257,11 @@ public class BaseUtils {
         return Arrays.stream(StringUtils.split(ids, ",")).map(id -> Long.parseLong(id)).collect(Collectors.toList());
     }
     
-    
-    public static List<String> strToList(String string) {
-        if (StringUtils.isBlank(string)) {
+    public static List<Integer> intsToList(String ints) {
+        if (StringUtils.isBlank(ints)) {
             return Collections.EMPTY_LIST;
         }
-        return Arrays.asList(StringUtils.split(string, ","));
+        return Arrays.stream(StringUtils.split(ints, ",")).map(i -> Integer.parseInt(i)).collect(Collectors.toList());
     }
     
     public static List<Integer> codesToList(String codes) {
@@ -266,6 +274,10 @@ public class BaseUtils {
     public static <T extends BaseModel> List<Long> modelToId(List<T> models) {
         return models.stream().map(m -> m.id).collect(Collectors.toList());
     }
+
+    public static String join(List list) {
+        return StringUtils.join(list, ",");
+    }
     
     public static String listToHql(List<String> list) {
         return StringUtils.join(list.stream().map(s -> "'" + s + "'").collect(Collectors.toList()), ",");
@@ -274,7 +286,16 @@ public class BaseUtils {
     public static String genURL(String url, Object... params) {
         return String.format(url, params);
     }
-    
+
+
+    public Boolean toBooleanObject(Integer i) {
+        return BooleanUtils.toBooleanObject(i);
+    }
+
+    public Integer toIntegerObject(Boolean b) {
+        return BooleanUtils.toIntegerObject(b);
+    }
+
     public static List<String[]> enums(Class clazz) {
         try {
             Method method = clazz.getMethod("values");
