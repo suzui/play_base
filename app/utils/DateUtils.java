@@ -8,6 +8,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtils {
+
+    public static final Long MILLISECOND = 1l;
+    public static final Long SECOND = 1000 * MILLISECOND;
+    public static final Long MINUTE = 60 * SECOND;
+    public static final Long HOUR = 60 * MINUTE;
+    public static final Long DAY = 24 * HOUR;
+
     public static String format(Long date) {
         if (date == null) {
             return null;
@@ -106,18 +113,51 @@ public class DateUtils {
             return 0l;
         }
         if (cron.contains("秒") || cron.contains("s")) {
-            return Integer.parseInt(cron.replace("秒", "").replace("s", "")) * 1000;
+            return Integer.parseInt(cron.replace("秒", "").replace("s", "")) * SECOND;
         }
-        if (cron.contains("分钟") || cron.contains("mn")) {
-            return Integer.parseInt(cron.replace("分钟", "").replace("mn", "")) * 60 * 1000;
+        if (cron.contains("分") || cron.contains("分钟") || cron.contains("mn")) {
+            return Integer.parseInt(cron.replace("分", "").replace("分钟", "").replace("mn", "")) * MINUTE;
         }
-        if (cron.contains("小时") || cron.contains("h")) {
-            return Integer.parseInt(cron.replace("小时", "").replace("h", "")) * 60 * 60 * 1000;
+        if (cron.contains("时") || cron.contains("小时") || cron.contains("h")) {
+            return Integer.parseInt(cron.replace("时", "").replace("小时", "").replace("h", "")) * HOUR;
         }
         if (cron.contains("天") || cron.contains("d")) {
-            return Integer.parseInt(cron.replace("天", "").replace("d", "")) * 24 * 60 * 60 * 1000;
+            return Integer.parseInt(cron.replace("天", "").replace("d", "")) * DAY;
         }
         return 0l;
     }
+
+    public static String timeToCron(Long time, int field) {
+        String cron = "";
+        if (time == null) {
+            return cron;
+        }
+        long day = time / DAY;
+        long hour = (time % DAY) / HOUR;
+        long minute = ((time % DAY) % HOUR) / MINUTE;
+        long second = (((time % DAY) % HOUR) % MINUTE) / SECOND;
+        if (field >= Calendar.DATE) {
+            if (day > 0) {
+                cron += day + "天";
+            }
+        }
+        if (field >= Calendar.HOUR) {
+            if (hour > 0) {
+                cron += hour + "小时";
+            }
+        }
+        if (field >= Calendar.MINUTE) {
+            if (minute > 0) {
+                cron += minute + "分钟";
+            }
+        }
+        if (field >= Calendar.SECOND) {
+            if (second > 0) {
+                cron += second + "秒";
+            }
+        }
+        return cron;
+    }
+
     
 }
