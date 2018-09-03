@@ -66,12 +66,24 @@ public class Result {
         return result(Status.FAIL, (int) StatusCode.FAIL[0], (String) StatusCode.FAIL[1], null);
     }
     
+    public static String failed(String message) {
+        return result(Status.FAIL, (int) StatusCode.FAIL[0], message, null);
+    }
+    
     public static String failed(Object[] codemessage) {
         return result(Status.FAIL, (int) codemessage[0], (String) codemessage[1], null);
     }
     
     public static String failed(Object[] codemessage, String message) {
         return result(Status.FAIL, (int) codemessage[0], message, null);
+    }
+
+    public static String failed(Data data, String message) {
+        return result(Status.FAIL, (int) StatusCode.FAIL[0], message, data);
+    }
+
+    public static String failed(Data data, Object[] codemessage) {
+        return result(Status.FAIL, (int) codemessage[0], (String) codemessage[1], data);
     }
     
     public static String succeed() {
