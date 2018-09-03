@@ -48,12 +48,20 @@ public class DateUtils {
         return truncate(date, Calendar.DAY_OF_MONTH);
     }
     
+    public static Date truncate(Long date) {
+        return truncate(new Date(date));
+    }
+    
     public static Date ceiling(Date date, int field) {
         return org.apache.commons.lang.time.DateUtils.ceiling(date, field);
     }
     
     public static Date ceiling(Date date) {
         return ceiling(date, Calendar.DAY_OF_MONTH);
+    }
+    
+    public static Date ceiling(Long date) {
+        return ceiling(new Date(date));
     }
     
     public static int dayBetween(Long startDay, Long endDay) {
