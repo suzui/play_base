@@ -243,7 +243,12 @@ public class BaseUtils {
     }
     
     public static List page(List list, int page, int size) {
-        return list.subList((page - 1) * size, Math.min(list.size(), page * size));
+        int from = (page - 1) * size;
+        int to = Math.min(list.size(), page * size);
+        if (from >= list.size()) {
+            return Collections.EMPTY_LIST;
+        }
+        return list.subList(from, to);
     }
     
     public static List<String> strToList(String string) {

@@ -8,13 +8,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtils {
-
+    
     public static final Long MILLISECOND = 1l;
     public static final Long SECOND = 1000 * MILLISECOND;
     public static final Long MINUTE = 60 * SECOND;
     public static final Long HOUR = 60 * MINUTE;
     public static final Long DAY = 24 * HOUR;
-
+    
     public static String format(Long date) {
         if (date == null) {
             return null;
@@ -126,7 +126,7 @@ public class DateUtils {
         }
         return 0l;
     }
-
+    
     public static String timeToCron(Long time, int field) {
         String cron = "";
         if (time == null) {
@@ -158,6 +158,5 @@ public class DateUtils {
         }
         return cron;
     }
-
     
 }
