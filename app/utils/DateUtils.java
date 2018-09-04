@@ -72,47 +72,51 @@ public class DateUtils {
     }
     
     public static int dayBetween(Long startDay, Long endDay) {
-        return (int) ((org.apache.commons.lang.time.DateUtils.truncate(new Date(endDay), Calendar.DAY_OF_MONTH).getTime() - org.apache.commons.lang.time.DateUtils.truncate(new Date(startDay), Calendar.DAY_OF_MONTH).getTime()) / (24 * 60 * 60 * 1000));
+        return (int) ((org.apache.commons.lang.time.DateUtils.truncate(new Date(endDay), Calendar.DAY_OF_MONTH).getTime() - org.apache.commons.lang.time.DateUtils.truncate(new Date(startDay), Calendar.DAY_OF_MONTH).getTime()) / DAY);
     }
     
-    public static int dayOfWeek(Long current) {
+    public boolean today(Long time) {
+        return dayBetween(time, System.currentTimeMillis()) == 0;
+    }
+    
+    public static int dayOfWeek(Long time) {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date(current));
+        cal.setTime(new Date(time));
         int day = cal.get(Calendar.DAY_OF_WEEK) - 1;
         return day == 0 ? 7 : day;
     }
     
-    public static int dayOfMonth(Long current) {
+    public static int dayOfMonth(Long time) {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date(current));
+        cal.setTime(new Date(time));
         return cal.get(Calendar.DAY_OF_MONTH);
     }
     
-    public static int dayOfYear(Long current) {
+    public static int dayOfYear(Long time) {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date(current));
+        cal.setTime(new Date(time));
         return cal.get(Calendar.DAY_OF_YEAR);
     }
     
-    public static int dayOfAll(Long current) {
-        return (int) (truncate(current).getTime() / DAY + 1);
+    public static int dayOfAll(Long time) {
+        return (int) (truncate(time).getTime() / DAY + 1);
     }
     
-    public static int month(Long current) {
+    public static int month(Long time) {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date(current));
+        cal.setTime(new Date(time));
         return cal.get(Calendar.MONTH) + 1;
     }
     
-    public static int totalMonth(Long current) {
+    public static int totalMonth(Long time) {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date(current));
+        cal.setTime(new Date(time));
         return cal.get(Calendar.YEAR) * 12 + cal.get(Calendar.MONTH) + 1;
     }
     
-    public static int lastDayOfMonth(Long current) {
+    public static int lastDayOfMonth(Long time) {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date(current));
+        cal.setTime(new Date(time));
         cal.add(Calendar.MONTH, 1);
         cal.set(Calendar.DAY_OF_MONTH, 0);
         return cal.get(Calendar.DAY_OF_MONTH);
