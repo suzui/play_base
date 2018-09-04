@@ -88,6 +88,16 @@ public class DateUtils {
         return cal.get(Calendar.DAY_OF_MONTH);
     }
     
+    public static int dayOfYear(Long current) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date(current));
+        return cal.get(Calendar.DAY_OF_YEAR);
+    }
+    
+    public static int dayOfAll(Long current) {
+        return (int) (truncate(current).getTime() / DAY + 1);
+    }
+    
     public static int month(Long current) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date(current));
@@ -106,6 +116,10 @@ public class DateUtils {
         cal.add(Calendar.MONTH, 1);
         cal.set(Calendar.DAY_OF_MONTH, 0);
         return cal.get(Calendar.DAY_OF_MONTH);
+    }
+    
+    public static long dayToTime(int day) {
+        return truncate(new Date(day * DAY)).getTime();
     }
     
     public static long cronToTime(String cron) {
@@ -158,5 +172,6 @@ public class DateUtils {
         }
         return cron;
     }
+    
     
 }
