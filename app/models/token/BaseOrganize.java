@@ -9,6 +9,7 @@ import play.jobs.Job;
 import utils.BaseUtils;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -57,6 +58,12 @@ public class BaseOrganize extends BaseModel {
     
     public <T extends BaseOrganize> List<T> children() {
         return T.find(defaultSql("parent=?"), this).fetch();
+    }
+    
+    public <T extends BasePerson> List<T> persons() {
+        List<T> persons = new ArrayList<>();
+        BaseRelation.fetchByOrganize(this).forEach(r -> persons.add(r.person()));
+        return persons;
     }
     
     public Double initRank() {

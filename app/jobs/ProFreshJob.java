@@ -18,7 +18,7 @@ public class ProFreshJob extends Job {
         pros.stream().filter(p -> p.location.contains("app")).forEach(p -> {
             if (p.check().read.contains("java")) {
                 p.status(ProStatus.NORMAL);
-            } else {
+            } else if (p.status != ProStatus.START) {
                 p.status(ProStatus.STOP);
             }
         });

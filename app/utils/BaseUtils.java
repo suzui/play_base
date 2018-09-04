@@ -241,15 +241,18 @@ public class BaseUtils {
     public static Boolean collectionNotEmpty(Collection collection) {
         return collection != null && !collection.isEmpty();
     }
-
-
+    
+    public static List page(List list, int page, int size) {
+        return list.subList((page - 1) * size, Math.min(list.size(), page * size));
+    }
+    
     public static List<String> strToList(String string) {
         if (StringUtils.isBlank(string)) {
             return Collections.EMPTY_LIST;
         }
         return Arrays.asList(StringUtils.split(string, ","));
     }
-
+    
     public static List<Long> idsToList(String ids) {
         if (StringUtils.isBlank(ids)) {
             return Collections.EMPTY_LIST;
@@ -274,7 +277,7 @@ public class BaseUtils {
     public static <T extends BaseModel> List<Long> modelToId(List<T> models) {
         return models.stream().map(m -> m.id).collect(Collectors.toList());
     }
-
+    
     public static String join(List list) {
         return StringUtils.join(list, ",");
     }
@@ -286,16 +289,15 @@ public class BaseUtils {
     public static String genURL(String url, Object... params) {
         return String.format(url, params);
     }
-
-
+    
     public Boolean toBooleanObject(Integer i) {
         return BooleanUtils.toBooleanObject(i);
     }
-
+    
     public Integer toIntegerObject(Boolean b) {
         return BooleanUtils.toIntegerObject(b);
     }
-
+    
     public static List<String[]> enums(Class clazz) {
         try {
             Method method = clazz.getMethod("values");
