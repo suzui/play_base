@@ -75,7 +75,7 @@ public class DateUtils {
         return (int) ((org.apache.commons.lang.time.DateUtils.truncate(new Date(endDay), Calendar.DAY_OF_MONTH).getTime() - org.apache.commons.lang.time.DateUtils.truncate(new Date(startDay), Calendar.DAY_OF_MONTH).getTime()) / DAY);
     }
     
-    public boolean today(Long time) {
+    public static boolean today(Long time) {
         return dayBetween(time, System.currentTimeMillis()) == 0;
     }
     
