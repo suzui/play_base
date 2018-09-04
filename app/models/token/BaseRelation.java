@@ -6,7 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Relation")
@@ -81,6 +84,17 @@ public class BaseRelation extends BaseModel {
         return findByOrganizeAndPerson(organizeId, personId) != null;
     }
     
+    public static <T extends BasePerson> List<T> persons(List<Long> organizeIds, List<Long> personIds) {
+        Set<T> persons = new LinkedHashSet<>();
+        if (organizeIds != null) {
+            fetchByOrganizes(organizeIds).forEach(r -> persons.add(r.person()));
+        }
+        if (personIds != null) {
+            T.fetchByIds(personIds).forEach(p -> persons.add((T) p));
+        }
+        return new ArrayList<>(persons);
+    }
+    
     public void del() {
         this.logicDelete();
     }
@@ -112,6 +126,10 @@ public class BaseRelation extends BaseModel {
     
     public static <T extends BaseRelation> List<T> fetchByOrganize(BaseOrganize organize) {
         return T.find(defaultSql("organize=?"), organize).fetch();
+    }
+    
+    public static <T extends BaseRelation> List<T> fetchByOrganizes(List<Long> organizeIds) {
+        return T.find(defaultSql("organize.id in(:organizeIds)")).bind("organizeIds", organizeIds.toArray()).fetch();
     }
     
     public static <T extends BaseRelation> List<T> fetchAll() {
