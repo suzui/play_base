@@ -25,9 +25,13 @@ public class FileUtils {
         if (StringUtils.isBlank(url)) {
             return "";
         }
+        if (!url.contains("/") || url.endsWith("/")) {
+            return url;
+        }
         String domain = url.substring(0, url.lastIndexOf("/") + 1);
         String name = lower(url.substring(url.lastIndexOf("/") + 1, url.length()));
         return domain + name;
         
     }
+
 }
