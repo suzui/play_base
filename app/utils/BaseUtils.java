@@ -243,6 +243,9 @@ public class BaseUtils {
     }
     
     public static List page(List list, int page, int size) {
+        if (collectionEmpty(list)) {
+            return Collections.EMPTY_LIST;
+        }
         int from = (page - 1) * size;
         int to = Math.min(list.size(), page * size);
         if (from >= list.size()) {
@@ -319,8 +322,8 @@ public class BaseUtils {
     
     
     public static void main(String[] args) {
-        Map<String,String> map = new HashMap<>();
-        map.put("1","1");
+        Map<String, String> map = new HashMap<>();
+        map.put("1", "1");
         Map.Entry<String, String> next = map.entrySet().iterator().next();
         System.err.println(next.getClass());
         
