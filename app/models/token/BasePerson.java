@@ -307,6 +307,16 @@ public class BasePerson extends BaseModel {
     public String organizeNames() {
         return StringUtils.join(organizes().stream().map(o -> o.name).collect(Collectors.toList()), ",");
     }
-    
+
+    //用户在当前机构的所有部门名称
+    public String organizeNames(BaseOrganize organize) {
+        return StringUtils.join(organizes(organize).stream().map(o -> o.name).collect(Collectors.toList()), ",");
+    }
+
+    //用户在当前机构的所有角色名称
+    public String roleNames(BaseOrganize organize) {
+        return StringUtils.join(roles(organize).stream().map(r -> r.name).collect(Collectors.toList()), ",");
+    }
+
     
 }
