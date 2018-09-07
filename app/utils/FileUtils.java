@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 
 public class FileUtils {
     
-    public static String lowerFormat(String name) {
+    public static String lower(String name) {
         if (StringUtils.isBlank(name)) {
             return "";
         }
@@ -12,7 +12,7 @@ public class FileUtils {
             return name;
         }
         if (name.startsWith(".")) {
-            return name.substring(1, name.length()).toLowerCase();
+            return name.toLowerCase();
         }
         if (name.endsWith(".")) {
             return name;
@@ -21,4 +21,13 @@ public class FileUtils {
         return names[0] + "." + names[1].toLowerCase();
     }
     
+    public static String lowerUrl(String url) {
+        if (StringUtils.isBlank(url)) {
+            return "";
+        }
+        String domain = url.substring(0, url.lastIndexOf("/") + 1);
+        String name = lower(url.substring(url.lastIndexOf("/") + 1, url.length()));
+        return domain + name;
+        
+    }
 }
