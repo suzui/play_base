@@ -317,5 +317,13 @@ public class BaseUtils {
         }
     }
     
+    
+    public static void main(String[] args) {
+        Map<String,String> map = new HashMap<>();
+        map.put("1","1");
+        Map.Entry<String, String> next = map.entrySet().iterator().next();
+        System.err.println(next.getClass());
+        
+    }
 }
 
