@@ -196,9 +196,9 @@ public class BaseController extends Controller {
         if (token.version <= 1 || System.currentTimeMillis() - token.updateTime > 3 * 60 * 1000) {
             new UpdateLoginInfoJob(accesstoken, appVersion, appType, osVersion, clientType, deviceToken).in(3);
         }
-        if (appVersion != null && appType != null && clientType != null && !StringUtils.equals(clientType, ClientType.WEB.code() + "") && CacheUtils.get(VersionVO.key(appType, clientType)) != null) {
+        if (appVersion != null && appType != null && clientType != null && !StringUtils.equals(clientType, ClientType.WEB.code() + "")) {
             VersionVO versionVO = (VersionVO) CacheUtils.get(VersionVO.key(appType, clientType));
-            if (versionVO.version.compareTo(appVersion) > 0 && versionVO.isForcedUpdate > 0) {
+            if (versionVO != null && versionVO.isForcedUpdate() && BaseUtils.isOldVersion(versionVO.version, appVersion)) {
                 renderJSON(Result.failed(StatusCode.SYSTEM_APP_UPDATE));
             }
         }

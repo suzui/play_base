@@ -15,6 +15,7 @@ import play.mvc.Scope;
 import play.utils.Java;
 import vos.VersionVO;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
@@ -211,8 +212,23 @@ public class BaseUtils {
     
     public static Boolean isOldVersion() {
         VersionVO versionVO = (VersionVO) CacheUtils.get(VersionVO.key(getApptype(), getClienttype()));
-        String appversion = getAppversion();
-        return appversion != null && versionVO != null && versionVO.version.compareTo(appversion) > 0;
+        return versionVO != null && isOldVersion(versionVO.version, getAppversion());
+    }
+    
+    public static Boolean isOldVersion(String server, String app) {
+        if (StringUtils.isBlank(server) || StringUtils.isBlank(app)) {
+            return false;
+        }
+        String[] servers = StringUtils.split(server, "."), apps = StringUtils.split(app, ".");
+        if (servers.length != apps.length || servers.length != 3 || apps.length != 3) {
+            return false;
+        }
+        for (int i = 0; i < 3; i++) {
+            if (servers[i].compareTo(apps[i]) > 0) {
+                return true;
+            }
+        }
+        return false;
     }
     
     public static String initPassword() {
@@ -321,11 +337,11 @@ public class BaseUtils {
     }
     
     
-    public static void main(String[] args) {
-        Map<String, String> map = new HashMap<>();
-        map.put("1", "1");
-        Map.Entry<String, String> next = map.entrySet().iterator().next();
-        System.err.println(next.getClass());
+    public static void main(String[] args) throws IOException {
+        
+        String v1 = "2.20.3";
+        String v2 = "2.9.21";
+        System.err.println(v1.compareTo(v2));
         
     }
 }

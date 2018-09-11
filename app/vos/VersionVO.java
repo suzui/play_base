@@ -4,8 +4,10 @@ import annotations.DataField;
 import enums.AppType;
 import enums.ClientType;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.BooleanUtils;
 import play.Logger;
 import play.Play;
+import utils.BaseUtils;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -21,11 +23,14 @@ public class VersionVO extends OneData implements Serializable {
     @DataField(name = "是否强制更新")
     public Integer isForcedUpdate = 0;
     
+    @DataField(name = "是否需要更新")
+    public Integer needUpdate = 0;
+    
     public VersionVO() {
     }
     
     public VersionVO(AppType app, ClientType client) {
-        super(0l);
+        this.clean();
         try {
             for (String line : FileUtils.readLines(
                     Play.getFile("/documentation/version/" + "VERSION_" + app.name() + "_" + client.name()), "utf8")) {
@@ -47,6 +52,15 @@ public class VersionVO extends OneData implements Serializable {
         } catch (IOException e) {
             Logger.error("versionerror:%s", e.getMessage());
         }
+    }
+    
+    public boolean isForcedUpdate() {
+        return BooleanUtils.toBoolean(this.isForcedUpdate);
+    }
+    
+    public VersionVO needUpdate() {
+        this.needUpdate = BooleanUtils.toIntegerObject(BaseUtils.isOldVersion(this.version, BaseUtils.getAppversion()));
+        return this;
     }
     
     public static String key(AppType app, ClientType client) {
