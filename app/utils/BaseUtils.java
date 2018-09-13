@@ -15,7 +15,6 @@ import play.mvc.Scope;
 import play.utils.Java;
 import vos.VersionVO;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
@@ -258,7 +257,7 @@ public class BaseUtils {
         return collection != null && !collection.isEmpty();
     }
     
-    public static List page(List list, int page, int size) {
+    public static List page(List list, int page, int size, Comparator comparator) {
         if (collectionEmpty(list)) {
             return Collections.EMPTY_LIST;
         }
@@ -267,7 +266,14 @@ public class BaseUtils {
         if (from >= list.size()) {
             return Collections.EMPTY_LIST;
         }
+        if (comparator != null) {
+            list.sort(comparator);
+        }
         return list.subList(from, to);
+    }
+    
+    public static List page(List list, int page, int size) {
+        return page(list, page, size);
     }
     
     public static List<String> strToList(String string) {
@@ -336,13 +342,5 @@ public class BaseUtils {
         }
     }
     
-    
-    public static void main(String[] args) throws IOException {
-        
-        String v1 = "2.20.3";
-        String v2 = "2.9.21";
-        System.err.println(v1.compareTo(v2));
-        
-    }
 }
 

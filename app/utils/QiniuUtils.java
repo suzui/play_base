@@ -53,4 +53,5 @@ public class QiniuUtils {
         return DOMAIN + "/" + key;
     }
     
+    
 }
