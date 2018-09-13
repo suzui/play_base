@@ -69,7 +69,7 @@ public class BaseController extends Controller {
                 Logger.info("[randomseed]:%s", randomseed);
                 final String key = request.action + randomseed.value();
                 if (CacheUtils.get(key) != null) {
-                    renderJSON(Result.failed(StatusCode.SYSTEM_POST_REPEAT));
+                    renderJSON(Result.failed(StatusCode.SYSTEM_REQUEST_REPEAT));
                 }
                 CacheUtils.add(key, true, "1mn");
             }
@@ -93,7 +93,7 @@ public class BaseController extends Controller {
                         params.put("api_accesstoken", accesstoken);
                         String md5 = CodeUtils.md5(gson.toJson(params));
                         if (CacheUtils.get(md5) != null) {
-                            renderJSON(Result.failed(StatusCode.SYSTEM_POST_REPEAT));
+                            renderJSON(Result.failed(StatusCode.SYSTEM_REQUEST_REPEAT));
                         }
                         CacheUtils.add(md5, true, "3s");
                     }
