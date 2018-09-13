@@ -30,6 +30,8 @@ public class ProVO extends OneData implements Serializable {
     public String user;
     @DataField(name = "密码")
     public String password;
+    @DataField(name = "playid")
+    public String playid;
     
     @DataField(name = "branchs")
     public String branchs;
@@ -55,6 +57,7 @@ public class ProVO extends OneData implements Serializable {
         this.url = pro.url;
         this.user = pro.user;
         this.password = pro.password;
+        this.playid = pro.playid;
         if (pro.status == null) {
             this.status = 0;
         } else {

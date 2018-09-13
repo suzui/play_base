@@ -26,6 +26,7 @@ public class Pro extends BaseModel {
     public String url;
     public String user;
     public String password;
+    public String playid;
     
     @Enumerated(EnumType.STRING)
     public ProStatus status;
@@ -46,6 +47,7 @@ public class Pro extends BaseModel {
         this.url = proVO.url != null ? proVO.url : url;
         this.user = proVO.user != null ? proVO.user : user;
         this.password = proVO.password != null ? proVO.password : password;
+        this.playid = proVO.playid != null ? proVO.playid : playid;
         this.save();
     }
     
@@ -65,6 +67,10 @@ public class Pro extends BaseModel {
         return StringUtils.isBlank(this.password) ? ConfigUtils.password : this.password;
     }
     
+    public String playid() {
+        return StringUtils.isBlank(this.playid) ? ConfigUtils.playid : this.playid;
+    }
+    
     public ShellUtils.Result gitbranch() {
         return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/gitbranch.sh", this.user(), this.password(), this.location);
     }
@@ -82,11 +88,11 @@ public class Pro extends BaseModel {
     }
     
     public ShellUtils.Result start() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/start.sh", this.user(), this.password(), this.location);
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/start.sh", this.user(), this.password(), this.playid(), this.location);
     }
     
     public ShellUtils.Result restart() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/restart.sh", this.user(), this.password(), this.location);
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/restart.sh", this.user(), this.password(), this.playid(), this.location);
     }
     
     public ShellUtils.Result check() {
