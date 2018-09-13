@@ -63,16 +63,14 @@ public class BaseController extends Controller {
     @Before(priority = 2)
     static void randomseed() {
         Logger.info("[randomseed start]:================");
-        if (request != null && "post".equalsIgnoreCase(request.method)) {
-            final Header randomseed = request.headers.get("randomseed");
-            if (randomseed != null) {
-                Logger.info("[randomseed]:%s", randomseed);
-                final String key = request.action + randomseed.value();
-                if (CacheUtils.get(key) != null) {
-                    renderJSON(Result.failed(StatusCode.SYSTEM_REQUEST_REPEAT));
-                }
-                CacheUtils.add(key, true, "1mn");
+        final Header randomseed = request.headers.get("randomseed");
+        if (randomseed != null) {
+            Logger.info("[randomseed]:%s", randomseed);
+            final String key = request.action + randomseed.value();
+            if (CacheUtils.get(key) != null) {
+                renderJSON(Result.failed(StatusCode.SYSTEM_REQUEST_REPEAT));
             }
+            CacheUtils.add(key, true, "1mn");
         }
         Logger.info("[randomseed end]:================");
     }
