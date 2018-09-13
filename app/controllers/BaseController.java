@@ -66,7 +66,7 @@ public class BaseController extends Controller {
         final Header randomseed = request.headers.get("randomseed");
         if (randomseed != null) {
             Logger.info("[randomseed]:%s", randomseed);
-            final String key = request.action + randomseed.value();
+            final String key = request.url + randomseed.value();
             if (CacheUtils.get(key) != null) {
                 renderJSON(Result.failed(StatusCode.SYSTEM_REQUEST_REPEAT));
             }
