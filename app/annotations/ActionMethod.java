@@ -20,6 +20,8 @@ public @interface ActionMethod {
     
     String required() default "";
     
+    boolean repeat() default true;
+    
     Class<? extends Data>[] clazz() default {};
     
 }

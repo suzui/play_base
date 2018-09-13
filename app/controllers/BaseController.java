@@ -18,6 +18,7 @@ import play.mvc.Http.Request;
 import utils.ApiQueue;
 import utils.BaseUtils;
 import utils.CacheUtils;
+import utils.CodeUtils;
 import vos.Result;
 import vos.Result.StatusCode;
 import vos.VersionVO;
@@ -34,6 +35,7 @@ public class BaseController extends Controller {
     
     private static final String VO = "vo";
     private static final String DOC = "doc";
+    private static final String BODY = "body";
     private static Gson gson = new GsonBuilder().disableHtmlEscaping().create();
     
     @Before(priority = 0)
@@ -69,7 +71,7 @@ public class BaseController extends Controller {
                 if (CacheUtils.get(key) != null) {
                     renderJSON(Result.failed(StatusCode.SYSTEM_POST_REPEAT));
                 }
-                CacheUtils.add(key, true, "10mn");
+                CacheUtils.add(key, true, "1mn");
             }
         }
         Logger.info("[randomseed end]:================");
@@ -78,18 +80,32 @@ public class BaseController extends Controller {
     @Before(priority = 3)
     static void params() {
         Logger.info("[params start]:================");
-        request.params.put(VO, "");
         Map<String, String> params = request.params.allSimple();
+        request.params.put(VO, "");
         Logger.info("[params]:%s", gson.toJson(params));
         if (BaseUtils.propertyOn("validation")) {
             ActionMethod am = request.invokedMethod.getAnnotation(ActionMethod.class);
-            if (am != null && StringUtils.isNotBlank(am.param())) {
-                for (String param : StringUtils.split(am.param().replaceAll("\\+", ""), ",")) {
-                    if (StringUtils.isBlank(param) || param.startsWith("-") || StringUtils.equals(param, "page") || StringUtils.equals(param, "size")) {
-                        continue;
+            if (am != null) {
+                if (!am.repeat()) {
+                    String accesstoken = getToken();
+                    if (StringUtils.isNotBlank(accesstoken)) {
+                        params.put("api_url", request.url);
+                        params.put("api_accesstoken", accesstoken);
+                        String md5 = CodeUtils.md5(gson.toJson(params));
+                        if (CacheUtils.get(md5) != null) {
+                            renderJSON(Result.failed(StatusCode.SYSTEM_POST_REPEAT));
+                        }
+                        CacheUtils.add(md5, true, "3s");
                     }
-                    if (!params.containsKey(param)) {
-                        renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, param + "不能为空"));
+                }
+                if (StringUtils.isNotBlank(am.param())) {
+                    for (String param : StringUtils.split(am.param().replaceAll("\\+", ""), ",")) {
+                        if (StringUtils.isBlank(param) || param.startsWith("-") || StringUtils.equals(param, "page") || StringUtils.equals(param, "size")) {
+                            continue;
+                        }
+                        if (!params.containsKey(param)) {
+                            renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, param + "不能为空"));
+                        }
                     }
                 }
             }
