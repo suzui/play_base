@@ -14,6 +14,8 @@ import java.io.Serializable;
 
 public class VersionVO extends OneData implements Serializable {
     
+    private static final long serialVersionUID = 1L;
+    
     @DataField(name = "版本号")
     public String version = "";
     @DataField(name = "下载地址")
