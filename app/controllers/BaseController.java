@@ -81,29 +81,27 @@ public class BaseController extends Controller {
         Map<String, String> params = request.params.allSimple();
         request.params.put(VO, "");
         Logger.info("[params]:%s", gson.toJson(params));
-        if (BaseUtils.propertyOn("validation")) {
-            ActionMethod am = request.invokedMethod.getAnnotation(ActionMethod.class);
-            if (am != null) {
-                if (!am.repeat()) {
-                    String accesstoken = getToken();
-                    if (StringUtils.isNotBlank(accesstoken)) {
-                        params.put("api_url", request.url);
-                        params.put("api_accesstoken", accesstoken);
-                        String md5 = CodeUtils.md5(gson.toJson(params));
-                        if (CacheUtils.get(md5) != null) {
-                            renderJSON(Result.failed(StatusCode.SYSTEM_REQUEST_REPEAT));
-                        }
-                        CacheUtils.add(md5, true, "3s");
+        ActionMethod am = request.invokedMethod.getAnnotation(ActionMethod.class);
+        if (am != null) {
+            if (!am.repeat()) {
+                String accesstoken = getToken();
+                if (StringUtils.isNotBlank(accesstoken)) {
+                    params.put("api_url", request.url);
+                    params.put("api_accesstoken", accesstoken);
+                    String md5 = CodeUtils.md5(gson.toJson(params));
+                    if (CacheUtils.get(md5) != null) {
+                        renderJSON(Result.failed(StatusCode.SYSTEM_REQUEST_REPEAT));
                     }
+                    CacheUtils.add(md5, true, "3s");
                 }
-                if (StringUtils.isNotBlank(am.param())) {
-                    for (String param : StringUtils.split(am.param().replaceAll("\\+", ""), ",")) {
-                        if (StringUtils.isBlank(param) || param.startsWith("-") || StringUtils.equals(param, "page") || StringUtils.equals(param, "size")) {
-                            continue;
-                        }
-                        if (!params.containsKey(param)) {
-                            renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, param + "不能为空"));
-                        }
+            }
+            if (BaseUtils.propertyOn("validation") && StringUtils.isNotBlank(am.param())) {
+                for (String param : StringUtils.split(am.param().replaceAll("\\+", ""), ",")) {
+                    if (StringUtils.isBlank(param) || param.startsWith("-") || StringUtils.equals(param, "page") || StringUtils.equals(param, "size")) {
+                        continue;
+                    }
+                    if (!params.containsKey(param)) {
+                        renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, param + "不能为空"));
                     }
                 }
             }
