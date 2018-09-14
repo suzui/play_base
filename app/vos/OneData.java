@@ -51,6 +51,9 @@ public class OneData extends Data {
     @JsonInclude(Include.NON_NULL)
     @DataField(name = "查询条件")
     public String condition;
+    @JsonInclude(Include.NON_NULL)
+    @DataField(name = "校验状态", comment = "不传走校验逻辑 1通过 0不通过")
+    public Integer validation;
     
     public OneData() {
         this.page = 1;
@@ -91,6 +94,10 @@ public class OneData extends Data {
     
     public void condition(String condition) {
         this.condition = " " + condition + " ";
+    }
+    
+    public boolean validation() {
+        return this.validation != null && this.validation > 0;
     }
     
     public void clean() {

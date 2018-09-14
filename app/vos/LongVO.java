@@ -2,9 +2,7 @@ package vos;
 
 import annotations.DataField;
 
-import java.io.Serializable;
-
-public class LongVO extends OneData implements Serializable {
+public class LongVO extends OneData {
     
     @DataField(name = "值")
     public Long value;
@@ -14,7 +12,7 @@ public class LongVO extends OneData implements Serializable {
     }
     
     public LongVO(Long value) {
-        super(0);
+        this.clean();
         this.value = value;
     }
     

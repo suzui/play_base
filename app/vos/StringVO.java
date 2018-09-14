@@ -2,9 +2,7 @@ package vos;
 
 import annotations.DataField;
 
-import java.io.Serializable;
-
-public class StringVO extends OneData implements Serializable {
+public class StringVO extends OneData {
     
     @DataField(name = "值")
     public String value;
@@ -14,7 +12,7 @@ public class StringVO extends OneData implements Serializable {
     }
     
     public StringVO(String value) {
-        super(0);
+        this.clean();
         this.value = value;
     }
     

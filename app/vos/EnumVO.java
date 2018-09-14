@@ -4,13 +4,12 @@ import annotations.DataField;
 import interfaces.BaseEnum;
 import utils.BaseUtils;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EnumVO extends OneData implements Serializable {
+public class EnumVO extends OneData {
     
     @DataField(name = "枚举code")
     public Integer code;
@@ -22,6 +21,7 @@ public class EnumVO extends OneData implements Serializable {
     }
     
     public EnumVO(BaseEnum baseEnum) {
+        this.clean();
         this.code = baseEnum.code();
         this.intro = baseEnum.intro();
     }
