@@ -213,8 +213,8 @@ public class BaseUtils {
     }
     
     public static Boolean isOldVersion() {
-        VersionVO versionVO = (VersionVO) CacheUtils.get(VersionVO.key(getApptype(), getClienttype()));
-        return versionVO != null && isOldVersion(versionVO.version, getAppversion());
+        String key = VersionVO.key(getApptype(), getClienttype());
+        return isOldVersion(VersionVO.version(key), getAppversion());
     }
     
     public static Boolean isOldVersion(String server, String app) {
