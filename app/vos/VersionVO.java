@@ -4,6 +4,7 @@ import annotations.DataField;
 import enums.AppType;
 import enums.ClientType;
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import utils.BaseUtils;
 
 import java.io.Serializable;
@@ -48,11 +49,12 @@ public class VersionVO extends OneData implements Serializable {
     }
     
     public static String version(String key) {
-        return BaseUtils.property(key + ".version");
+        return BaseUtils.property(key + ".version", "");
     }
     
     public static boolean isForcedUpdate(String key) {
-        return BooleanUtils.toBoolean(Integer.parseInt(BaseUtils.property(key + ".isForcedUpdate")));
+        String isForceUpdate = BaseUtils.property(key + ".isForcedUpdate");
+        return StringUtils.isNotBlank(isForceUpdate) && BooleanUtils.toBoolean(Integer.parseInt(isForceUpdate));
     }
     
     public VersionVO needUpdate() {
