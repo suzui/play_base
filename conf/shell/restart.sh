@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 cd $4;
-sudo -u $1 -S ls << EOF
+ls;
+sudo -s -S << EOF
 $2
 EOF
-sudo play id << EOF
+sudo play id -S << EOF
 $3
 EOF
 sudo -u $1 play deps --sync;
