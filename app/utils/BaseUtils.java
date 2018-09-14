@@ -276,7 +276,7 @@ public class BaseUtils {
     }
     
     public static List page(List list, int page, int size) {
-        return page(list, page, size);
+        return page(list, page, size, null);
     }
     
     public static List<String> strToList(String string) {
