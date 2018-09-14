@@ -30,15 +30,18 @@ public class BaseUtils {
     public static final String QINIU_URL = Play.configuration.getProperty("qiniu.domain");
     
     public static boolean isProd() {
-        return "p".equals(Play.id);
+        String playid = Play.id;
+        return playid != null && playid.endsWith("p");
     }
     
     public static boolean isTest() {
-        return "t".equals(Play.id);
+        String playid = Play.id;
+        return playid != null && playid.endsWith("t");
     }
     
     public static boolean isDev() {
-        return "d".equals(Play.id);
+        String playid = Play.id;
+        return playid != null && playid.endsWith("d");
     }
     
     public static String property(String key, String defualt) {
