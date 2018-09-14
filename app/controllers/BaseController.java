@@ -187,25 +187,22 @@ public class BaseController extends Controller {
             return;
         }
         final String accesstoken = getToken();
-        if (StringUtils.isBlank(accesstoken) || AccessToken.findByAccesstoken(accesstoken) == null) {
-            renderJSON(Result.failed(StatusCode.SYSTEM_TOKEN_UNVALID));
-        }
-        final AccessToken token = getAccessTokenByToken();
-        if (token == null) {
+        final AccessToken accessToken = AccessToken.findByAccesstoken(accesstoken);
+        if (accessToken == null) {
             renderJSON(Result.failed(StatusCode.SYSTEM_TOKEN_UNVALID));
         }
         ApiVO apiVO = (ApiVO) CacheUtils.get(request.hashCode() + "");
-        apiVO.personId = token.person.id;
-        apiVO.personToken = token.accesstoken;
-        apiVO.personInfo = StringUtils.join(Arrays.asList(token.person.username, token.person.name, token.person.phone).stream().filter(s -> StringUtils.isNotBlank(s)).toArray(), ",");
+        apiVO.personId = accessToken.person.id;
+        apiVO.personToken = accessToken.accesstoken;
+        apiVO.personInfo = StringUtils.join(Arrays.asList(accessToken.person.username, accessToken.person.name, accessToken.person.phone).stream().filter(s -> StringUtils.isNotBlank(s)).toArray(), ",");
         CacheUtils.replace(request.hashCode() + "", apiVO);
-        Logger.info("[accesstoken]:%s,%s,%s", token.person.id, token.person.name, token.person.username);
+        Logger.info("[accesstoken]:%s,%s,%s", accessToken.person.id, accessToken.person.name, accessToken.person.username);
         final String appVersion = BaseUtils.getHeader("appversion");
         final String appType = BaseUtils.getHeader("apptype");
         final String osVersion = BaseUtils.getHeader("osversion");
         final String clientType = BaseUtils.getHeader("clienttype");
         final String deviceToken = BaseUtils.getHeader("devicetoken");
-        if (token.version <= 1 || System.currentTimeMillis() - token.updateTime > 3 * 60 * 1000) {
+        if (accessToken.version <= 1 || System.currentTimeMillis() - accessToken.updateTime > 3 * 60 * 1000) {
             new UpdateLoginInfoJob(accesstoken, appVersion, appType, osVersion, clientType, deviceToken).in(3);
         }
         if (appVersion != null && appType != null && clientType != null && !StringUtils.equals(clientType, ClientType.WEB.code() + "")) {
