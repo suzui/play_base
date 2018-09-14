@@ -3,13 +3,9 @@ package vos;
 import annotations.DataField;
 import enums.AppType;
 import enums.ClientType;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.BooleanUtils;
-import play.Logger;
-import play.Play;
 import utils.BaseUtils;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 public class VersionVO extends OneData implements Serializable {
@@ -31,33 +27,32 @@ public class VersionVO extends OneData implements Serializable {
     public VersionVO() {
     }
     
-    public VersionVO(AppType app, ClientType client) {
+    public VersionVO(String key) {
         this.clean();
-        try {
-            for (String line : FileUtils.readLines(
-                    Play.getFile("/documentation/version/" + "VERSION_" + app.name() + "_" + client.name()), "utf8")) {
-                String key = line.substring(0, line.indexOf(":"));
-                String value = line.substring(line.indexOf(":") + 1, line.length());
-                if ("version".equals(key)) {
-                    this.version = value;
-                }
-                if ("downloadUrl".equals(key)) {
-                    this.downloadUrl = value;
-                }
-                if ("updateIntro".equals(key)) {
-                    this.updateIntro = value;
-                }
-                if ("isForcedUpdate".equals(key)) {
-                    this.isForcedUpdate = Integer.parseInt(value);
-                }
-            }
-        } catch (IOException e) {
-            Logger.error("versionerror:%s", e.getMessage());
-        }
+        this.version = BaseUtils.property(key + ".version");
+        this.downloadUrl = BaseUtils.property(key + ".downloadUrl");
+        this.updateIntro = BaseUtils.property(key + ".updateIntro");
+        this.isForcedUpdate = Integer.parseInt(BaseUtils.property(key + ".isForcedUpdate"));
     }
     
-    public boolean isForcedUpdate() {
-        return BooleanUtils.toBoolean(this.isForcedUpdate);
+    public VersionVO(AppType app, ClientType client) {
+        this(key(app, client));
+    }
+    
+    public VersionVO(int app, int client) {
+        this(key(app, client));
+    }
+    
+    public VersionVO(String app, String client) {
+        this(key(app, client));
+    }
+    
+    public static String version(String key) {
+        return BaseUtils.property(key + ".version");
+    }
+    
+    public static boolean isForcedUpdate(String key) {
+        return BooleanUtils.toBoolean(Integer.parseInt(BaseUtils.property(key + ".isForcedUpdate")));
     }
     
     public VersionVO needUpdate() {
@@ -66,11 +61,15 @@ public class VersionVO extends OneData implements Serializable {
     }
     
     public static String key(AppType app, ClientType client) {
-        return key(app.code() + "", client.code() + "");
+        return app.name().toLowerCase() + "." + client.name().toLowerCase();
+    }
+    
+    public static String key(int app, int client) {
+        return key(AppType.convert(app), ClientType.convert(client));
     }
     
     public static String key(String app, String client) {
-        return "version_" + app + "_" + client;
+        return key(Integer.parseInt(app), Integer.parseInt(client));
     }
     
 }

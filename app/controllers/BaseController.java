@@ -209,8 +209,8 @@ public class BaseController extends Controller {
             new UpdateLoginInfoJob(accesstoken, appVersion, appType, osVersion, clientType, deviceToken).in(3);
         }
         if (appVersion != null && appType != null && clientType != null && !StringUtils.equals(clientType, ClientType.WEB.code() + "")) {
-            VersionVO versionVO = (VersionVO) CacheUtils.get(VersionVO.key(appType, clientType));
-            if (versionVO != null && versionVO.isForcedUpdate() && BaseUtils.isOldVersion(versionVO.version, appVersion)) {
+            String key = VersionVO.key(appType, clientType);
+            if (VersionVO.isForcedUpdate(key) && BaseUtils.isOldVersion(VersionVO.version(key), appVersion)) {
                 renderJSON(Result.failed(StatusCode.SYSTEM_APP_UPDATE));
             }
         }
