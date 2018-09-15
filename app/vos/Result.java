@@ -1,6 +1,7 @@
 package vos;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang.StringUtils;
 import play.Logger;
 
 import java.io.IOException;
@@ -20,16 +21,22 @@ public class Result {
     
     public Data data;
     
+    public Validation validation;
+    
     public long systemTime;
     
     public static class Status {
         public final static String SUCC = "succ";
+        public final static Integer SUCCCODE = 20000;
+        public final static String SUCCTEXT = "请求成功";
         public final static String FAIL = "fail";
+        public final static Integer FAILCODE = 50000;
+        public final static String FAILTEXT = "系统异常";
     }
     
     public static class StatusCode {
-        public static final Object[] SUCCESS = {20000, "请求成功"};
-        public static final Object[] FAIL = {50000, "系统异常"};
+        public static final Object[] SUCC = {Status.SUCCCODE, Status.SUCCTEXT};
+        public static final Object[] FAIL = {Status.FAILCODE, Status.FAILTEXT};
         public static final Object[] BACK_UPDATE_FORBIDDEN = {30001, "无更新权限"};
         public static final Object[] BACK_UPDATE_FAILED = {30002, "更新失败"};
         public static final Object[] BACK_RESTART_FAILED = {30003, "重启失败"};
@@ -39,7 +46,6 @@ public class Result {
         public static final Object[] SYSTEM_REQUEST_REPEAT = {40002, "重复请求"};
         public static final Object[] SYSTEM_ACCESS_FOBIDDEN = {40003, "无相应权限"};
         public static final Object[] SYSTEM_PARAM_ERROR = {40004, "参数不合法"};
-        public static final Object[] SYSTEM_VALIDATION_ERROR = {40005, "逻辑校验不合法"};
         public static final Object[] PERSON_USERNAME_UNVALID = {40101, "用户名格式错误"};
         public static final Object[] PERSON_PHONE_UNVALID = {40102, "手机号码格式错误"};
         public static final Object[] PERSON_EMAIL_UNVALID = {40103, "邮箱格式错误"};
@@ -64,11 +70,7 @@ public class Result {
     }
     
     public static String failed() {
-        return result(Status.FAIL, (int) StatusCode.FAIL[0], (String) StatusCode.FAIL[1], null);
-    }
-    
-    public static String failed(String message) {
-        return result(Status.FAIL, (int) StatusCode.FAIL[0], message, null);
+        return result(Status.FAIL, Status.FAILCODE, Status.FAILTEXT, null);
     }
     
     public static String failed(Object[] codemessage) {
@@ -79,24 +81,12 @@ public class Result {
         return result(Status.FAIL, (int) codemessage[0], message, null);
     }
     
-    public static String failed(Data data, String message) {
-        return result(Status.FAIL, (int) StatusCode.FAIL[0], message, data);
-    }
-    
-    public static String failed(Data data, Object[] codemessage) {
-        return result(Status.FAIL, (int) codemessage[0], (String) codemessage[1], data);
-    }
-    
-    public static String validation(Data data) {
-        return result(Status.FAIL, (int) StatusCode.SYSTEM_VALIDATION_ERROR[0], (String) StatusCode.SYSTEM_VALIDATION_ERROR[1], data);
-    }
-    
     public static String succeed() {
-        return result(Status.SUCC, (int) StatusCode.SUCCESS[0], (String) StatusCode.SUCCESS[1], null);
+        return result(Status.SUCC, Status.SUCCCODE, Status.SUCCTEXT, null);
     }
     
     public static String succeed(String message) {
-        return result(Status.SUCC, (int) StatusCode.SUCCESS[0], message, null);
+        return result(Status.SUCC, Status.SUCCCODE, message, null);
     }
     
     public static String succeed(Object[] codemessage) {
@@ -104,11 +94,11 @@ public class Result {
     }
     
     public static String succeed(Data data) {
-        return result(Status.SUCC, (int) StatusCode.SUCCESS[0], (String) StatusCode.SUCCESS[1], data);
+        return result(Status.SUCC, Status.SUCCCODE, Status.SUCCTEXT, data);
     }
     
     public static String succeed(Data data, String message) {
-        return result(Status.SUCC, (int) StatusCode.SUCCESS[0], message, data);
+        return result(Status.SUCC, Status.SUCCCODE, message, data);
     }
     
     public static String succeed(Data data, Object[] codemessage) {
@@ -121,6 +111,9 @@ public class Result {
         result.code = code;
         result.message = message;
         result.data = data;
+        if (!StringUtils.equals(message, Status.SUCCTEXT)) {
+            result.validation = new Validation(message);
+        }
         return convert(result);
     }
     
