@@ -54,5 +54,5 @@ public class ValidationVO extends OneData {
             }
         }
     }
-    
+
 }
