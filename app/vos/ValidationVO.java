@@ -7,7 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ValidationVO extends OneData {
-    
+
+    @DataField(name = "类型")
+    public Integer type;
     @DataField(name = "标题")
     public String title;
     @DataField(name = "内容")
@@ -16,7 +18,7 @@ public class ValidationVO extends OneData {
     public List<String> buttons;
     
     public ValidationVO() {
-    
+
     }
     
     public ValidationVO(String title, String content, List<String> buttons) {

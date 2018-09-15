@@ -87,6 +87,10 @@ public class Result {
         return result(Status.FAIL, (int) codemessage[0], (String) codemessage[1], data);
     }
     
+    public static String validation(Data data) {
+        return result(Status.FAIL, (int) StatusCode.SYSTEM_VALIDATION_ERROR[0], (String) StatusCode.SYSTEM_VALIDATION_ERROR[1], data);
+    }
+    
     public static String succeed() {
         return result(Status.SUCC, (int) StatusCode.SUCCESS[0], (String) StatusCode.SUCCESS[1], null);
     }
