@@ -100,6 +100,10 @@ public class OneData extends Data {
         return this.validation != null && this.validation > 0;
     }
     
+    public boolean unValidation() {
+        return !validation();
+    }
+    
     public void clean() {
         this.page = null;
         this.size = null;
