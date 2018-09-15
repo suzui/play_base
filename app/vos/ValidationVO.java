@@ -4,36 +4,38 @@ import annotations.DataField;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class ValidationVO extends OneData {
-
+    
     @DataField(name = "类型")
     public Integer type;
     @DataField(name = "标题")
     public String title;
     @DataField(name = "内容")
     public String content;
-    @DataField(name = "按钮列表")
-    public List<String> buttons;
+    @DataField(name = "取消按钮")
+    public String cancel;
+    @DataField(name = "确认按钮")
+    public String submit;
     
     public ValidationVO() {
-
+    
     }
     
-    public ValidationVO(String title, String content, List<String> buttons) {
+    public ValidationVO(String title, String content, String cancel, String submit) {
         this.clean();
         this.title = title;
         this.content = content;
-        this.buttons = buttons;
+        this.cancel = cancel;
+        this.submit = submit;
     }
     
-    public ValidationVO(String title, String content, String button) {
-        this(title, content, Arrays.asList(button));
+    public ValidationVO(String title, String content,String submit) {
+        this(title, content, "取消",submit);
     }
     
     public ValidationVO(String title, String content) {
-        this(title, content, Arrays.asList("取消", "确认"));
+        this(title, content, "取消", "确认");
     }
     
     public ValidationVO(Object[] codemessage) {
@@ -45,14 +47,16 @@ public class ValidationVO extends OneData {
                 this.title = messages[0];
                 this.content = messages[1];
                 if (message.length() == 2) {
-                    this.buttons = Arrays.asList("确认");
+                    this.cancel =  "取消";
+                    this.submit =  "确认";
                 } else if (messages.length == 3) {
-                    this.buttons = Arrays.asList(messages[2]);
+                    this.cancel = "取消";
+                    this.submit=messages[2];
                 } else if (messages.length == 4) {
-                    this.buttons = Arrays.asList(messages[2], messages[3]);
-                }
+                    this.submit=messages[3];
+                    this.submit=messages[4];                }
             }
         }
     }
-
+    
 }
