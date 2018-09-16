@@ -1,8 +1,15 @@
 package exceptions;
 
+import vos.Result;
+
 public class ResultException extends RuntimeException {
     
     public Object[] codemessage;
+    
+    
+    public ResultException() {
+        this.codemessage = Result.StatusCode.FAIL;
+    }
     
     public ResultException(Object[] codemessage) {
         this.codemessage = codemessage;
