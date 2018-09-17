@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringUtils;
 
 @EnumClass(name = "按钮类型")
 public enum ButtonType implements BaseEnum {
-    CLOSE(101, "关闭窗口"), REPOST(102, "重新请求"), LINK(103, "链接跳转");
+    CLOSE(101, "关闭窗口"), REPOST(102, "重新请求"), LINK(103, "链接跳转"), BACK(104, "返回上级");
     private int code;
     private String intro;
     

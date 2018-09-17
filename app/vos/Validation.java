@@ -46,7 +46,7 @@ public class Validation {
             } else if (messages.length == 2) {
                 type = ValidationType.DIALOG.code();
                 content = messages[0];
-                submitText = messages[2];
+                submitText = messages[1];
                 submitType = ButtonType.CLOSE.code();
             } else if (messages.length == 3) {
                 type = ValidationType.DIALOG.code();
