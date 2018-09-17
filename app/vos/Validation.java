@@ -38,30 +38,47 @@ public class Validation {
     
     
     public Validation(String message) {
-        if (StringUtils.isNotBlank(message)) {
-            String[] messages = StringUtils.split(message, "|");
-            if (messages.length == 1) {
-                type = ValidationType.TOAST.code();
-                content = message;
-            } else if (messages.length == 2) {
-                type = ValidationType.DIALOG.code();
-                content = messages[0];
-                submitText = messages[1];
-                submitType = ButtonType.CLOSE.code();
-            } else if (messages.length == 3) {
-                type = ValidationType.DIALOG.code();
-                title = messages[0];
-                content = messages[1];
-                submitText = messages[2];
-                submitType = ButtonType.CLOSE.code();
-            } else if (messages.length == 4) {
-                type = ValidationType.DIALOG.code();
-                title = messages[0];
-                content = messages[1];
-                cancelText = messages[2];
-                cancelType = ButtonType.CLOSE.code();
-                submitText = messages[3];
-                submitType = ButtonType.REPOST.code();
+        if (StringUtils.isBlank(message)) {
+            return;
+        }
+        if (!message.contains("|")) {
+            this.type = ValidationType.TOAST.code();
+            this.content = message;
+            return;
+        }
+        String[] messages = StringUtils.split(message, "|");
+        if (messages.length != 4) {
+            return;
+        }
+        this.type = ValidationType.DIALOG.code();
+        String title = messages[0].trim();
+        String content = messages[1].trim();
+        String cancel = messages[2].trim();
+        String submit = messages[3].trim();
+        if (StringUtils.isNotBlank(title)) {
+            this.title = title;
+        }
+        if (StringUtils.isNotBlank(content)) {
+            this.content = content;
+        }
+        if (StringUtils.isNotBlank(cancel)) {
+            if (!cancel.contains(":")) {
+                this.cancelText = cancel;
+                this.cancelType = ButtonType.CLOSE.code();
+            } else {
+                String[] cancels = StringUtils.split(cancel, ":");
+                this.cancelText = cancels[0].trim();
+                this.cancelType = Integer.parseInt(cancels[1].trim());
+            }
+        }
+        if (StringUtils.isNotBlank(submit)) {
+            if (!submit.contains(":")) {
+                this.submitText = submit;
+                this.submitType = ButtonType.CLOSE.code();
+            } else {
+                String[] submits = StringUtils.split(submit, ":");
+                this.submitText = submits[0].trim();
+                this.submitType = Integer.parseInt(submits[1].trim());
             }
         }
     }
