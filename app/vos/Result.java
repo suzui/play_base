@@ -1,7 +1,6 @@
 package vos;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang.StringUtils;
 import play.Logger;
 
 import java.io.IOException;
@@ -28,7 +27,7 @@ public class Result {
     public static class Status {
         public final static String SUCC = "succ";
         public final static Integer SUCCCODE = 20000;
-        public final static String SUCCTEXT = "请求成功";
+        public final static String SUCCTEXT = "-请求成功";
         public final static String FAIL = "fail";
         public final static Integer FAILCODE = 50000;
         public final static String FAILTEXT = "系统异常";
@@ -57,6 +56,11 @@ public class Result {
         public static final Object[] PERSON_CAPTCHA_ERROR = {40109, "验证码错误"};
         public static final Object[] PERSON_ACCOUNT_NOTEXIST = {40110, "用户不存在"};
         public static final Object[] PERSON_ACCOUNT_BINDED = {40111, "账号已被绑定"};
+        
+        //statuscode转换三种validation说明
+        //"-请求成功" type:100 content:请求成功
+        //"系统异常"  type:102 content:请求成功
+        //"标题|内容|取消|确定:102" type:101 title:标题 content:内容 cancelText:取消 cancelType:101 submitText:确定 submitType:102
     }
     
     public Result() {
@@ -109,11 +113,9 @@ public class Result {
         Result result = new Result();
         result.status = status;
         result.code = code;
-        result.message = message;
+        result.validation = new Validation(message);
+        result.message = result.validation.content;
         result.data = data;
-        if (!StringUtils.equals(message, Status.SUCCTEXT)) {
-            result.validation = new Validation(message);
-        }
         return convert(result);
     }
     

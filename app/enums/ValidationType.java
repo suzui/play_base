@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringUtils;
 
 @EnumClass(name = "提醒类型")
 public enum ValidationType implements BaseEnum {
-    DIALOG(101, "对话框"), TOAST(102, "提示框");
+    HIDDEN(100, "隐藏"), DIALOG(101, "对话框"), TOAST(102, "提示框");
     private int code;
     private String intro;
     

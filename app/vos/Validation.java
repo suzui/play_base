@@ -42,8 +42,13 @@ public class Validation {
             return;
         }
         if (!message.contains("|")) {
-            this.type = ValidationType.TOAST.code();
-            this.content = message;
+            if (message.startsWith("-")) {
+                this.type = ValidationType.HIDDEN.code();
+                this.content = message.substring(1);
+            } else {
+                this.type = ValidationType.TOAST.code();
+                this.content = message;
+            }
             return;
         }
         String[] messages = StringUtils.split(message, "|");
