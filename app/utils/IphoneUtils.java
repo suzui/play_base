@@ -8,6 +8,9 @@ public class IphoneUtils {
         if (StringUtils.isBlank(deviceInfo)) {
             return "";
         }
+        if (!deviceInfo.toLowerCase().contains("iphone")) {
+            return deviceInfo;
+        }
         if (deviceInfo.equalsIgnoreCase("iPhone1,1")) {
             return "iPhone";
         } else if (deviceInfo.equalsIgnoreCase("iPhone1,2")) {
