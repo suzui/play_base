@@ -201,9 +201,10 @@ public class BaseController extends Controller {
         final String appType = BaseUtils.getHeader("apptype");
         final String osVersion = BaseUtils.getHeader("osversion");
         final String clientType = BaseUtils.getHeader("clienttype");
+        final String deviceInfo = BaseUtils.getHeader("deviceinfo");
         final String deviceToken = BaseUtils.getHeader("devicetoken");
         if (accessToken.version <= 1 || System.currentTimeMillis() - accessToken.updateTime > 3 * 60 * 1000) {
-            new UpdateLoginInfoJob(accesstoken, appVersion, appType, osVersion, clientType, deviceToken).in(3);
+            new UpdateLoginInfoJob(accesstoken, appVersion, appType, osVersion, clientType, deviceInfo, deviceToken).in(3);
         }
         if (appVersion != null && appType != null && clientType != null && !StringUtils.equals(clientType, ClientType.WEB.code() + "")) {
             String key = VersionVO.key(appType, clientType);

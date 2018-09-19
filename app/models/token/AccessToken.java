@@ -24,6 +24,7 @@ public class AccessToken extends BaseModel {
     public String osVersion;
     public String clientType;
     public String deviceToken;
+    public String deviceInfo;
     public String pushToken;
     public Boolean notify = true;
     
@@ -46,11 +47,12 @@ public class AccessToken extends BaseModel {
         return at.save();
     }
     
-    public void update(String appVersion, String appType, String osVersion, String clientType, String deviceToken) {
+    public void update(String appVersion, String appType, String osVersion, String clientType, String deviceInfo, String deviceToken) {
         this.appVersion = appVersion;
         this.appType = appType;
         this.osVersion = osVersion;
         this.clientType = clientType;
+        this.deviceInfo = deviceInfo;
         this.deviceToken = deviceToken;
         this.save();
         if (!(ClientType.WEB.code() + "").equals(this.clientType)) {
