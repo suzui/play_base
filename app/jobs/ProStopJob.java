@@ -12,7 +12,7 @@ public class ProStopJob extends Job {
     @Override
     public void doJob() throws Exception {
         Pro pro = Pro.findByLocation(Play.applicationPath.getAbsolutePath());
-        if (pro != null) {
+        if (pro != null && pro.status != ProStatus.START) {
             pro.status(ProStatus.STOP);
         }
     }
