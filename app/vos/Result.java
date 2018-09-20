@@ -40,8 +40,8 @@ public class Result {
         public static final Object[] BACK_UPDATE_FAILED = {30002, "更新失败"};
         public static final Object[] BACK_RESTART_FAILED = {30003, "重启失败"};
         public static final Object[] BACK_START_FAILED = {30004, "有项目正在启动"};
-        public static final Object[] SYSTEM_APP_UPDATE = {40000, "检测到有版本更新"};
-        public static final Object[] SYSTEM_TOKEN_UNVALID = {40001, "accesstoken失效"};
+        public static final Object[] SYSTEM_APP_UPDATE = {40000, "-检测到有版本更新"};
+        public static final Object[] SYSTEM_TOKEN_UNVALID = {40001, "-accesstoken失效"};
         public static final Object[] SYSTEM_REQUEST_REPEAT = {40002, "重复请求"};
         public static final Object[] SYSTEM_ACCESS_FOBIDDEN = {40003, "无相应权限"};
         public static final Object[] SYSTEM_PARAM_ERROR = {40004, "参数不合法"};

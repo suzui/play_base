@@ -212,6 +212,11 @@ public class BaseUtils {
         return getHeader("devicetoken");
     }
     
+    public static Boolean isCurrentVersion() {
+        String key = VersionVO.key(getApptype(), getClienttype());
+        return StringUtils.equals(VersionVO.version(key), getAppversion());
+    }
+    
     public static Boolean isOldVersion() {
         String key = VersionVO.key(getApptype(), getClienttype());
         return isOldVersion(VersionVO.version(key), getAppversion());
