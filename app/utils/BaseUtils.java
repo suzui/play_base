@@ -214,7 +214,11 @@ public class BaseUtils {
     
     public static Boolean isCurrentVersion() {
         String key = VersionVO.key(getApptype(), getClienttype());
-        return StringUtils.equals(VersionVO.version(key), getAppversion());
+        return isCurrentVersion(VersionVO.version(key), getAppversion());
+    }
+    
+    public static Boolean isCurrentVersion(String server, String app) {
+        return StringUtils.equals(server, app);
     }
     
     public static Boolean isOldVersion() {
