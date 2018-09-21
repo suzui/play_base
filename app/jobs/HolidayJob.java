@@ -8,7 +8,7 @@ import utils.HolidayUtils;
 import java.util.Date;
 
 @On("0 0 1,23 * * ?")
-public class HolidyJob extends Job {
+public class HolidayJob extends Job {
     
     
     @Override
