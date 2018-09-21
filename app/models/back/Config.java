@@ -45,6 +45,7 @@ public class Config extends BaseModel {
                 add(configVO);
             }
         }
+        ConfigUtils.load();
     }
     
     public void del() {

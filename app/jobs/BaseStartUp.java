@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import play.db.jpa.JPA;
 import play.jobs.Job;
 import play.jobs.OnApplicationStart;
-import utils.ConfigUtils;
 
 import javax.persistence.EntityManager;
 
@@ -17,7 +16,6 @@ public class BaseStartUp extends Job {
     public void doJob() throws Exception {
         initAdmin();
         initConfig();
-        ConfigUtils.load();
         updateColumn();
     }
     
@@ -37,6 +35,7 @@ public class BaseStartUp extends Job {
         }
         Config.init();
         s.getTransaction().commit();
+        
     }
     
     private static void updateColumn() {
