@@ -36,7 +36,6 @@ public class BaseOrganize extends BaseModel {
     
     @ManyToOne
     public BaseOrganize organize;//组织机构 机构类型为机构本身
-    
     @ManyToOne
     public BaseOrganize root;//总根机构
     
@@ -58,6 +57,13 @@ public class BaseOrganize extends BaseModel {
     
     public <T extends BaseOrganize> List<T> children() {
         return T.find(defaultSql("parent=?"), this).fetch();
+    }
+    
+    public <T extends BaseOrganize> List<T> allChildren() {
+        List<T> organizes = new ArrayList<>();
+        organizes.addAll(this.children());
+        this.children().forEach(c -> organizes.addAll(c.allChildren()));
+        return organizes;
     }
     
     public <T extends BasePerson> List<T> persons() {

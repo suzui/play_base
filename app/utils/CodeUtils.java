@@ -184,4 +184,8 @@ public class CodeUtils {
     // pass:123456
     // enc -aes-128-cbc -in encrypt.txt -d -a -out plain1.txt -pass pass:123456
     
+    public static void main(String[] args) {
+        System.err.println(base64Encode("admin:123456"));
+    }
+    
 }
