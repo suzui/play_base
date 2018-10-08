@@ -186,6 +186,8 @@ public class CodeUtils {
     
     public static void main(String[] args) {
         System.err.println(base64Encode("admin:123456"));
+        String n="AC-00-64-01-C1-02-57-00-00-00-AC-27-10-FC-24-D3-51-00-00-00".replaceAll("-","");
+        System.err.println(Long.parseLong(n,16));
     }
     
 }

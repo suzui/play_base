@@ -317,14 +317,23 @@ public class BaseUtils {
     }
     
     public static <T extends BaseModel> List<Long> modelToId(List<T> models) {
+        if (collectionEmpty(models)) {
+            return Collections.EMPTY_LIST;
+        }
         return models.stream().map(m -> m.id).collect(Collectors.toList());
     }
     
     public static String join(List list) {
+        if (collectionEmpty(list)) {
+            return "";
+        }
         return StringUtils.join(list, ",");
     }
     
     public static String listToHql(List<String> list) {
+        if (collectionEmpty(list)) {
+            return "";
+        }
         return StringUtils.join(list.stream().map(s -> "'" + s + "'").collect(Collectors.toList()), ",");
     }
     

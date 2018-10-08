@@ -48,6 +48,8 @@ public class DataBinder implements TypeBinder<OneData> {
             }
             if (v.startsWith("[") && v.endsWith("]")) {
                 params.put(k, GSON.fromJson(v, List.class));
+            } else if (v.startsWith("{") && v.endsWith("}")) {
+                params.put(k, GSON.fromJson(v, Map.class));
             } else if (!"vo,body".contains(k)) {
                 if (StringUtils.isNotBlank(lang)) {
                     char[] cs = k.toCharArray();
