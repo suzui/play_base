@@ -27,8 +27,7 @@ public class DataBinder implements TypeBinder<OneData> {
         Map<String, Object> params = new HashMap<>();
         String lang = BaseUtils.propertyOn("i18n") ? Lang.get() : null;
         for (Entry<String, String> e : Request.current().params.allSimple().entrySet()) {
-            String k = e.getKey();
-            String v = e.getValue();
+            String k = e.getKey(), v = e.getValue();
             if (k.equals("vo") || k.equals("body")) continue;//vo body 参数过滤
             if (v == null || v.equals("null") || v.equals("undefined") || v.equals("NaN")) continue;//空值过滤
             if (v.equals("")) {
