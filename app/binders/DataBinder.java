@@ -29,7 +29,7 @@ public class DataBinder implements TypeBinder<OneData> {
         for (Entry<String, String> e : Request.current().params.allSimple().entrySet()) {
             String k = e.getKey(), v = e.getValue();
             if (k.equals("vo") || k.equals("body")) continue;//vo body 参数过滤
-            if (v == null || v.equals("null") || v.equals("undefined") || v.equals("NaN")) continue;//空值过滤
+            if (v == null || v.equals("null") || StringUtils.equals(value, "(null)") || v.equals("undefined") || v.equals("NaN")) continue;//空值过滤
             if (v.equals("")) {
                 Field field = actualClass.getField(k);
                 if (field == null) continue;
