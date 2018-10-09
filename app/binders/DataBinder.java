@@ -11,7 +11,6 @@ import utils.BaseUtils;
 import vos.OneData;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
@@ -29,28 +28,29 @@ public class DataBinder implements TypeBinder<OneData> {
         for (Entry<String, String> e : Request.current().params.allSimple().entrySet()) {
             String k = e.getKey();
             String v = e.getValue();
+            if (k.equals("vo") || k.equals("body")) {
+                continue;//vo body 参数过滤
+            }
             if (v == null || v.equals("null") || v.equals("undefined") || v.equals("NaN")) {
-                continue;
+                continue;//空值过滤
             }
             if (v.equals("")) {
-                try {
-                    Field field = actualClass.getField(k);
-                    Type type = field.getType();
-                    if (List.class.isAssignableFrom((Class<?>) type)) {
-                        continue;
-                    }
-                    if (!String.class.isAssignableFrom((Class<?>) type)) {
-                        continue;
-                    }
-                } catch (NoSuchFieldException nsfe) {
-                    continue;
+                if (!String.class.isAssignableFrom(actualClass.getField(k).getType())) {
+                    continue;//非string类型空值过滤
                 }
-            }
-            if (v.startsWith("[") && v.endsWith("]")) {
-                params.put(k, GSON.fromJson(v, List.class));
+            } else if (v.startsWith("[") && v.endsWith("]")) {
+                if (List.class.isAssignableFrom(actualClass.getField(k).getType())) {
+                    params.put(k, GSON.fromJson(v, List.class));//list类型处理
+                } else {
+                    params.put(k, v);
+                }
             } else if (v.startsWith("{") && v.endsWith("}")) {
-                params.put(k, GSON.fromJson(v, Map.class));
-            } else if (!"vo,body".contains(k)) {
+                if (OneData.class.isAssignableFrom(actualClass.getField(k).getType())) {
+                    params.put(k, GSON.fromJson(v, Map.class));//onedata类型处理
+                } else {
+                    params.put(k, v);
+                }
+            } else {
                 if (StringUtils.isNotBlank(lang)) {
                     char[] cs = k.toCharArray();
                     cs[0] -= 32;
@@ -59,10 +59,8 @@ public class DataBinder implements TypeBinder<OneData> {
                 params.put(k, v);
             }
         }
-        if (!params.containsKey("page"))
-            params.put("page", 1);
-        if (!params.containsKey("size"))
-            params.put("size", Integer.MAX_VALUE);
+        if (!params.containsKey("page")) params.put("page", 1);
+        if (!params.containsKey("size")) params.put("size", Integer.MAX_VALUE);
         String json = GSON.toJson(params);
         Logger.info("[databinder]:%s", json);
         return GSON.fromJson(json, actualClass);
