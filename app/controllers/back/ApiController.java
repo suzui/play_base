@@ -8,6 +8,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import play.libs.WS;
 import utils.BaseUtils;
+import utils.DateUtils;
 import vos.PageData;
 import vos.Result;
 import vos.back.ApiVO;
@@ -50,6 +51,12 @@ public class ApiController extends BackController {
     }
     
     public static void page(ApiVO vo) {
+        if (vo.startTime == null) {
+            vo.startTime = System.currentTimeMillis() + DateUtils.DAY * 3;
+        }
+        if (vo.endTime == null) {
+            vo.endTime = System.currentTimeMillis() + DateUtils.DAY;
+        }
         List<Api> apis = Api.fetch(vo);
         List<ApiVO> apiVOs = apis.stream().map(a -> new ApiVO(a)).collect(Collectors.toList());
         Map map = new HashMap();
