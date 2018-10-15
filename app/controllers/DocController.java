@@ -15,10 +15,7 @@ import play.Play;
 import play.mvc.Before;
 import play.mvc.Controller;
 import utils.BaseUtils;
-import vos.Data;
-import vos.OneData;
-import vos.PageData;
-import vos.StatusCode;
+import vos.*;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -41,7 +38,7 @@ public class DocController extends Controller {
             Class<StatusCode> statusCode = StatusCode.class;
             for (Field field : statusCode.getFields()) {
                 Object[] value = (Object[]) field.get(statusCode);
-                codes.add(value[0] + " " + value[1] + "\n");
+                codes.add(value[0] + " " + new Validation((String) value[1]).content + "\n");
             }
             Collections.sort(codes);
             
