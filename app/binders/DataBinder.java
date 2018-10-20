@@ -1,6 +1,6 @@
 package binders;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.data.binding.Global;
@@ -19,7 +19,8 @@ import java.util.Map.Entry;
 
 @Global
 public class DataBinder implements TypeBinder<OneData> {
-    private static final Gson GSON = new Gson();
+    
+    public static final ObjectMapper mapper = new ObjectMapper();
     
     @Override
     public Object bind(String name, Annotation[] annotations, String value, Class actualClass, Type genericType) throws Exception {
@@ -36,11 +37,11 @@ public class DataBinder implements TypeBinder<OneData> {
                     else params.put(k, v);
                 } else if (v.startsWith("[") && v.endsWith("]")) {
                     if (!String.class.isAssignableFrom(actualClass.getField(k).getType()))
-                        params.put(k, GSON.fromJson(v, List.class));//list类型处理
+                        params.put(k, mapper.readValue(v, List.class));//list类型处理
                     else params.put(k, v);
                 } else if (v.startsWith("{") && v.endsWith("}")) {
                     if (!String.class.isAssignableFrom(actualClass.getField(k).getType()))
-                        params.put(k, GSON.fromJson(v, Map.class));//vo类型处理
+                        params.put(k, mapper.readValue(v, Map.class));//vo类型处理
                     else params.put(k, v);
                 } else {
                     if (StringUtils.isNotBlank(lang)) {
@@ -56,8 +57,8 @@ public class DataBinder implements TypeBinder<OneData> {
         }
         if (!params.containsKey("page")) params.put("page", 1);
         if (!params.containsKey("size")) params.put("size", Integer.MAX_VALUE);
-        String json = GSON.toJson(params);
+        String json = mapper.writeValueAsString(params);
         Logger.info("[databinder]:%s", json);
-        return GSON.fromJson(json, actualClass);
+        return mapper.readValue(json, actualClass);
     }
 }

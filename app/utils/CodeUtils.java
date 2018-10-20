@@ -11,6 +11,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -185,9 +186,14 @@ public class CodeUtils {
     // enc -aes-128-cbc -in encrypt.txt -d -a -out plain1.txt -pass pass:123456
     
     public static void main(String[] args) {
-        System.err.println(base64Encode("admin:123456"));
-        String n="AC-00-64-01-C1-02-57-00-00-00-AC-27-10-FC-24-D3-51-00-00-00".replaceAll("-","");
-        System.err.println(Long.parseLong(n,16));
+        //System.err.println(base64Encode("admin:123456"));
+        String n="AC006401C10257000000AC2710FC24D351000000";
+        System.err.println(n.length());
+        //System.err.println(Long.parseLong(n,16));
+        System.err.println(Integer.toHexString(18));
+        double d = 3.1455926;
+        String result = String.format("%.2f", d);
+        System.err.println(result);
     }
     
 }
