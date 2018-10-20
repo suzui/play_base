@@ -1,6 +1,7 @@
 package binders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.data.binding.Global;
@@ -21,6 +22,7 @@ import java.util.Map.Entry;
 public class DataBinder implements TypeBinder<OneData> {
     
     public static final ObjectMapper mapper = new ObjectMapper();
+    public static final Gson gson = new Gson();
     
     @Override
     public Object bind(String name, Annotation[] annotations, String value, Class actualClass, Type genericType) throws Exception {
@@ -59,6 +61,6 @@ public class DataBinder implements TypeBinder<OneData> {
         if (!params.containsKey("size")) params.put("size", Integer.MAX_VALUE);
         String json = mapper.writeValueAsString(params);
         Logger.info("[databinder]:%s", json);
-        return mapper.readValue(json, actualClass);
+        return gson.fromJson(json, actualClass);
     }
 }
