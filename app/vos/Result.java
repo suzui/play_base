@@ -27,7 +27,7 @@ public class Result {
     public static class Status {
         public final static String SUCC = "succ";
         public final static Integer SUCCCODE = 20000;
-        public final static String SUCCTEXT = "-请求成功";
+        public final static String SUCCTEXT = "-请求成功%s";
         public final static String FAIL = "fail";
         public final static Integer FAILCODE = 50000;
         public final static String FAILTEXT = "系统异常";
@@ -61,6 +61,15 @@ public class Result {
         //"-请求成功" type:100 content:请求成功
         //"系统异常"  type:102 content:请求成功
         //"标题|内容|取消|确定:102" type:101 title:标题 content:内容 cancelText:取消 cancelType:101 submitText:确定 submitType:102
+        
+        public static Object[] format(Object[] sc, String... os) {
+            if (sc.length != 2) {
+                return sc;
+            }
+            sc[1] = String.format((String) sc[1], os);
+            return sc;
+        }
+        
     }
     
     public Result() {
