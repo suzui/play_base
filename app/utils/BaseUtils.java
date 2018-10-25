@@ -16,6 +16,7 @@ import play.utils.Java;
 import vos.VersionVO;
 
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.FutureTask;
@@ -234,12 +235,12 @@ public class BaseUtils {
         if (servers.length != apps.length || servers.length != 3 || apps.length != 3) {
             return false;
         }
+        DecimalFormat df = new DecimalFormat("00");
         for (int i = 0; i < 3; i++) {
-            if (servers[i].compareTo(apps[i]) > 0) {
-                return true;
-            }
+            servers[i] = df.format(Integer.valueOf(servers[i]));
+            apps[i] = df.format(Integer.valueOf(apps[i]));
         }
-        return false;
+        return join(servers).compareTo(join(apps)) > 0;
     }
     
     public static String initPassword() {
@@ -321,6 +322,13 @@ public class BaseUtils {
             return Collections.EMPTY_LIST;
         }
         return models.stream().map(m -> m.id).collect(Collectors.toList());
+    }
+    
+    public static String join(Object[] array) {
+        if (array == null || array.length == 0) {
+            return "";
+        }
+        return StringUtils.join(array, ",");
     }
     
     public static String join(List list) {
