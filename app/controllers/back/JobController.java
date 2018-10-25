@@ -2,6 +2,7 @@ package controllers.back;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import models.back.Job;
+import utils.DateUtils;
 import vos.PageData;
 import vos.Result;
 import vos.back.JobVO;
@@ -20,6 +21,12 @@ public class JobController extends BackController {
     }
     
     public static void page(JobVO vo) {
+        if (vo.startTime == null) {
+            vo.startTime = System.currentTimeMillis() - DateUtils.DAY * 3;
+        }
+        if (vo.endTime == null) {
+            vo.endTime = System.currentTimeMillis() + DateUtils.DAY;
+        }
         List<Job> jobs = Job.fetch(vo);
         List<JobVO> jobVOs = jobs.stream().map(a -> new JobVO(a)).collect(Collectors.toList());
         Map map = new HashMap();

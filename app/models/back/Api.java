@@ -78,6 +78,8 @@ public class Api extends MongoModel {
         Object[] objects = data(apiVO);
         List<String> sqls = (List<String>) objects[0];
         List<Pattern> params = (List<Pattern>) objects[1];
+        System.err.println(StringUtils.join(sqls, " "));
+        System.err.println(StringUtils.join(params, " "));
         return Api.find("by" + StringUtils.join(sqls, "And"), params.toArray()).order("by-startTime")
                 .fetch(apiVO.page, apiVO.size);
     }

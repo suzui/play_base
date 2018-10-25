@@ -52,7 +52,7 @@ public class ApiController extends BackController {
     
     public static void page(ApiVO vo) {
         if (vo.startTime == null) {
-            vo.startTime = System.currentTimeMillis() + DateUtils.DAY - 3;
+            vo.startTime = System.currentTimeMillis() - DateUtils.DAY * 3;
         }
         if (vo.endTime == null) {
             vo.endTime = System.currentTimeMillis() + DateUtils.DAY;

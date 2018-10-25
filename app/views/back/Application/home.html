@@ -32,11 +32,10 @@
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree" lay-filter="nav">
+            <ul class="layui-nav layui-nav-tree" lay-filter="nav" data="xxx">
             #{list access, as:'a'}
                 #{if a.code!=100&&(admin.origin==1||admin.codes.contains(100)||admin.codes.contains(a.code))}
-                    <li class="layui-nav-item" data="${a.name}"><a
-                            href="javascript:;">${a.intro}</a></li>
+                    <li class="layui-nav-item"><a href="javascript:;" data="${a.name}">${a.intro}</a></li>
                 #{/if}
             #{/list}
             </ul>
