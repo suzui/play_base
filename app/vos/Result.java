@@ -27,7 +27,7 @@ public class Result {
     public static class Status {
         public final static String SUCC = "succ";
         public final static Integer SUCCCODE = 20000;
-        public final static String SUCCTEXT = "-请求成功%s";
+        public final static String SUCCTEXT = "-请求成功";
         public final static String FAIL = "fail";
         public final static Integer FAILCODE = 50000;
         public final static String FAILTEXT = "系统异常";

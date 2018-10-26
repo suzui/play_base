@@ -240,6 +240,8 @@ public class BaseUtils {
             servers[i] = df.format(Integer.valueOf(servers[i]));
             apps[i] = df.format(Integer.valueOf(apps[i]));
         }
+        System.err.println(join(servers));
+        System.err.println(join(apps));
         return join(servers).compareTo(join(apps)) > 0;
     }
     
