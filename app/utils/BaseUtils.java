@@ -1,5 +1,6 @@
 package utils;
 
+import com.mchange.lang.ByteUtils;
 import interfaces.BaseEnum;
 import models.BaseModel;
 import models.back.Admin;
@@ -373,5 +374,13 @@ public class BaseUtils {
         }
     }
     
+    
+    public static void main(String[] args) {
+        String a = "10";
+        byte[] bytes = ByteUtils.fromHexAscii(a);
+        for (int i = 0; i < bytes.length; i++) {
+            System.err.println(bytes[i]);
+        }
+    }
 }
 
