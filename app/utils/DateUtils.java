@@ -134,13 +134,13 @@ public class DateUtils {
             return Integer.parseInt(cron.replace("秒", "").replace("s", "")) * SECOND;
         }
         if (cron.contains("分钟") || cron.contains("分") || cron.contains("mn")) {
-            return Integer.parseInt(cron.replace("分钟", "").replace("分", "").replace("mn", "")) * MINUTE;
+            return (long) (Double.parseDouble(cron.replace("分钟", "").replace("分", "").replace("mn", "")) * MINUTE);
         }
         if (cron.contains("小时") || cron.contains("时") || cron.contains("h")) {
-            return Integer.parseInt(cron.replace("小时", "").replace("时", "").replace("h", "")) * HOUR;
+            return (long) (Double.parseDouble(cron.replace("小时", "").replace("时", "").replace("h", "")) * HOUR);
         }
         if (cron.contains("天") || cron.contains("d")) {
-            return Integer.parseInt(cron.replace("天", "").replace("d", "")) * DAY;
+            return (long) (Double.parseDouble(cron.replace("天", "").replace("d", "")) * DAY);
         }
         return 0l;
     }
@@ -176,6 +176,5 @@ public class DateUtils {
         }
         return cron;
     }
-    
     
 }
