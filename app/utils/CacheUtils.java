@@ -1,7 +1,6 @@
 package utils;
 
 import org.apache.commons.lang.StringUtils;
-import play.Play;
 import play.cache.Cache;
 
 import java.util.Arrays;
@@ -9,8 +8,7 @@ import java.util.Map;
 
 public class CacheUtils {
     
-    
-    public static final String PREFIX = Play.configuration.getProperty("cache.prefix", "");
+    public static final String PREFIX = BaseUtils.property("cache.prefix", "");
     
     public static void add(String key, Object value, String expiration) {
         Cache.add(pre(key), value, expiration);
@@ -36,7 +34,6 @@ public class CacheUtils {
     public static void set(String key, Object value) {
         Cache.set(pre(key), value);
     }
-    
     
     public static void replace(String key, Object value, String expiration) {
         Cache.replace(pre(key), value, expiration);
