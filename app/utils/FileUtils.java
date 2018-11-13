@@ -2,6 +2,9 @@ package utils;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
+
 public class FileUtils {
     
     public static String lower(String name) {
@@ -31,7 +34,15 @@ public class FileUtils {
         String domain = url.substring(0, url.lastIndexOf("/") + 1);
         String name = lower(url.substring(url.lastIndexOf("/") + 1, url.length()));
         return domain + name;
-        
     }
-
+    
+    public static String read(File file) {
+        try {
+            return org.apache.commons.io.FileUtils.readFileToString(file, "utf8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
 }

@@ -5,6 +5,8 @@ import models.BaseModel;
 import models.access.BaseAuthorization;
 import models.access.BaseCrowd;
 import models.access.BaseRole;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import play.jobs.Job;
 import utils.BaseUtils;
 
@@ -28,6 +30,7 @@ public class BaseOrganize extends BaseModel {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = DOUBLE + "'组织类型'")
     public OrganizeType type;//项目enum需定义
+    
     @ManyToOne
     public BasePerson person;//组织负责人
     

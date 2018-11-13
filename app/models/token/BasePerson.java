@@ -11,6 +11,7 @@ import models.access.BaseRole;
 import models.person.Person;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.LazyCollection;
 import play.data.validation.MaxSize;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
