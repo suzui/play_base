@@ -102,6 +102,12 @@ public class DateUtils {
         return (int) (truncate(time).getTime() / DAY + 1);
     }
     
+    public static int year(Long time) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date(time));
+        return cal.get(Calendar.YEAR);
+    }
+    
     public static int month(Long time) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date(time));

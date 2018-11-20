@@ -99,6 +99,10 @@ public class Pro extends BaseModel {
         return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/check.sh", this.user(), this.password(), this.location);
     }
     
+    public ShellUtils.Result clean(String pattern) {
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/clean.sh", this.user(), this.password(), this.location, pattern);
+    }
+    
     public static boolean canStart() {
         return Pro.find(defaultSql("status = ?"), ProStatus.START).fetch().isEmpty();
     }
