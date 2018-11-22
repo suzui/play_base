@@ -1,6 +1,5 @@
 package utils;
 
-import com.mchange.lang.ByteUtils;
 import interfaces.BaseEnum;
 import models.BaseModel;
 import models.back.Admin;
@@ -275,12 +274,12 @@ public class BaseUtils {
     
     public static List page(List list, int page, int size, Comparator comparator) {
         if (collectionEmpty(list)) {
-            return Collections.EMPTY_LIST;
+            return new ArrayList<>();
         }
         int from = (page - 1) * size;
         int to = Math.min(list.size(), page * size);
         if (from >= list.size()) {
-            return Collections.EMPTY_LIST;
+            return new ArrayList<>();
         }
         if (comparator != null) {
             list.sort(comparator);
@@ -294,35 +293,35 @@ public class BaseUtils {
     
     public static List<String> strToList(String string) {
         if (StringUtils.isBlank(string)) {
-            return Collections.EMPTY_LIST;
+            return new ArrayList<>();
         }
         return Arrays.asList(StringUtils.split(string, ","));
     }
     
     public static List<Long> idsToList(String ids) {
         if (StringUtils.isBlank(ids)) {
-            return Collections.EMPTY_LIST;
+            return new ArrayList<>();
         }
         return Arrays.stream(StringUtils.split(ids, ",")).map(id -> Long.parseLong(id)).collect(Collectors.toList());
     }
     
     public static List<Integer> intsToList(String ints) {
         if (StringUtils.isBlank(ints)) {
-            return Collections.EMPTY_LIST;
+            return new ArrayList<>();
         }
         return Arrays.stream(StringUtils.split(ints, ",")).map(i -> Integer.parseInt(i)).collect(Collectors.toList());
     }
     
     public static List<Integer> codesToList(String codes) {
         if (StringUtils.isBlank(codes)) {
-            return Collections.EMPTY_LIST;
+            return new ArrayList<>();
         }
         return Arrays.stream(StringUtils.split(codes, ",")).map(code -> Integer.parseInt(code)).collect(Collectors.toList());
     }
     
     public static <T extends BaseModel> List<Long> modelToId(List<T> models) {
         if (collectionEmpty(models)) {
-            return Collections.EMPTY_LIST;
+            return new ArrayList<>();
         }
         return models.stream().map(m -> m.id).collect(Collectors.toList());
     }
@@ -370,17 +369,9 @@ public class BaseUtils {
             }
             return list;
         } catch (Exception e) {
-            return Collections.EMPTY_LIST;
+            return new ArrayList<>();
         }
     }
     
-    
-    public static void main(String[] args) {
-        String a = "10";
-        byte[] bytes = ByteUtils.fromHexAscii(a);
-        for (int i = 0; i < bytes.length; i++) {
-            System.err.println(bytes[i]);
-        }
-    }
 }
 
