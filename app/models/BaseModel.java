@@ -81,7 +81,7 @@ public class BaseModel extends Model {
         return (T) this;
     }
     
-    public boolean isUpdate(int version) {
+    public boolean isUpdate(long version) {
         return this.version > version;
     }
     
