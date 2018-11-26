@@ -82,7 +82,7 @@ public class BaseModel extends Model {
     }
     
     public boolean isUpdate(int version) {
-        return this.version !=version;
+        return this.version > version;
     }
     
     public void logicDelete() {
