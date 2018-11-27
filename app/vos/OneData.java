@@ -110,6 +110,33 @@ public class OneData extends Data {
         this.condition = null;
     }
     
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + this.getClass().hashCode();
+        result = prime * result + this.id.hashCode();
+        return result;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (null == obj) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        OneData one = (OneData) obj;
+        if (this.id.equals(one.id)) {
+            return true;
+        }
+        return false;
+    }
+    
     public Map<Object, Object> doc() {
         Map<Object, Object> map = new LinkedHashMap<>();
         try {
