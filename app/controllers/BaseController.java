@@ -1,6 +1,7 @@
 package controllers;
 
 import annotations.ActionMethod;
+import annotations.DataField;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import enums.ClientType;
@@ -101,7 +102,13 @@ public class BaseController extends Controller {
                         continue;
                     }
                     if (!params.containsKey(param)) {
-                        renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, param + "不能为空"));
+                        try {
+                            Class<?> vo = request.invokedMethod.getParameterTypes()[0];
+                            DataField df = vo.getDeclaredField(param).getAnnotation(DataField.class);
+                            renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, df.name() + "不能为空"));
+                        } catch (NoSuchFieldException e) {
+                            renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, param + "不能为空"));
+                        }
                     }
                 }
             }
