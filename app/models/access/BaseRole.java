@@ -38,14 +38,7 @@ public class BaseRole extends BaseModel {
             @Override
             public void doJob() throws Exception {
                 super.doJob();
-                BaseAuthorization.fetchByRole(role).forEach(a -> {
-                    if (a.crowd == null) {
-                        a.del();
-                    } else {
-                        a.role = null;
-                        a.save();
-                    }
-                });
+                BaseAuthorization.fetchByRole(role).forEach(a -> a.del());
             }
         }.now();
         this.logicDelete();
