@@ -177,20 +177,20 @@ public class BaseUtils {
         return Long.parseLong(source);
     }
     
-    public static Long getRoot() {
-        String root = getHeader("root");
-        if (StringUtils.isBlank(root)) {
-            return null;
-        }
-        return Long.parseLong(root);
-    }
-    
     public static Long getOrganize() {
         String organize = getHeader("organize");
         if (StringUtils.isBlank(organize)) {
             return null;
         }
         return Long.parseLong(organize);
+    }
+    
+    public static Long getRoot() {
+        String root = getHeader("root");
+        if (StringUtils.isBlank(root)) {
+            return null;
+        }
+        return Long.parseLong(root);
     }
     
     public static String getAppversion() {

@@ -11,7 +11,6 @@ import models.access.BaseRole;
 import models.person.Person;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.LazyCollection;
 import play.data.validation.MaxSize;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
@@ -289,8 +288,16 @@ public class BasePerson extends BaseModel {
         });
         return T.fetchByIds(new ArrayList<>(accessIds));
     }
-    
+
     //用户所在所有机构
+    public <T extends BaseOrganize> List<T> roots() {
+        List<T> organizes = new ArrayList<>();
+        BaseRelation.fetchByPerson(this).stream().filter(r -> r.organize.isOrganize()).forEach(r -> organizes.add(r.organize()));
+        return organizes;
+    }
+
+    //用户所在所有机构
+    @Deprecated
     public <T extends BaseOrganize> List<T> organizes() {
         List<T> organizes = new ArrayList<>();
         BaseRelation.fetchByPerson(this).stream().filter(r -> r.organize.isOrganize()).forEach(r -> organizes.add(r.organize()));
@@ -303,8 +310,14 @@ public class BasePerson extends BaseModel {
         BaseRelation.fetchByPerson(this).stream().filter(r -> !r.organize.isOrganize() && r.organize.organize.id.equals(organize.id)).forEach(r -> organizes.add(r.organize()));
         return organizes;
     }
+
+    //用户所在所有机构名称
+    public String rootNames() {
+        return StringUtils.join(organizes().stream().map(o -> o.name).collect(Collectors.toList()), ",");
+    }
     
     //用户所在所有机构名称
+    @Deprecated
     public String organizeNames() {
         return StringUtils.join(organizes().stream().map(o -> o.name).collect(Collectors.toList()), ",");
     }

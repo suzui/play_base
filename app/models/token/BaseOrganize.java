@@ -99,6 +99,7 @@ public class BaseOrganize extends BaseModel {
         this.save();
     }
     
+    @Deprecated
     public boolean isOrganize() {
         return this.organize.id.equals(this.id);
     }
