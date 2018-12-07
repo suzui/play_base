@@ -38,9 +38,11 @@ public class BaseOrganize extends BaseModel {
     public BaseOrganize parent;//父组织，根组织为null
     
     @ManyToOne
+    @Deprecated
     public BaseOrganize organize;//组织机构 机构类型为机构本身
+    
     @ManyToOne
-    public BaseOrganize root;//总根机构
+    public BaseOrganize root;//根机构
     
     public <T extends BasePerson> T person() {
         return this.person == null ? null : (T) this.person;
