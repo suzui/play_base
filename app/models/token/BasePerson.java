@@ -122,6 +122,14 @@ public class BasePerson extends BaseModel {
         return T.findByEmail(email, type) == null;
     }
     
+    public static <T extends BasePerson> boolean isPhoneAvailable(String phone, int type) {
+        return T.findByPhone(phone, type) == null;
+    }
+    
+    public static <T extends BasePerson> boolean isEmailAvailable(String email, int type) {
+        return T.findByEmail(email, type) == null;
+    }
+    
     public boolean isPasswordRight(String password) {
         return StringUtils.equalsIgnoreCase(password, this.password);
     }
