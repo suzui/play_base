@@ -5,8 +5,6 @@ import models.BaseModel;
 import models.access.BaseAuthorization;
 import models.access.BaseCrowd;
 import models.access.BaseRole;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import play.jobs.Job;
 import utils.BaseUtils;
 
@@ -25,6 +23,16 @@ public class BaseOrganize extends BaseModel {
     public String logo;
     @Column(columnDefinition = STRING + "'组织名称'")
     public String name;
+    @Column(columnDefinition = STRING + "'行业'")
+    public String industry;
+    @Column(columnDefinition = STRING + "'员工规模'")
+    public String employee;
+    @Column(columnDefinition = STRING + "'介绍'")
+    public String intro;
+    @Column(columnDefinition = LONG + "'开始时间'")
+    public Long startTime;
+    @Column(columnDefinition = LONG + "'结束时间'")
+    public Long endTime;
     @Column(columnDefinition = DOUBLE + "'组织排序'")
     public Double rank;
     @Enumerated(EnumType.STRING)
