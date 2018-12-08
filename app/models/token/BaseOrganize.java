@@ -19,10 +19,10 @@ public class BaseOrganize extends BaseModel {
     
     @Column(columnDefinition = STRING + "'组织code'")
     public String code;
-    @Column(columnDefinition = STRING + "'组织logo'")
-    public String logo;
     @Column(columnDefinition = STRING + "'组织名称'")
     public String name;
+    @Column(columnDefinition = STRING + "'组织logo'")
+    public String logo;
     @Column(columnDefinition = STRING + "'行业'")
     public String industry;
     @Column(columnDefinition = STRING + "'员工规模'")
