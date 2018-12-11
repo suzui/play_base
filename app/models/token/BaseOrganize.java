@@ -17,16 +17,24 @@ import java.util.List;
 @Table(name = "Organize")
 public class BaseOrganize extends BaseModel {
     
-    @Column(columnDefinition = STRING + "'组织code'")
+    @Column(columnDefinition = STRING + "'code'")
     public String code;
-    @Column(columnDefinition = STRING + "'组织名称'")
+    @Column(columnDefinition = STRING + "'名称'")
     public String name;
-    @Column(columnDefinition = STRING + "'组织logo'")
+    @Column(columnDefinition = STRING + "'logo'")
     public String logo;
+    @Column(columnDefinition = STRING + "'图片'")
+    public String image;
+    @Column(columnDefinition = STRING + "'编号'")
+    public String number;
     @Column(columnDefinition = STRING + "'行业'")
     public String industry;
     @Column(columnDefinition = STRING + "'规模'")
     public String employee;
+    @Column(columnDefinition = STRING + "'单位'")
+    public String unit;
+    @Column(columnDefinition = STRING + "'地址'")
+    public String address;
     @Column(columnDefinition = STRING + "'介绍'")
     public String intro;
     @Column(columnDefinition = STRING + "'备注'")
