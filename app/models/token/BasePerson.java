@@ -300,7 +300,7 @@ public class BasePerson extends BaseModel {
     //用户所在所有机构
     public <T extends BaseOrganize> List<T> roots() {
         List<T> organizes = new ArrayList<>();
-        BaseRelation.fetchByPerson(this).stream().filter(r -> r.organize.isOrganize()).forEach(r -> organizes.add(r.organize()));
+        BaseRelation.fetchByPerson(this).stream().filter(r -> r.organize.isRoot()).forEach(r -> organizes.add(r.organize()));
         return organizes;
     }
 
@@ -308,14 +308,14 @@ public class BasePerson extends BaseModel {
     @Deprecated
     public <T extends BaseOrganize> List<T> organizes() {
         List<T> organizes = new ArrayList<>();
-        BaseRelation.fetchByPerson(this).stream().filter(r -> r.organize.isOrganize()).forEach(r -> organizes.add(r.organize()));
+        BaseRelation.fetchByPerson(this).stream().filter(r -> r.organize.isRoot()).forEach(r -> organizes.add(r.organize()));
         return organizes;
     }
     
     //用户在当前机构的所有部门
     public <T extends BaseOrganize> List<T> organizes(BaseOrganize organize) {
         List<T> organizes = new ArrayList<>();
-        BaseRelation.fetchByPerson(this).stream().filter(r -> !r.organize.isOrganize() && r.organize.organize.id.equals(organize.id)).forEach(r -> organizes.add(r.organize()));
+        BaseRelation.fetchByPerson(this).stream().filter(r -> !r.organize.isRoot() && r.organize.root.id.equals(organize.id)).forEach(r -> organizes.add(r.organize()));
         return organizes;
     }
 
