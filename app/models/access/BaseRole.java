@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -22,10 +23,14 @@ public class BaseRole extends BaseModel {
     public String accessIds;
     
     @ManyToOne
+    public BaseOrganize root;//所属机构
+    
+    @Deprecated
+    @ManyToOne
     public BaseOrganize organize;//所属机构
     
-    public <T extends BaseOrganize> T organize() {
-        return this.organize == null ? null : (T) this.organize;
+    public <T extends BaseOrganize> T root() {
+        return this.root == null ? null : (T) this.root;
     }
     
     public <T extends BaseAccess> List<T> access() {
@@ -48,13 +53,19 @@ public class BaseRole extends BaseModel {
         return T.find(defaultSql("id =?"), id).first();
     }
     
-    public static <T extends BaseRole> List<T> fetchByOrganize(BaseOrganize organize) {
-        return T.find(defaultSql("organize = ?"), organize).fetch();
+    public static <T extends BaseRole> List<T> fetchByIds(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return Collections.EMPTY_LIST;
+        }
+        return T.find(defaultSql("id in (:ids)")).bind("ids", ids.toArray()).fetch();
+    }
+    
+    public static <T extends BaseRole> List<T> fetchByRoot(BaseOrganize root) {
+        return T.find(defaultSql("root = ?"), root).fetch();
     }
     
     public static <T extends BaseRole> List<T> fetchAll() {
         return T.find(defaultSql("organize is null")).fetch();
     }
-    
     
 }

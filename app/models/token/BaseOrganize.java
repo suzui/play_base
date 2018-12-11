@@ -25,10 +25,12 @@ public class BaseOrganize extends BaseModel {
     public String logo;
     @Column(columnDefinition = STRING + "'行业'")
     public String industry;
-    @Column(columnDefinition = STRING + "'员工规模'")
+    @Column(columnDefinition = STRING + "'规模'")
     public String employee;
     @Column(columnDefinition = STRING + "'介绍'")
     public String intro;
+    @Column(columnDefinition = STRING + "'备注'")
+    public String remark;
     @Column(columnDefinition = LONG + "'开始时间'")
     public Long startTime;
     @Column(columnDefinition = LONG + "'结束时间'")
@@ -45,8 +47,8 @@ public class BaseOrganize extends BaseModel {
     @ManyToOne
     public BaseOrganize parent;//父组织，根组织为null
     
-    @ManyToOne
     @Deprecated
+    @ManyToOne
     public BaseOrganize organize;//组织机构 机构类型为机构本身
     
     @ManyToOne
@@ -90,6 +92,36 @@ public class BaseOrganize extends BaseModel {
         return rank == null ? 0 : rank + 1;
     }
     
+    public void move(BaseOrganize parent) {
+        if (this.parent == null) {
+            return;
+        }
+        if (parent == null) {
+            return;
+        }
+        if (this.parent.id.equals(parent.id)) {
+            return;
+        }
+        this.parent = parent;
+        this.rank = parent.initRank();
+        this.save();
+    }
+    
+    public void move(Long parentId) {
+        if (this.parent == null) {
+            return;
+        }
+        if (parent == null) {
+            return;
+        }
+        if (this.parent.id.equals(parentId)) {
+            return;
+        }
+        this.parent = findByID(parentId);
+        this.rank = this.parent.initRank();
+        this.save();
+    }
+    
     public void move(Long preId, Long nextId) {
         move(preId == null ? null : BaseOrganize.findByID(preId), nextId == null ? null : BaseOrganize.findByID(nextId));
     }
@@ -119,6 +151,8 @@ public class BaseOrganize extends BaseModel {
     public void person(BasePerson person) {
         if (person == null) {
             BaseRelation.fetchByOrganize(this).forEach(r -> r.setAdmin(false));
+        } else if (this.person != null && this.person.id.equals(person.id)) {
+            return;
         } else {
             BaseRelation relation = BaseRelation.findByOrganizeAndPerson(this, person);
             if (relation != null) {
@@ -137,8 +171,8 @@ public class BaseOrganize extends BaseModel {
                 super.doJob();
                 BaseRelation.fetchByOrganize(organize).forEach(r -> r.del());
                 BaseAuthorization.fetchByOrganzie(organize).forEach(a -> a.del());
-                BaseRole.fetchByOrganize(organize).forEach(p -> p.del());
-                BaseCrowd.fetchByOrganize(organize).forEach(c -> c.del());
+                BaseRole.fetchByRoot(organize).forEach(p -> p.del());
+                BaseCrowd.fetchByRoot(organize).forEach(c -> c.del());
             }
         }.now();
         this.logicDelete();
@@ -167,16 +201,16 @@ public class BaseOrganize extends BaseModel {
         return T.find(defaultSql("person=?"), person).fetch();
     }
     
-    public static <T extends BaseOrganize> List<T> fetchByParent(BaseOrganize organize) {
-        return T.find(defaultSql("parent=?"), organize).fetch();
+    public static <T extends BaseOrganize> List<T> fetchByParent(BaseOrganize parent) {
+        return T.find(defaultSql("parent=?"), parent).fetch();
     }
     
     public static <T extends BaseOrganize> List<T> fetchByOrganize(BaseOrganize organize) {
         return T.find(defaultSql("organize=?"), organize).fetch();
     }
     
-    public static <T extends BaseOrganize> List<T> fetchByRoot(BaseOrganize organize) {
-        return T.find(defaultSql("root=?"), organize).fetch();
+    public static <T extends BaseOrganize> List<T> fetchByRoot(BaseOrganize root) {
+        return T.find(defaultSql("root=?"), root).fetch();
     }
     
     public static <T extends BaseOrganize> List<T> fetchByType(OrganizeType type) {
