@@ -28,7 +28,7 @@ public class BaseOrganize extends BaseModel {
     @Column(columnDefinition = STRING + "'编号'")
     public String number;
     @Column(columnDefinition = STRING + "'行业'")
-    public String industry;
+    public String trade;
     @Column(columnDefinition = STRING + "'规模'")
     public String employee;
     @Column(columnDefinition = STRING + "'单位'")

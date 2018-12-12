@@ -296,14 +296,21 @@ public class BasePerson extends BaseModel {
         });
         return T.fetchByIds(new ArrayList<>(accessIds));
     }
-
+    
     //用户所在所有机构
     public <T extends BaseOrganize> List<T> roots() {
         List<T> organizes = new ArrayList<>();
         BaseRelation.fetchByPerson(this).stream().filter(r -> r.organize.isRoot()).forEach(r -> organizes.add(r.organize()));
         return organizes;
     }
-
+    
+    //用户所在所有机构关系
+    public <T extends BaseRelation> List<T> relations() {
+        List<T> relations = new ArrayList<>();
+        BaseRelation.fetchByPerson(this).stream().filter(r -> r.organize.isRoot()).forEach(r -> relations.add((T) r));
+        return relations;
+    }
+    
     //用户所在所有机构
     @Deprecated
     public <T extends BaseOrganize> List<T> organizes() {
@@ -313,32 +320,39 @@ public class BasePerson extends BaseModel {
     }
     
     //用户在当前机构的所有部门
-    public <T extends BaseOrganize> List<T> organizes(BaseOrganize organize) {
+    public <T extends BaseOrganize> List<T> organizes(BaseOrganize root) {
         List<T> organizes = new ArrayList<>();
-        BaseRelation.fetchByPerson(this).stream().filter(r -> !r.organize.isRoot() && r.organize.root.id.equals(organize.id)).forEach(r -> organizes.add(r.organize()));
+        BaseRelation.fetchByPerson(this).stream().filter(r -> !r.organize.isRoot() && r.organize.root.id.equals(root.id)).forEach(r -> organizes.add(r.organize()));
         return organizes;
     }
-
+    
+    //用户在当前机构的所有部门关系
+    public <T extends BaseRelation> List<T> relations(BaseOrganize root) {
+        List<T> relations = new ArrayList<>();
+        BaseRelation.fetchByPerson(this).stream().filter(r -> !r.organize.isRoot() && r.organize.root.id.equals(root.id)).forEach(r -> relations.add((T) r));
+        return relations;
+    }
+    
     //用户所在所有机构名称
     public String rootNames() {
-        return StringUtils.join(organizes().stream().map(o -> o.name).collect(Collectors.toList()), ",");
+        return roots().stream().map(o -> o.name).collect(Collectors.joining());
     }
     
     //用户所在所有机构名称
     @Deprecated
     public String organizeNames() {
-        return StringUtils.join(organizes().stream().map(o -> o.name).collect(Collectors.toList()), ",");
+        return organizes().stream().map(o -> o.name).collect(Collectors.joining());
     }
-
+    
     //用户在当前机构的所有部门名称
-    public String organizeNames(BaseOrganize organize) {
-        return StringUtils.join(organizes(organize).stream().map(o -> o.name).collect(Collectors.toList()), ",");
+    public String organizeNames(BaseOrganize root) {
+        return organizes(root).stream().map(o -> o.name).collect(Collectors.joining());
     }
-
+    
     //用户在当前机构的所有角色名称
-    public String roleNames(BaseOrganize organize) {
-        return StringUtils.join(roles(organize).stream().map(r -> r.name).collect(Collectors.toList()), ",");
+    public String roleNames(BaseOrganize root) {
+        return roles(root).stream().map(r -> r.name).collect(Collectors.joining());
     }
-
+    
     
 }

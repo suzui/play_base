@@ -93,9 +93,28 @@ public class BaseRelation extends BaseModel {
         return new ArrayList<>(persons);
     }
     
+    
+    public static void del(long organizeId, long personId) {
+        BaseRelation relation = findByOrganizeAndPerson(organizeId, personId);
+        if (relation != null) {
+            relation.del();
+        }
+    }
+    
+    public static void del(BaseOrganize organize, BasePerson person) {
+        BaseRelation relation = findByOrganizeAndPerson(organize, person);
+        if (relation != null) {
+            relation.del();
+        }
+    }
+    
     public void del() {
+        if (this.organize.isRoot()) {
+            this.person.relations(organize).forEach(relation -> relation.del());
+        }
         this.logicDelete();
     }
+    
     
     public static <T extends BaseRelation> T findByID(Long id) {
         return T.find(defaultSql("id=?"), id).first();
@@ -108,6 +127,13 @@ public class BaseRelation extends BaseModel {
     
     public static <T extends BaseRelation> T findByOrganizeAndPerson(BaseOrganize organize, BasePerson person) {
         return T.find(defaultSql("organize=? and person=?"), organize, person).first();
+    }
+    
+    public static <T extends BaseRelation> List<T> fetchByIds(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return Collections.EMPTY_LIST;
+        }
+        return T.find(defaultSql("id in (:ids)")).bind("ids", ids.toArray()).fetch();
     }
     
     public static <T extends BaseRelation> List<T> fetchByPerson(Long personId) {
