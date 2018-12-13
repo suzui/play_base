@@ -105,6 +105,10 @@ public class NewBaseModel extends Model {
         this.save();
     }
     
+    public void del() {
+        this.logicDelete();
+    }
+    
     public static <T extends NewBaseModel> T findByID(Long id) {
         return T.find(defaultSql("id=?"), id).first();
     }
