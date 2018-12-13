@@ -158,7 +158,7 @@ public class BaseOrganize extends BaseModel {
     
     public void person(BasePerson person) {
         if (person == null) {
-            BaseRelation.fetchByOrganize(this).forEach(r -> r.setAdmin(false));
+            BaseRelation.cleanAdmin(this);
         } else if (this.person != null && this.person.id.equals(person.id)) {
             return;
         } else {

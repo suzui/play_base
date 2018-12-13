@@ -36,6 +36,10 @@ public class BaseRelation extends BaseModel {
         this.save();
     }
     
+    public static void cleanAdmin(BaseOrganize organize) {
+        BaseRelation.fetchByOrganize(organize).forEach(r -> r.setAdmin(false));
+    }
+    
     public void move(Long preId, Long nextId) {
         move(preId == null ? null : BaseRelation.findByID(preId), nextId == null ? null : BaseRelation.findByID(nextId));
     }
@@ -114,7 +118,6 @@ public class BaseRelation extends BaseModel {
         }
         this.logicDelete();
     }
-    
     
     public static <T extends BaseRelation> T findByID(Long id) {
         return T.find(defaultSql("id=?"), id).first();
