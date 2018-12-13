@@ -120,7 +120,6 @@ public class BaseRelation extends BaseModel {
         return T.find(defaultSql("id=?"), id).first();
     }
     
-    
     public static <T extends BaseRelation> T findByOrganizeAndPerson(Long organizeId, Long personId) {
         return T.find(defaultSql("organize.id=? and person.id=?"), organizeId, personId).first();
     }

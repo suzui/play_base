@@ -10,13 +10,15 @@ import utils.BaseUtils;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @MappedSuperclass
 @EntityListeners(BaseModelListener.class)
-public class BaseModel extends Model {
+public class NewBaseModel extends Model {
     
     @Version
     public long version;
@@ -76,7 +78,7 @@ public class BaseModel extends Model {
         return originSql;
     }
     
-    public <T extends BaseModel> T _id(Long id) {
+    public <T extends NewBaseModel> T _id(Long id) {
         this.id = id;
         return (T) this;
     }
@@ -101,6 +103,21 @@ public class BaseModel extends Model {
     public void logicDelete() {
         this.deleted = true;
         this.save();
+    }
+    
+    public static <T extends NewBaseModel> T findByID(Long id) {
+        return T.find(defaultSql("id=?"), id).first();
+    }
+    
+    public static <T extends NewBaseModel> List<T> fetchByIds(List<Long> ids) {
+        if (BaseUtils.collectionEmpty(ids)) {
+            return Collections.EMPTY_LIST;
+        }
+        return T.find(defaultSql("id in (:ids)")).bind("ids", ids.toArray()).fetch();
+    }
+    
+    public static <T extends NewBaseModel> List<T> fetchAll() {
+        return T.find(defaultSql()).fetch();
     }
     
     public static Boolean convert(int b) {
