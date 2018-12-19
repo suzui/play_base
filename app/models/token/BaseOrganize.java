@@ -183,8 +183,8 @@ public class BaseOrganize extends BaseModel {
                 super.doJob();
                 BaseRelation.fetchByOrganize(organize).forEach(r -> r.del());
                 BaseAuthorization.fetchByOrganzie(organize).forEach(a -> a.del());
-                BaseRole.fetchByRoot(organize).forEach(p -> p.del());
-                BaseCrowd.fetchByRoot(organize).forEach(c -> c.del());
+                BaseRole.fetchByOrganize(organize).forEach(p -> p.del());
+                BaseCrowd.fetchByOrganize(organize).forEach(c -> c.del());
             }
         }.now();
         this.logicDelete();
