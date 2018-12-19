@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringUtils;
 
 @EnumClass(name = "权限级别")
 public enum AccessLevel implements BaseEnum {
-    FIRST(101, "一级权限"), SECOND(101, "二级权限"), THIRD(102, "三级权限");
+    FIRST(101, "一级权限"), SECOND(101, "二级权限"), THIRD(102, "三级权限"), FORTH(103, "四级权限");
     private int code;
     private String intro;
     
