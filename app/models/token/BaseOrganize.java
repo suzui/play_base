@@ -159,7 +159,7 @@ public class BaseOrganize extends BaseModel {
     public void person(BasePerson person) {
         if (person == null) {
             BaseRelation.cleanAdmin(this);
-        } else if (this.person != null && this.person.id.equals(person.id)) {
+        } else if (this.isAdmin(person)) {
             return;
         } else {
             BaseRelation relation = BaseRelation.findByOrganizeAndPerson(this, person);
@@ -169,6 +169,10 @@ public class BaseOrganize extends BaseModel {
         }
         this.person = person;
         this.save();
+    }
+    
+    public boolean isAdmin(BasePerson person) {
+        return this.person != null && person != null && this.person.id.equals(person.id);
     }
     
     public void del() {

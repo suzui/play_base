@@ -113,6 +113,9 @@ public class BaseRelation extends BaseModel {
     }
     
     public void del() {
+        if (this.isAdmin) {
+            return;
+        }
         if (this.organize.isRoot()) {
             this.person.relations(organize).forEach(relation -> relation.del());
         }
