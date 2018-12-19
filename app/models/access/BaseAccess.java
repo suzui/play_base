@@ -36,7 +36,7 @@ public class BaseAccess extends BaseModel {
     public Double rank;
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = STRING + "'权限类型'")
-    public AccessType type;
+    public AccessType type;//项目enum需定义
     
     public String parentCode() {
         return this.code.length() > 3 ? this.code.substring(0, 3) : null;
