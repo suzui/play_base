@@ -34,6 +34,8 @@ public class PageData extends Data {
         this.totalPage = this.page;
         this.totalSize = this.size;
         this.array = array;
+        
+        
     }
     
     public PageData(int page, int size, int totalSize, List<? extends OneData> array) {

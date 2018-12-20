@@ -81,11 +81,11 @@ public class BasePerson extends BaseModel {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = STRING + "'用户类型'")
     public PersonType type;//项目enum需定义
-    @Column(columnDefinition = LONG + "'首次登录时间'")
+    @Column(columnDefinition = LONG + "'首次登陆时间'")
     public Long firstLoginTime;
-    @Column(columnDefinition = LONG + "'最后登录时间'")
+    @Column(columnDefinition = LONG + "'最后登陆时间'")
     public Long lastLoginTime;
-    @Column(columnDefinition = LONG + "'登录次数'")
+    @Column(columnDefinition = LONG + "'登陆次数'")
     public Integer loginAmount;
     
     @Column(columnDefinition = BOOLEAN + "'是否需要做全增量标识 根据场景标识'")
@@ -141,7 +141,7 @@ public class BasePerson extends BaseModel {
     
     public void increase(boolean increase) {
         if (increase && this.loginAmount == null) {
-            //未登录用户increase无需改成true,避免初次增量乐观锁
+            //未登陆用户increase无需改成true,避免初次增量乐观锁
             return;
         }
         this.increase = increase;
