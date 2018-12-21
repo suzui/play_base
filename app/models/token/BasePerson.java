@@ -1,6 +1,5 @@
 package models.token;
 
-import enums.Access;
 import enums.AccessType;
 import enums.PersonType;
 import enums.Sex;
@@ -48,6 +47,8 @@ public class BasePerson extends BaseModel {
     public String avatar;
     @Column(columnDefinition = LONG + "'出生日期'")
     public Long birthday;
+    @Column(columnDefinition = STRING + "'地址'")
+    public String address;
     @Column(columnDefinition = STRING_1000 + "'简介'")
     public String intro;
     @Column(columnDefinition = STRING_1000 + "'备注'")
