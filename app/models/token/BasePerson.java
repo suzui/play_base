@@ -1,5 +1,6 @@
 package models.token;
 
+import enums.Access;
 import enums.AccessType;
 import enums.PersonType;
 import enums.Sex;

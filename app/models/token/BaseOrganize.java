@@ -229,8 +229,13 @@ public class BaseOrganize extends BaseModel {
         return T.find(defaultSql("type=?"), type).fetch();
     }
     
+    public static <T extends BaseOrganize> List<T> fetchAllRoot() {
+        return T.find(defaultSql("id=root.id")).fetch();
+    }
+    
     public static <T extends BaseOrganize> List<T> fetchAll() {
         return T.find(defaultSql()).fetch();
     }
+    
     
 }
