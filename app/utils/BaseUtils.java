@@ -344,7 +344,7 @@ public class BaseUtils {
         if (collectionEmpty(list)) {
             return "";
         }
-        return StringUtils.join(list.stream().map(s -> "'" + s + "'").collect(Collectors.toList()), ",");
+        return list.stream().map(s -> "'" + s + "'").collect(Collectors.joining());
     }
     
     public static String genURL(String url, Object... params) {
