@@ -34,8 +34,7 @@ public class PageData extends Data {
         this.totalPage = this.page;
         this.totalSize = this.size;
         this.array = array;
-        
-        
+        this.sequence();
     }
     
     public PageData(int page, int size, int totalSize, List<? extends OneData> array) {
@@ -44,6 +43,13 @@ public class PageData extends Data {
         this.totalPage = (totalSize - 1) / size + 1;
         this.totalSize = totalSize;
         this.array = array;
+        this.sequence();
+    }
+    
+    private void sequence() {
+        for (int i = 0; i < this.array.size(); i++) {
+            this.array.get(i).sequence = (this.page - 1) * this.size + 1 + i;
+        }
     }
     
     public Map<Object, Object> doc(Class<? extends OneData> onedata) {

@@ -49,6 +49,9 @@ public class OneData extends Data {
     @DataField(name = "每页数量")
     public Integer size;
     @JsonInclude(Include.NON_NULL)
+    @DataField(name = "序号")
+    public Integer sequence;
+    @JsonInclude(Include.NON_NULL)
     @DataField(name = "查询条件")
     public String condition;
     @JsonInclude(Include.NON_NULL)
@@ -187,6 +190,6 @@ public class OneData extends Data {
         }
         return map;
     }
-
+    
     
 }
