@@ -1,5 +1,7 @@
 package utils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import interfaces.BaseEnum;
 import models.BaseModel;
 import models.back.Admin;
@@ -29,6 +31,9 @@ public class BaseUtils {
     private static final String KEEP_ADMIN_ID = "keepAdminId";
     public static final String BASE_URL = Play.configuration.getProperty("application.baseUrl");
     public static final String QINIU_URL = Play.configuration.getProperty("qiniu.domain");
+    
+    public static final ObjectMapper mapper = new ObjectMapper();
+    public static final Gson gson = new Gson();
     
     public static boolean isProd() {
         String playid = Play.id;
@@ -338,6 +343,14 @@ public class BaseUtils {
             return "";
         }
         return StringUtils.join(list, ",");
+    }
+    
+    public static List fromJson(String json) {
+        return gson.fromJson(json, List.class);
+    }
+    
+    public static String toJson(List json) {
+        return gson.toJson(json);
     }
     
     public static String listToHql(List<String> list) {

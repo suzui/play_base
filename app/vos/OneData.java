@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import models.BaseModel;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -58,9 +56,6 @@ public class OneData extends Data {
     @JsonInclude(Include.NON_NULL)
     @DataField(name = "校验状态", comment = "不传走校验逻辑 1通过 0不通过")
     public Integer validation;
-    
-    public static final ObjectMapper mapper = new ObjectMapper();
-    public static final Gson gson = new Gson();
     
     public OneData() {
         this.page = 1;
@@ -185,7 +180,7 @@ public class OneData extends Data {
                     map.put(f.getName(), ((Class<OneData>) type).newInstance().doc());
                 } else {
                     //非onedata及子类的其它类型
-                    String enums = (df.enums().length > 0 ? gson.toJson(BaseUtils.enums(df.enums()[0])).replaceAll("\\\"", "") : "");
+                    String enums = (df.enums().length > 0 ? BaseUtils.toJson(BaseUtils.enums(df.enums()[0])).replaceAll("\\\"", "") : "");
                     map.put(f.getName(), StringUtils.join(Arrays.asList(df.name(), f.getType().getSimpleName(), df.demo(), df.comment(), enums), "|").replace("||", ""));
                 }
             }
