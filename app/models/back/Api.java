@@ -40,29 +40,29 @@ public class Api extends MongoModel {
     public String mock;
     public String env;
     
-    public static Api add(ApiVO apiVO) {
+    public static Api add(ApiVO vo) {
         Api api = new Api();
         api.env = Play.applicationPath.getAbsolutePath();
-        api.edit(apiVO);
+        api.edit(vo);
         return api;
     }
     
-    public void edit(ApiVO apiVO) {
-        this.url = apiVO.url != null ? apiVO.url : url;
-        this.action = apiVO.action != null ? apiVO.action : action;
-        this.method = apiVO.method != null ? apiVO.method : method;
-        this.body = apiVO.body != null ? apiVO.body : body;
-        this.header = apiVO.header != null ? apiVO.header : header;
-        this.param = apiVO.param != null ? apiVO.param : param;
-        this.status = apiVO.status != null ? apiVO.status : status;
-        this.exception = apiVO.exception != null ? apiVO.exception : exception;
-        this.result = apiVO.result != null ? apiVO.result : result;
-        this.startTime = apiVO.startTime != null ? apiVO.startTime : startTime;
-        this.endTime = apiVO.endTime != null ? apiVO.endTime : endTime;
-        this.personId = apiVO.personId != null ? apiVO.personId : personId;
-        this.personToken = apiVO.personToken != null ? apiVO.personToken : personToken;
-        this.personInfo = apiVO.personInfo != null ? apiVO.personInfo : personInfo;
-        this.mock = apiVO.header.contains("mock") ? "mock" : null;
+    public void edit(ApiVO vo) {
+        this.url = vo.url != null ? vo.url : url;
+        this.action = vo.action != null ? vo.action : action;
+        this.method = vo.method != null ? vo.method : method;
+        this.body = vo.body != null ? vo.body : body;
+        this.header = vo.header != null ? vo.header : header;
+        this.param = vo.param != null ? vo.param : param;
+        this.status = vo.status != null ? vo.status : status;
+        this.exception = vo.exception != null ? vo.exception : exception;
+        this.result = vo.result != null ? vo.result : result;
+        this.startTime = vo.startTime != null ? vo.startTime : startTime;
+        this.endTime = vo.endTime != null ? vo.endTime : endTime;
+        this.personId = vo.personId != null ? vo.personId : personId;
+        this.personToken = vo.personToken != null ? vo.personToken : personToken;
+        this.personInfo = vo.personInfo != null ? vo.personInfo : personInfo;
+        this.mock = vo.header.contains("mock") ? "mock" : null;
         this.save();
     }
     
@@ -76,59 +76,58 @@ public class Api extends MongoModel {
         return Api.find().fetch();
     }
     
-    public static List<Api> fetch(ApiVO apiVO) {
-        Logger.info("[apifetch]:%s", B);
-        Object[] objects = data(apiVO);
+    public static List<Api> fetch(ApiVO vo) {
+        Logger.info("[apifetch]:%s", BaseUtils.gson.toJson(vo));
+        Object[] objects = data(vo);
         List<String> sqls = (List<String>) objects[0];
         List<Pattern> params = (List<Pattern>) objects[1];
         List<Api> list = Api.find("by" + StringUtils.join(sqls, "And"), params.toArray()).order("by-startTime")
-                .fetch(apiVO.page, apiVO.size);
-        Logger.info("[apifetch]");
-    
+                .fetch(vo.page, vo.size);
+        Logger.info("[apifetch]:%s",list.size());
         return list;
     }
     
-    public static int count(ApiVO apiVO) {
-        Object[] objects = data(apiVO);
+    public static int count(ApiVO vo) {
+        Object[] objects = data(vo);
         List<String> sqls = (List<String>) objects[0];
         List<Pattern> params = (List<Pattern>) objects[1];
         return (int) Api.count("by" + StringUtils.join(sqls, "And"), params.toArray());
     }
     
-    public static Object[] data(ApiVO apiVO) {
+    public static Object[] data(ApiVO vo) {
         List<String> sqls = new ArrayList<>();
         List<Object> params = new ArrayList<>();
         sqls.add("status");
         params.add(Pattern.compile("^.*$", Pattern.CASE_INSENSITIVE));
-        if (StringUtils.isNotBlank(apiVO.url)) {
+        if (StringUtils.isNotBlank(vo.url)) {
             sqls.add("url");
-            params.add(Pattern.compile("^.*" + apiVO.url + ".*$"));
+            params.add(Pattern.compile("^.*" + vo.url + ".*$"));
         }
-        if (StringUtils.isNotBlank(apiVO.personToken)) {
+        if (StringUtils.isNotBlank(vo.personToken)) {
             sqls.add("personToken");
-            params.add(Pattern.compile("^.*" + apiVO.personToken + ".*$"));
+            params.add(Pattern.compile("^.*" + vo.personToken + ".*$"));
         }
-        if (StringUtils.isNotBlank(apiVO.personInfo)) {
+        if (StringUtils.isNotBlank(vo.personInfo)) {
             sqls.add("personInfo");
-            params.add(Pattern.compile("^.*" + apiVO.personInfo + ".*$"));
+            params.add(Pattern.compile("^.*" + vo.personInfo + ".*$"));
         }
-        if (apiVO.startTime != null) {
+        if (vo.startTime != null) {
             sqls.add("startTime");
-            params.add(new BasicDBObject("$gte", apiVO.startTime));
+            params.add(new BasicDBObject("$gte", vo.startTime));
         }
-        if (apiVO.endTime != null) {
+        if (vo.endTime != null) {
             sqls.add("endTime");
-            params.add(new BasicDBObject("$lte", apiVO.endTime));
+            params.add(new BasicDBObject("$lte", vo.endTime));
         }
-        if (StringUtils.isNotBlank(apiVO.env)) {
+        if (StringUtils.isNotBlank(vo.env)) {
             sqls.add("env");
-            params.add(Pattern.compile("^.*" + apiVO.env + ".*$"));
+            params.add(Pattern.compile("^.*" + vo.env + ".*$"));
         }
-        if (apiVO.error != null && apiVO.error == 1) {
+        if (vo.error != null && vo.error == 1) {
             sqls.add("exception");
             params.add(new BasicDBObject("$ne", null));
         }
-        if (apiVO.mock != null && apiVO.mock == 1) {
+        if (vo.mock != null && vo.mock == 1) {
             sqls.add("mock");
             params.add(new BasicDBObject("$ne", null));
         }
