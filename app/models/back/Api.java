@@ -4,11 +4,13 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.apache.commons.lang.StringUtils;
 import org.bson.types.ObjectId;
+import play.Logger;
 import play.Play;
 import play.modules.mongo.MongoDB;
 import play.modules.mongo.MongoEntity;
 import play.modules.mongo.MongoMapper;
 import play.modules.mongo.MongoModel;
+import utils.BaseUtils;
 import vos.back.ApiVO;
 
 import java.util.ArrayList;
@@ -75,13 +77,15 @@ public class Api extends MongoModel {
     }
     
     public static List<Api> fetch(ApiVO apiVO) {
+        Logger.info("[apifetch]:%s", B);
         Object[] objects = data(apiVO);
         List<String> sqls = (List<String>) objects[0];
         List<Pattern> params = (List<Pattern>) objects[1];
-        System.err.println(StringUtils.join(sqls, " "));
-        System.err.println(StringUtils.join(params, " "));
-        return Api.find("by" + StringUtils.join(sqls, "And"), params.toArray()).order("by-startTime")
+        List<Api> list = Api.find("by" + StringUtils.join(sqls, "And"), params.toArray()).order("by-startTime")
                 .fetch(apiVO.page, apiVO.size);
+        Logger.info("[apifetch]");
+    
+        return list;
     }
     
     public static int count(ApiVO apiVO) {
