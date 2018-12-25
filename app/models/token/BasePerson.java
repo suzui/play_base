@@ -337,23 +337,23 @@ public class BasePerson extends BaseModel {
     
     //用户所在所有机构名称
     public String rootNames() {
-        return roots().stream().map(o -> o.name).collect(Collectors.joining());
+        return roots().stream().map(o -> o.name).collect(Collectors.joining(","));
     }
     
     //用户所在所有机构名称
     @Deprecated
     public String organizeNames() {
-        return organizes().stream().map(o -> o.name).collect(Collectors.joining());
+        return organizes().stream().map(o -> o.name).collect(Collectors.joining(","));
     }
     
     //用户在当前机构的所有部门名称
     public String organizeNames(BaseOrganize root) {
-        return organizes(root).stream().map(o -> o.name).collect(Collectors.joining());
+        return organizes(root).stream().map(o -> o.name).collect(Collectors.joining(","));
     }
     
     //用户在当前机构的所有角色名称
     public String roleNames(BaseOrganize root) {
-        return roles(root).stream().map(r -> r.name).collect(Collectors.joining());
+        return roles(root).stream().map(r -> r.name).collect(Collectors.joining(","));
     }
     
     
