@@ -36,6 +36,17 @@ public class DateUtils {
         return JavaExtensions.format(date, format);
     }
     
+    public static Date format(String date) {
+        if (StringUtils.isBlank(date)) {
+            return null;
+        }
+        try {
+            return org.apache.commons.lang.time.DateUtils.parseDate(date, new String[]{"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd", "HH:mm"});
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+    
     public static Date format(String date, String format) {
         if (StringUtils.isBlank(date)) {
             return null;
