@@ -29,9 +29,9 @@ public class BaseUtils {
     
     private static final String CURRENT_ADMIN_ID = "currentAdminId";
     private static final String KEEP_ADMIN_ID = "keepAdminId";
-    public static final String BASE_URL = property("application.baseUrl");
-    public static final String BASE_WEB_URL = property("application.baseUrl").replace("api.", "");
-    public static final String QINIU_URL = property("qiniu.domain");
+    public static final String BASE_URL = property("application.baseUrl", "");
+    public static final String BASE_WEB_URL = property("application.baseUrl", "").replace("api.", "");
+    public static final String QINIU_URL = property("qiniu.domain", "");
     
     public static final ObjectMapper mapper = new ObjectMapper();
     public static final Gson gson = new Gson();

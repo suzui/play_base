@@ -4,6 +4,7 @@ import listeners.BaseModelListener;
 import models.token.BasePerson;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import play.Logger;
 import play.db.jpa.Model;
 import utils.BaseUtils;
 
@@ -73,6 +74,7 @@ public class BaseModel extends Model {
         } else {
             originSql = defaultCondition() + (StringUtils.isBlank(originSql) ? "" : AND) + originSql;
         }
+        Logger.info("sql:%s", originSql);
         return originSql;
     }
     
