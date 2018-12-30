@@ -22,6 +22,13 @@ public class DateUtils {
         return JavaExtensions.format(new Date(date), "yyyy/MM/dd HH:mm");
     }
     
+    public static String format(Date date) {
+        if (date == null) {
+            return null;
+        }
+        return JavaExtensions.format(date, "yyyy/MM/dd HH:mm");
+    }
+    
     public static String format(Long date, String format) {
         if (date == null) {
             return null;
@@ -112,6 +119,15 @@ public class DateUtils {
     public static int dayOfAll(Long time) {
         return (int) (truncate(time).getTime() / DAY + 1);
     }
+    
+    public static Date addDays(Date date, Integer day) {
+        return org.apache.commons.lang.time.DateUtils.addDays(date, day);
+    }
+    
+    public static Date addDays(Long date, Integer day) {
+        return org.apache.commons.lang.time.DateUtils.addDays(new Date(date), day);
+    }
+    
     
     public static int year(Long time) {
         Calendar cal = Calendar.getInstance();
