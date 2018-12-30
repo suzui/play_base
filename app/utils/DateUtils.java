@@ -128,7 +128,6 @@ public class DateUtils {
         return org.apache.commons.lang.time.DateUtils.addDays(new Date(date), day);
     }
     
-    
     public static int year(Long time) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date(time));
