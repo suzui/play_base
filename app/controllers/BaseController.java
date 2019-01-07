@@ -2,6 +2,7 @@ package controllers;
 
 import annotations.ActionMethod;
 import annotations.DataField;
+import annotations.ParamField;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import enums.ClientType;
@@ -26,6 +27,8 @@ import vos.VersionVO;
 import vos.back.ApiVO;
 
 import javax.persistence.EntityTransaction;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -82,7 +85,8 @@ public class BaseController extends Controller {
         Map<String, String> params = request.params.allSimple();
         request.params.put(VO, "");
         Logger.info("[params]:%s", gson.toJson(params));
-        ActionMethod am = request.invokedMethod.getAnnotation(ActionMethod.class);
+        Method method = request.invokedMethod;
+        ActionMethod am = method.getAnnotation(ActionMethod.class);
         if (am != null) {
             if (!am.repeat()) {
                 String accesstoken = getToken();
@@ -96,14 +100,25 @@ public class BaseController extends Controller {
                     CacheUtils.add(md5, true, "3s");
                 }
             }
-            if (BaseUtils.propertyOn("validation") && StringUtils.isNotBlank(am.param())) {
+            if (BaseUtils.propertyOn("validation")) {
+                if (StringUtils.isNotBlank(am.param())) {
+                
+                } else {
+                    Parameter[] parameters = method.getParameters();
+                    for (Parameter parameter : parameters) {
+                        ParamField pf = parameter.getAnnotation(ParamField.class);
+                        if (pf.required() && !params.containsKey(pf.name())) {
+                            renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, pf.name() + "不能为空"));
+                        }
+                    }
+                }
                 for (String param : StringUtils.split(am.param().replaceAll("\\+", ""), ",")) {
                     if (StringUtils.isBlank(param) || param.startsWith("-") || StringUtils.equals(param, "page") || StringUtils.equals(param, "size")) {
                         continue;
                     }
                     if (!params.containsKey(param)) {
                         try {
-                            Class<?> vo = request.invokedMethod.getParameterTypes()[0];
+                            Class<?> vo = method.getParameterTypes()[0];
                             DataField df = vo.getDeclaredField(param).getAnnotation(DataField.class);
                             renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, df.name() + "不能为空"));
                         } catch (NoSuchFieldException e) {

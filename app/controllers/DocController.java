@@ -156,6 +156,12 @@ public class DocController extends Controller {
                     && OneData.class.isAssignableFrom(clazz[1])) {
                 result = new Gson().toJson(((PageData) clazz[0].newInstance()).doc((Class<? extends OneData>) clazz[1]));
             }
+            if (!am.withcode()) {
+                codes = Collections.EMPTY_LIST;
+            }
+            if (!am.withenum()) {
+                enums = Collections.EMPTY_MAP;
+            }
             renderTemplate("doc.html", url, api, param, result, codes, enums);
         } catch (Exception e) {
             e.printStackTrace();

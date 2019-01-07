@@ -22,6 +22,10 @@ public @interface ActionMethod {
     
     boolean repeat() default true;
     
+    boolean withcode() default true;
+    
+    boolean withenum() default true;
+    
     Class<? extends Data>[] clazz() default {};
     
 }
