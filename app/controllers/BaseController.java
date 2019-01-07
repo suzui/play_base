@@ -120,7 +120,7 @@ public class BaseController extends Controller {
                     Parameter[] parameters = method.getParameters();
                     for (Parameter parameter : parameters) {
                         ParamField pf = parameter.getAnnotation(ParamField.class);
-                        if (pf.required() && StringUtils.isNotBlank(pf.key()) && !params.containsKey(pf.key())) {
+                        if (pf != null && pf.required() && StringUtils.isNotBlank(pf.key()) && !params.containsKey(pf.key())) {
                             renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, pf.name() + "不能为空"));
                         }
                     }
