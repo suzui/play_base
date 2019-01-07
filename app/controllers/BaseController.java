@@ -102,27 +102,26 @@ public class BaseController extends Controller {
             }
             if (BaseUtils.propertyOn("validation")) {
                 if (StringUtils.isNotBlank(am.param())) {
-                
+                    for (String param : StringUtils.split(am.param().replaceAll("\\+", ""), ",")) {
+                        if (StringUtils.isBlank(param) || param.startsWith("-") || StringUtils.equals(param, "page") || StringUtils.equals(param, "size")) {
+                            continue;
+                        }
+                        if (!params.containsKey(param)) {
+                            try {
+                                Class<?> vo = method.getParameterTypes()[0];
+                                DataField df = vo.getDeclaredField(param).getAnnotation(DataField.class);
+                                renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, df.name() + "不能为空"));
+                            } catch (NoSuchFieldException e) {
+                                renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, param + "不能为空"));
+                            }
+                        }
+                    }
                 } else {
                     Parameter[] parameters = method.getParameters();
                     for (Parameter parameter : parameters) {
                         ParamField pf = parameter.getAnnotation(ParamField.class);
-                        if (pf.required() && !params.containsKey(pf.name())) {
+                        if (pf.required() && StringUtils.isNotBlank(pf.key()) && !params.containsKey(pf.key())) {
                             renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, pf.name() + "不能为空"));
-                        }
-                    }
-                }
-                for (String param : StringUtils.split(am.param().replaceAll("\\+", ""), ",")) {
-                    if (StringUtils.isBlank(param) || param.startsWith("-") || StringUtils.equals(param, "page") || StringUtils.equals(param, "size")) {
-                        continue;
-                    }
-                    if (!params.containsKey(param)) {
-                        try {
-                            Class<?> vo = method.getParameterTypes()[0];
-                            DataField df = vo.getDeclaredField(param).getAnnotation(DataField.class);
-                            renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, df.name() + "不能为空"));
-                        } catch (NoSuchFieldException e) {
-                            renderJSON(Result.failed(StatusCode.SYSTEM_PARAM_ERROR, param + "不能为空"));
                         }
                     }
                 }
