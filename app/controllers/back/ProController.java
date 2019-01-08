@@ -83,7 +83,12 @@ public class ProController extends BackController {
         }
         Pro pro = Pro.findByID(vo.proId);
         if (StringUtils.isNotBlank(pro.port)) {
-            pro.nuxt();
+            new Job() {
+                @Override
+                public void doJob() throws Exception {
+                    pro.nuxt();
+                }
+            }.now();
         } else {
             pro.status(ProStatus.START);
             new Job() {
