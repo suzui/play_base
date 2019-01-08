@@ -20,6 +20,7 @@ public class Pro extends BaseModel {
     
     public String name;
     public String location;
+    public String port;
     public String git;
     public String branch;
     public String shell;
@@ -41,6 +42,7 @@ public class Pro extends BaseModel {
     public void edit(ProVO proVO) {
         this.name = proVO.name != null ? proVO.name : name;
         this.location = proVO.location != null ? proVO.location : location;
+        this.port = proVO.port != null ? proVO.port : port;
         this.git = proVO.git != null ? proVO.git : git;
         this.branch = proVO.branch != null ? proVO.branch : branch;
         this.shell = proVO.shell != null ? proVO.shell : shell;
@@ -99,9 +101,14 @@ public class Pro extends BaseModel {
         return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/check.sh", this.user(), this.password(), this.location);
     }
     
+    public ShellUtils.Result nuxt() {
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/nuxt.sh", this.user(), this.password(), this.location, this.port);
+    }
+    
     public ShellUtils.Result clean(String pattern) {
         return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/clean.sh", this.user(), this.password(), this.location, pattern);
     }
+    
     
     public static boolean canStart() {
         return Pro.find(defaultSql("status = ?"), ProStatus.START).fetch().isEmpty();

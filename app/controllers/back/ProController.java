@@ -2,6 +2,7 @@ package controllers.back;
 
 import enums.ProStatus;
 import models.back.Pro;
+import org.apache.commons.lang.StringUtils;
 import play.jobs.Job;
 import vos.PageData;
 import vos.Result;
@@ -81,13 +82,17 @@ public class ProController extends BackController {
             renderJSON(Result.failed(Result.StatusCode.BACK_START_FAILED));
         }
         Pro pro = Pro.findByID(vo.proId);
-        pro.status(ProStatus.START);
-        new Job() {
-            @Override
-            public void doJob() throws Exception {
-                pro.restart();
-            }
-        }.now();
+        if (StringUtils.isNotBlank(pro.port)) {
+            pro.nuxt();
+        } else {
+            pro.status(ProStatus.START);
+            new Job() {
+                @Override
+                public void doJob() throws Exception {
+                    pro.restart();
+                }
+            }.now();
+        }
         renderJSON(Result.succeed());
     }
     

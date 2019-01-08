@@ -16,6 +16,8 @@ public class ProVO extends OneData implements Serializable {
     public String name;
     @DataField(name = "位置路径")
     public String location;
+    @DataField(name = "占用端口")
+    public String port;
     @DataField(name = "git地址")
     public String git;
     @DataField(name = "git分支")
@@ -51,6 +53,7 @@ public class ProVO extends OneData implements Serializable {
         this.proId = pro.id;
         this.name = pro.name;
         this.location = pro.location;
+        this.port = pro.port;
         this.git = pro.git;
         this.branch = pro.branch;
         this.shell = pro.shell;
