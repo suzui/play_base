@@ -53,6 +53,10 @@ public class Pro extends BaseModel {
         this.save();
     }
     
+    public boolean isend() {
+        return StringUtils.isNotBlank(this.playid);
+    }
+    
     public void status(ProStatus status) {
         if (!this.location.contains("app")) {
             return;
@@ -101,8 +105,16 @@ public class Pro extends BaseModel {
         return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/check.sh", this.user(), this.password(), this.location);
     }
     
-    public ShellUtils.Result nuxt() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/nuxt.sh", this.user(), this.password(), this.location, this.port);
+    public ShellUtils.Result webStart() {
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/web/start.sh", this.user(), this.password(), this.location, this.port);
+    }
+    
+    public ShellUtils.Result webStop() {
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/web/stop.sh", this.user(), this.password(), this.location, this.port);
+    }
+    
+    public ShellUtils.Result webRestart() {
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/web/restart.sh", this.user(), this.password(), this.location, this.port);
     }
     
     public ShellUtils.Result clean(String pattern) {

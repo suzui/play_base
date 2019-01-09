@@ -2,7 +2,6 @@ package controllers.back;
 
 import enums.ProStatus;
 import models.back.Pro;
-import org.apache.commons.lang.StringUtils;
 import play.jobs.Job;
 import vos.PageData;
 import vos.Result;
@@ -42,12 +41,22 @@ public class ProController extends BackController {
     public static void stop(ProVO vo) {
         Pro pro = Pro.findByID(vo.proId);
         pro.status(ProStatus.STOP);
-        new Job() {
-            @Override
-            public void doJob() throws Exception {
-                pro.stop();
-            }
-        }.now();
+        if (pro.isend()) {
+            pro.status(ProStatus.START);
+            new Job() {
+                @Override
+                public void doJob() throws Exception {
+                    pro.stop();
+                }
+            }.now();
+        } else {
+            new Job() {
+                @Override
+                public void doJob() throws Exception {
+                    pro.webStop();
+                }
+            }.now();
+        }
         renderJSON(Result.succeed());
     }
     
@@ -57,12 +66,22 @@ public class ProController extends BackController {
         }
         Pro pro = Pro.findByID(vo.proId);
         pro.status(ProStatus.START);
-        new Job() {
-            @Override
-            public void doJob() throws Exception {
-                pro.start();
-            }
-        }.now();
+        if (pro.isend()) {
+            pro.status(ProStatus.START);
+            new Job() {
+                @Override
+                public void doJob() throws Exception {
+                    pro.start();
+                }
+            }.now();
+        } else {
+            new Job() {
+                @Override
+                public void doJob() throws Exception {
+                    pro.webStart();
+                }
+            }.now();
+        }
         renderJSON(Result.succeed());
     }
     
@@ -82,19 +101,19 @@ public class ProController extends BackController {
             renderJSON(Result.failed(Result.StatusCode.BACK_START_FAILED));
         }
         Pro pro = Pro.findByID(vo.proId);
-        if (StringUtils.isNotBlank(pro.port)) {
-            new Job() {
-                @Override
-                public void doJob() throws Exception {
-                    pro.nuxt();
-                }
-            }.now();
-        } else {
+        if (pro.isend()) {
             pro.status(ProStatus.START);
             new Job() {
                 @Override
                 public void doJob() throws Exception {
                     pro.restart();
+                }
+            }.now();
+        } else {
+            new Job() {
+                @Override
+                public void doJob() throws Exception {
+                    pro.webRestart();
                 }
             }.now();
         }
