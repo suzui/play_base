@@ -2,5 +2,5 @@
 cd $3;
 ls;
 echo '$2' |su $1;
-npm install;
+cnpm install;
 npm run build;
