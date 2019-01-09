@@ -40,21 +40,10 @@ public class ProController extends BackController {
     
     public static void stop(ProVO vo) {
         Pro pro = Pro.findByID(vo.proId);
-        pro.status(ProStatus.STOP);
         if (pro.isend()) {
-            new Job() {
-                @Override
-                public void doJob() throws Exception {
-                    pro.stop();
-                }
-            }.now();
+            pro.stop();
         } else {
-            new Job() {
-                @Override
-                public void doJob() throws Exception {
-                    pro.webStop();
-                }
-            }.now();
+            pro.webStop();
         }
         renderJSON(Result.succeed());
     }
