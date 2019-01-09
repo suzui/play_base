@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 cd $3;
 ls;
-sudo -s -S << EOF
+sudo -s -S;<< EOF
 $2
 EOF
 sudo -u $1 rm logs/$4;
