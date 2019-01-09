@@ -42,7 +42,6 @@ public class ProController extends BackController {
         Pro pro = Pro.findByID(vo.proId);
         pro.status(ProStatus.STOP);
         if (pro.isend()) {
-            pro.status(ProStatus.START);
             new Job() {
                 @Override
                 public void doJob() throws Exception {
@@ -65,7 +64,6 @@ public class ProController extends BackController {
             renderJSON(Result.failed(Result.StatusCode.BACK_START_FAILED));
         }
         Pro pro = Pro.findByID(vo.proId);
-        pro.status(ProStatus.START);
         if (pro.isend()) {
             pro.status(ProStatus.START);
             new Job() {
