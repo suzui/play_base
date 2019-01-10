@@ -78,6 +78,9 @@ public class ApiVO extends OneData implements Serializable {
     }
     
     public ApiVO complete(Api api) {
+        if (api == null) {
+            return this;
+        }
         this.header = api.header;
         this.exception = api.exception;
         this.result = JSONUtils.format(api.result);
