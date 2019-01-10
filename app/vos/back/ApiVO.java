@@ -56,6 +56,9 @@ public class ApiVO extends OneData implements Serializable {
     
     public ApiVO(Api api) {
         super(0l);
+        if (api == null) {
+            return;
+        }
         this.apiId = api.get_id().toString();
         this.url = api.url;
         this.action = api.action;
