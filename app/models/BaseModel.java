@@ -74,7 +74,9 @@ public class BaseModel extends Model {
         } else {
             originSql = defaultCondition() + (StringUtils.isBlank(originSql) ? "" : AND) + originSql;
         }
-        Logger.info("sql:%s", originSql);
+        if (BaseUtils.property("jpa.debugSQL").equals("true")) {
+            Logger.info("sql:%s", originSql);
+        }
         return originSql;
     }
     
