@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class FileUtils {
     
@@ -43,6 +44,14 @@ public class FileUtils {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    public static void copyURLToFile(String url, File file) {
+        try {
+            org.apache.commons.io.FileUtils.copyURLToFile(new URL(url), file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
 }
