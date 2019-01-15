@@ -45,6 +45,7 @@ table.on('tool(api_table)', function (obj) {
         form.on('submit(api_mock)', function (data) {
             $.post('/back/api/mock', {
                 apiId: data.field.apiId,
+                url:data.field.url,
                 header: data.field.header,
                 param: data.field.param
             }, function (result, status) {
