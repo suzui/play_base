@@ -49,6 +49,10 @@ public class BaseRole extends BaseModel {
         return T.find(defaultSql("id =?"), id).first();
     }
     
+    public static <T extends BaseRole> T findByOrganizeAndName(BaseOrganize organize, String name) {
+        return T.find(defaultSql("organize =? and name=?"), organize, name).first();
+    }
+    
     public static <T extends BaseRole> List<T> fetchByIds(List<Long> ids) {
         if (ids == null || ids.isEmpty()) {
             return Collections.EMPTY_LIST;
