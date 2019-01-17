@@ -105,6 +105,7 @@ public class BaseModel extends Model {
     
     public void unique(BaseModel model, Object[] codemessage) {
         if (model != null && !model.id.equals(this.id)) {
+            Logger.error("unique:%s",codemessage[0]);
             throw new ResultException(codemessage);
         }
     }
