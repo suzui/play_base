@@ -1,5 +1,6 @@
 package models;
 
+import exceptions.ResultException;
 import listeners.BaseModelListener;
 import models.token.BasePerson;
 import org.apache.commons.lang.BooleanUtils;
@@ -100,6 +101,12 @@ public class BaseModel extends Model {
     public void timeUpdate() {
         this.updateTime = System.currentTimeMillis();
         this.save();
+    }
+    
+    public void unique(BaseModel model, Object[] codemessage) {
+        if (model != null && !model.id.equals(this.id)) {
+            throw new ResultException(codemessage);
+        }
     }
     
     public void logicDelete() {
