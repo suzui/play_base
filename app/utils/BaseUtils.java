@@ -63,6 +63,10 @@ public class BaseUtils {
         return property(key, "off").equals("on");
     }
     
+    public static boolean propertyTrue(String key) {
+        return property(key, "false").equals("true");
+    }
+    
     public static void setSession(String key, String value) {
         Scope.Session.current().put(key, value);
     }
