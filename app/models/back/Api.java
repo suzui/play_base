@@ -99,9 +99,21 @@ public class Api extends MongoModel {
         List<Object> params = new ArrayList<>();
         sqls.add("status");
         params.add(Pattern.compile("^.*$", Pattern.CASE_INSENSITIVE));
+        if (vo.startTime != null) {
+            sqls.add("startTime");
+            params.add(new BasicDBObject("$gte", vo.startTime));
+        }
+        if (vo.endTime != null) {
+            sqls.add("endTime");
+            params.add(new BasicDBObject("$lte", vo.endTime));
+        }
         if (StringUtils.isNotBlank(vo.url)) {
             sqls.add("url");
             params.add(Pattern.compile("^.*" + vo.url + ".*$"));
+        }
+        if (StringUtils.isNotBlank(vo.param)) {
+            sqls.add("param");
+            params.add(Pattern.compile("^.*" + vo.param + ".*$"));
         }
         if (StringUtils.isNotBlank(vo.personToken)) {
             sqls.add("personToken");
@@ -110,14 +122,6 @@ public class Api extends MongoModel {
         if (StringUtils.isNotBlank(vo.personInfo)) {
             sqls.add("personInfo");
             params.add(Pattern.compile("^.*" + vo.personInfo + ".*$"));
-        }
-        if (vo.startTime != null) {
-            sqls.add("startTime");
-            params.add(new BasicDBObject("$gte", vo.startTime));
-        }
-        if (vo.endTime != null) {
-            sqls.add("endTime");
-            params.add(new BasicDBObject("$lte", vo.endTime));
         }
         if (StringUtils.isNotBlank(vo.env)) {
             sqls.add("env");

@@ -44,6 +44,9 @@
                             <input type="text" name="url" placeholder="url" autocomplete="on" class="layui-input">
                         </div>
                         <div class="layui-input-inline">
+                            <input type="text" name="param" placeholder="param" autocomplete="on" class="layui-input">
+                        </div>
+                        <div class="layui-input-inline">
                             <input type="text" name="personToken" placeholder="personToken" autocomplete="on"
                                    class="layui-input">
                         </div>
@@ -52,18 +55,12 @@
                                    class="layui-input">
                         </div>
                         <div class="layui-input-inline">
-                            <input type="text" name="startTime" class="layui-input" id="apiStartTime">
-                        </div>
-                        <div class="layui-input-inline">
-                            <input type="text" name="endTime" class="layui-input" id="apiEndTime">
+                            <input type="text" name="env" placeholder="env" autocomplete="on"
+                                   class="layui-input">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-md8 layui-col-md-offset4">
-                    <div class="layui-input-inline">
-                        <input type="text" name="env" placeholder="env" autocomplete="on"
-                               class="layui-input">
-                    </div>
                     <div class="layui-input-inline">
                         <label class="layui-form-label">只显示error</label>
                         <input type="checkbox" name="error" lay-skin="switch" lay-text="on|off" value="1"
@@ -73,6 +70,13 @@
                         <label class="layui-form-label">只显示mock</label>
                         <input type="checkbox" name="mock" lay-skin="switch" lay-text="on|off" value="1"
                                lay-filter="api_mock">
+                    </div>
+                    <label>&nbsp;&nbsp;&nbsp;时间:&nbsp;&nbsp;&nbsp;</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="startTime" class="layui-input" id="apiStartTime">
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="text" name="endTime" class="layui-input" id="apiEndTime">
                     </div>
                     <div class="layui-btn-group">
                         <button class="layui-btn" lay-submit lay-filter="api_search">查询</button>
