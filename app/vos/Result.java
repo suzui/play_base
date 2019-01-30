@@ -45,6 +45,7 @@ public class Result {
         public static final Object[] SYSTEM_REQUEST_REPEAT = {40002, "重复请求"};
         public static final Object[] SYSTEM_ACCESS_FOBIDDEN = {40003, "无相应权限"};
         public static final Object[] SYSTEM_PARAM_ERROR = {40004, "参数不合法"};
+        public static final Object[] SYSTEM_FILE_ERROR = {40005, "文件格式错误"};
         public static final Object[] PERSON_USERNAME_UNVALID = {40101, "用户名格式错误"};
         public static final Object[] PERSON_PHONE_UNVALID = {40102, "手机号码格式错误"};
         public static final Object[] PERSON_EMAIL_UNVALID = {40103, "邮箱格式错误"};
