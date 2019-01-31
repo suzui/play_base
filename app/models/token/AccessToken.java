@@ -96,9 +96,11 @@ public class AccessToken extends BaseModel {
         if (StringUtils.isBlank(accesstoken)) {
             return null;
         }
+        //非56位 走本地校验
         if (accesstoken.length() != 56) {
             return AccessToken.find(defaultSql("accesstoken = ?"), accesstoken).first();
         }
+        //56位 先取前36位 走本地校验
         AccessToken at = AccessToken.find(defaultSql("accesstoken = ?"), accesstoken.substring(36)).first();
         if (at != null) {
             return at;
@@ -106,10 +108,12 @@ public class AccessToken extends BaseModel {
         if (!AccessToken.find("accesstoken = ?", accesstoken.substring(36)).fetch().isEmpty()) {
             return null;
         }
+        //本地校验无记录 取前36位 往sso中心查询
         PersonResult personResult = SSOUtils.auth(accesstoken);
         if (personResult == null || !personResult.succ()) {
             return null;
         }
+        //sso校验通过 取前36位生成本地记录 下次直接查询本地
         SsoPerson person = SsoPerson.findBySsoId(personResult.data.personId);
         at = new AccessToken();
         at.person = person;
