@@ -4,4 +4,4 @@ ls;
 sudo -s -S;<< EOF
 $2
 EOF
-sudo -u $1 rm logs/$4;
+sudo -u $1 rm logs/$4*;
