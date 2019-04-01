@@ -114,7 +114,6 @@ public class OneData extends Data {
     
     @Override
     public int hashCode() {
-        System.err.println("*");
         final int prime = 31;
         int result = 1;
         result = prime * result + this.getClass().hashCode();
@@ -124,7 +123,6 @@ public class OneData extends Data {
     
     @Override
     public boolean equals(Object obj) {
-        System.err.println("-");
         if (this == obj) {
             return true;
         }
