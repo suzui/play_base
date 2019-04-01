@@ -142,7 +142,7 @@ public class OneData extends Data {
     public Map<Object, Object> doc() {
         Map<Object, Object> map = new LinkedHashMap<>();
         try {
-            for (Field f : this.getClass().getDeclaredFields()) {
+            for (Field f : this.getClass().getFields()) {
                 DataField df = f.getAnnotation(DataField.class);
                 if (df == null) {
                     continue;
