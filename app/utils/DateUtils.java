@@ -134,6 +134,11 @@ public class DateUtils {
         return cal.get(Calendar.YEAR);
     }
     
+    public static int quarter(Long time) {
+        int month = month(time);
+        return (month - 1) / 3 + 1;
+    }
+    
     public static int month(Long time) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date(time));
