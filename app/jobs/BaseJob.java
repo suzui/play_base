@@ -31,7 +31,7 @@ public class BaseJob extends Job {
         for (StackTraceElement stackTraceElement : e.getStackTrace()) {
             vo.exception += stackTraceElement.toString() + "\n";
         }
-        System.err.println(vo.exception);
+        //System.err.println(vo.exception);
     }
     
     @Override

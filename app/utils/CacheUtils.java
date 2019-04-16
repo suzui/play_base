@@ -94,7 +94,6 @@ public class CacheUtils {
     
     public static String pre(String key) {
         if (StringUtils.isNotBlank(PREFIX)) {
-            System.err.println(PREFIX + "_" + key);
             return PREFIX + "_" + key;
         }
         return key;
