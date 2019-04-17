@@ -1,4 +1,18 @@
-self: play -> play_base 0.2
+self: play -> play_base 0.1
 
 require:
     - play
+
+repositories:
+    - playBaseModules:
+        type: local
+        artifact: ${play.path}/modules/[module]
+        contains:
+        - baseModules -> *
+
+repositories:
+    - playCustomModules:
+        type: local
+        artifact: ${application.path}/../[module]
+        contains:
+        - customerModules -> *

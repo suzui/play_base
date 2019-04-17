@@ -8,7 +8,6 @@ import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
-import play.Play;
 import play.cache.Cache;
 
 import java.io.File;
@@ -16,10 +15,10 @@ import java.io.File;
 public class QiniuUtils {
     
     public final static String UPTOKENKEY = "qiniuUptoken";
-    public final static String ACCESSKEY = Play.configuration.getProperty("qiniu.accessKey");
-    public final static String SECRETKEY = Play.configuration.getProperty("qiniu.secretKey");
-    public final static String BUCKET = Play.configuration.getProperty("qiniu.bucket");
-    public final static String DOMAIN = Play.configuration.getProperty("qiniu.domain");
+    public final static String ACCESSKEY = BaseUtils.property("qiniu.accessKey");
+    public final static String SECRETKEY = BaseUtils.property("qiniu.secretKey");
+    public final static String BUCKET = BaseUtils.property("qiniu.bucket");
+    public final static String DOMAIN = BaseUtils.property("qiniu.domain");
     
     public static String initUpToken() {
         Auth auth = Auth.create(ACCESSKEY, SECRETKEY);
