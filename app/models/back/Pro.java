@@ -28,6 +28,7 @@ public class Pro extends BaseModel {
     public String user;
     public String password;
     public String playid;
+    public String npmapp;
     
     @Enumerated(EnumType.STRING)
     public ProStatus status;
@@ -50,6 +51,7 @@ public class Pro extends BaseModel {
         this.user = proVO.user != null ? proVO.user : user;
         this.password = proVO.password != null ? proVO.password : password;
         this.playid = proVO.playid != null ? proVO.playid : playid;
+        this.npmapp = proVO.npmapp != null ? proVO.npmapp : npmapp;
         this.save();
     }
     

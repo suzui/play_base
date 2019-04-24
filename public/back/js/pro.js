@@ -17,7 +17,7 @@ form.on('submit(pro_search)', function (data) {
 });
 
 form.on('submit(pro_form)', function () {
-    var d = {proId: '', name: '', location: '', git: '', branch: '', user: '', password: '', playid: '', url: '', port: '', shell: ''};
+    var d = {proId: '', name: '', location: '', git: '', branch: '', user: '', password: '', playid: '', npmapp: '', url: '', port: '', shell: ''};
     var pro_form_html = laytpl($('#pro_form').html()).render(d);
     layer_index = layer.open({
         type: 1,
