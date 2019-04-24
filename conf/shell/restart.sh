@@ -7,6 +7,7 @@ EOF
 sudo play id -S << EOF
 $3
 EOF
+sudo -u $1 rm -rf /home/zhihan/.ivy2/cache/customerModules;
 sudo -u $1 play deps --sync;
 sudo -u $1 play stop;
 sudo -u $1 play clean;
