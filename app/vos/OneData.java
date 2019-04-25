@@ -78,6 +78,10 @@ public class OneData extends Data {
         this(baseModel.id, baseModel.createTime, baseModel.updateTime, baseModel.deleted);
     }
     
+    public void id(long id) {
+        this.id = id;
+    }
+    
     public Integer page() {
         return this.page != null ? this.page : 1;
     }
