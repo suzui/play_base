@@ -16,6 +16,10 @@ public class ShellUtils {
         private Result(int status) {
             this.status = status;
         }
+        
+        public boolean succ() {
+            return status == 0;
+        }
     }
     
     

@@ -60,7 +60,7 @@ public class Pro extends BaseModel {
     }
     
     public void status(ProStatus status) {
-        if (!this.location.contains("app")) {
+        if (!this.isend()) {
             return;
         }
         this.status = status;
