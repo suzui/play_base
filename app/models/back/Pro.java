@@ -4,6 +4,7 @@ import enums.ProStatus;
 import models.BaseModel;
 import org.apache.commons.lang.StringUtils;
 import play.Play;
+import utils.BaseUtils;
 import utils.ConfigUtils;
 import utils.ShellUtils;
 import vos.back.ProVO;
@@ -108,15 +109,17 @@ public class Pro extends BaseModel {
     }
     
     public ShellUtils.Result webStart() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/web/start.sh", this.user(), this.password(), this.location, this.port);
+        String mode = BaseUtils.isProd() ? "" : ":test";
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/web/start.sh", this.user(), this.password(), this.location, this.npmapp, mode);
     }
     
     public ShellUtils.Result webStop() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/web/stop.sh", this.user(), this.password(), this.location, this.port);
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/web/stop.sh", this.user(), this.password(), this.location, this.npmapp);
     }
     
     public ShellUtils.Result webRestart() {
-        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/web/restart.sh", this.user(), this.password(), this.location, this.port);
+        String mode = BaseUtils.isProd() ? "" : ":test";
+        return ShellUtils.exec(Play.frameworkPath.getAbsolutePath() + "/modules/play_base/conf/shell/web/restart.sh", this.user(), this.password(), this.location, this.npmapp, mode);
     }
     
     public ShellUtils.Result clean(String pattern) {
