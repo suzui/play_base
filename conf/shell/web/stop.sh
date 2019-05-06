@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 cd $3;
-ls;
-echo '$2' |sudo -S -s;
+sudo -u $1 -S ls << EOF
+$2
+EOF
 sudo pm2 delete $4;

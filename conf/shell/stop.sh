@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 cd $3;
-ls;
-sudo -s -S << EOF
+sudo -u $1 -S ls << EOF
 $2
 EOF
 sudo -u $1 play stop;
