@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 cd $3;
-sudo -u $1 -S ls << EOF
+ls;
+sudo -s -S << EOF
 $2
 EOF
 sudo -u $1 git checkout $4;
