@@ -1,11 +1,11 @@
 package models.access;
 
 import models.BaseModel;
-import javax.persistence.FetchType;
 import models.token.BaseOrganize;
 import models.token.BasePerson;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.List;

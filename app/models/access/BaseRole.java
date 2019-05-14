@@ -1,15 +1,11 @@
 package models.access;
 
 import models.BaseModel;
-import javax.persistence.FetchType;
 import models.token.BaseOrganize;
 import play.jobs.Job;
 import utils.BaseUtils;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 

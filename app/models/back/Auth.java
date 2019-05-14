@@ -2,7 +2,6 @@ package models.back;
 
 import enums.Access;
 import models.BaseModel;
-import javax.persistence.FetchType;
 import org.apache.commons.lang.StringUtils;
 import vos.back.AuthVO;
 
@@ -50,7 +49,7 @@ public class Auth extends BaseModel {
         }
         return Auth.find(defaultSql("id in(:ids)")).bind("ids", ids.toArray()).fetch();
     }
-
+    
     public static List<Auth> fetchByIds(String[] ids) {
         if (ids == null || ids.length == 0) {
             return Collections.EMPTY_LIST;

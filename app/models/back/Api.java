@@ -83,7 +83,7 @@ public class Api extends MongoModel {
         List<Pattern> params = (List<Pattern>) objects[1];
         List<Api> list = Api.find("by" + StringUtils.join(sqls, "And"), params.toArray()).order("by-startTime")
                 .fetch(vo.page, vo.size);
-        Logger.info("[apifetch]:%s",list.size());
+        Logger.info("[apifetch]:%s", list.size());
         return list;
     }
     

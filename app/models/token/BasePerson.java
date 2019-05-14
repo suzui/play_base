@@ -4,7 +4,6 @@ import enums.AccessType;
 import enums.PersonType;
 import enums.Sex;
 import models.BaseModel;
-import javax.persistence.FetchType;
 import models.access.BaseAccess;
 import models.access.BaseAuthorization;
 import models.access.BaseCrowd;

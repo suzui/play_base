@@ -2,7 +2,6 @@ package models.token;
 
 import enums.OrganizeType;
 import models.BaseModel;
-import javax.persistence.FetchType;
 import models.access.BaseAuthorization;
 import models.access.BaseCrowd;
 import models.access.BaseRole;

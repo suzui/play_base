@@ -2,7 +2,6 @@ package models.back;
 
 import enums.ProStatus;
 import models.BaseModel;
-import javax.persistence.FetchType;
 import org.apache.commons.lang.StringUtils;
 import play.Play;
 import utils.BaseUtils;
