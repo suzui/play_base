@@ -2,6 +2,7 @@ package models.back;
 
 import enums.Access;
 import models.BaseModel;
+import javax.persistence.FetchType;
 import org.apache.commons.lang.StringUtils;
 import vos.back.AuthVO;
 

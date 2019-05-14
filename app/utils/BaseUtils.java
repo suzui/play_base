@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import interfaces.BaseEnum;
 import models.BaseModel;
+import javax.persistence.FetchType;
 import models.back.Admin;
 import models.token.AccessToken;
 import models.token.BasePerson;

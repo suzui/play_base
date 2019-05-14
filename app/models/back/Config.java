@@ -2,6 +2,7 @@ package models.back;
 
 import annotations.ConfigField;
 import models.BaseModel;
+import javax.persistence.FetchType;
 import org.apache.commons.lang.StringUtils;
 import utils.ConfigUtils;
 import vos.back.ConfigVO;

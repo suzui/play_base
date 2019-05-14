@@ -2,6 +2,7 @@ package models.back;
 
 import enums.LogStatus;
 import models.BaseModel;
+import javax.persistence.FetchType;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

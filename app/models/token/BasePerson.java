@@ -4,6 +4,7 @@ import enums.AccessType;
 import enums.PersonType;
 import enums.Sex;
 import models.BaseModel;
+import javax.persistence.FetchType;
 import models.access.BaseAccess;
 import models.access.BaseAuthorization;
 import models.access.BaseCrowd;
@@ -95,7 +96,7 @@ public class BasePerson extends BaseModel {
     @Column(columnDefinition = BOOLEAN + "'是否初始超级管理员'")
     public Boolean origin = false;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     public BaseOrganize organize;//所属机构
     
     public <T extends BaseOrganize> T organize() {

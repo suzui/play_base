@@ -1,6 +1,7 @@
 package listeners;
 
 import models.BaseModel;
+import javax.persistence.FetchType;
 
 import javax.persistence.PreUpdate;
 

@@ -2,6 +2,7 @@ package models.token;
 
 import enums.OrganizeType;
 import models.BaseModel;
+import javax.persistence.FetchType;
 import models.access.BaseAuthorization;
 import models.access.BaseCrowd;
 import models.access.BaseRole;
@@ -49,17 +50,17 @@ public class BaseOrganize extends BaseModel {
     @Column(columnDefinition = DOUBLE + "'组织类型'")
     public OrganizeType type;//项目enum需定义
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     public BasePerson person;//组织负责人
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     public BaseOrganize parent;//父组织，根组织为null
     
     @Deprecated
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     public BaseOrganize organize;//组织机构 机构类型为机构本身
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     public BaseOrganize root;//根机构
     
     public <T extends BasePerson> T person() {

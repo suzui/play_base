@@ -2,6 +2,11 @@ self: play -> play_base 0.1
 
 require:
     - play
+    - org.igniterealtime.smack -> smack-core 4.2.3
+    - org.igniterealtime.smack -> smack-im 4.2.3
+    - org.igniterealtime.smack -> smack-tcp 4.2.3
+    - org.igniterealtime.smack -> smack-extensions 4.2.3
+    - org.igniterealtime.smack -> smack-java7 4.2.3
 
 repositories:
     - playBaseModules:

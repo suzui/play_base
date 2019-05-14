@@ -2,6 +2,7 @@ package models.access;
 
 import enums.AccessType;
 import models.BaseModel;
+import javax.persistence.FetchType;
 import utils.BaseUtils;
 
 import javax.persistence.*;

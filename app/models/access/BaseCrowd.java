@@ -1,6 +1,7 @@
 package models.access;
 
 import models.BaseModel;
+import javax.persistence.FetchType;
 import models.token.BaseOrganize;
 import play.jobs.Job;
 import utils.BaseUtils;
@@ -22,7 +23,7 @@ public class BaseCrowd extends BaseModel {
     @Column(columnDefinition = STRING_5000 + "'组织ids'")
     public String organizeIds;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     public BaseOrganize organize;//所属机构
     
     public <T extends BaseOrganize> T organize() {

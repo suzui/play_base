@@ -2,6 +2,7 @@ package models.token;
 
 import enums.ClientType;
 import models.BaseModel;
+import javax.persistence.FetchType;
 import models.person.Person;
 import models.sso.SsoPerson;
 import org.apache.commons.lang.RandomStringUtils;
@@ -17,7 +18,7 @@ import java.util.List;
 public class AccessToken extends BaseModel {
     
     public String accesstoken;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     public BasePerson person;
     public String appVersion;
     public String appType;

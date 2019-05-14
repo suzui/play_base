@@ -1,6 +1,7 @@
 package models.util;
 
 import models.BaseModel;
+import javax.persistence.FetchType;
 import utils.DateUtils;
 
 import javax.persistence.Column;
