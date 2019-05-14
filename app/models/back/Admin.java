@@ -3,6 +3,7 @@ package models.back;
 import enums.Access;
 import models.BaseModel;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.Table;
 import utils.BaseUtils;
 import vos.back.AdminVO;
 
@@ -12,6 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
+@Table(appliesTo = "Admin", comment = "开发后台-管理员")
 public class Admin extends BaseModel {
     
     public String username;//用户名

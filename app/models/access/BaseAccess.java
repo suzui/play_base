@@ -2,15 +2,18 @@ package models.access;
 
 import enums.AccessType;
 import models.BaseModel;
-import javax.persistence.FetchType;
+import org.hibernate.annotations.Table;
 import utils.BaseUtils;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.Collections;
 import java.util.List;
 
 @Entity
-@Table(name = "Access")
+@Table(appliesTo = "Access", comment = "权限")
 public class BaseAccess extends BaseModel {
     
     @Column(columnDefinition = STRING + "'权限code'")

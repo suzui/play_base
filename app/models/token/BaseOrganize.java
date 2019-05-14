@@ -5,6 +5,7 @@ import models.BaseModel;
 import models.access.BaseAuthorization;
 import models.access.BaseCrowd;
 import models.access.BaseRole;
+import org.hibernate.annotations.Table;
 import play.jobs.Job;
 import utils.BaseUtils;
 
@@ -14,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Entity
-@Table(name = "Organize")
+@Table(appliesTo = "Organize", comment = "组织机构")
 public class BaseOrganize extends BaseModel {
     
     @Column(columnDefinition = STRING + "'code'")

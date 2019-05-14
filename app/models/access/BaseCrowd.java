@@ -2,15 +2,18 @@ package models.access;
 
 import models.BaseModel;
 import models.token.BaseOrganize;
+import org.hibernate.annotations.Table;
 import play.jobs.Job;
 import utils.BaseUtils;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.util.Collections;
 import java.util.List;
 
 @Entity
-@Table(name = "Crowd")
+@Table(appliesTo = "Crowd", comment = "范围")
 public class BaseCrowd extends BaseModel {
     
     @Column(columnDefinition = STRING + "'范围名称'")

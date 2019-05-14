@@ -1,16 +1,16 @@
 package models.token;
 
 import models.BaseModel;
+import org.hibernate.annotations.Table;
 import utils.BaseUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.util.*;
 
 @Entity
-@Table(name = "Relation")
+@Table(appliesTo = "Relation", comment = "组织人员关系")
 public class BaseRelation extends BaseModel {
     
     @ManyToOne

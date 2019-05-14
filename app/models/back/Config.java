@@ -3,6 +3,7 @@ package models.back;
 import annotations.ConfigField;
 import models.BaseModel;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.Table;
 import utils.ConfigUtils;
 import vos.back.ConfigVO;
 
@@ -14,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Entity
+@Table(appliesTo = "Config", comment = "开发后台-全局配置")
 public class Config extends BaseModel {
     
     public String name;

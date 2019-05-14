@@ -3,6 +3,7 @@ package models.back;
 import enums.Access;
 import models.BaseModel;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.Table;
 import vos.back.AuthVO;
 
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
+@Table(appliesTo = "Auth", comment = "开发后台-权限")
 public class Auth extends BaseModel {
     
     public String name;

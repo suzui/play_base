@@ -3,6 +3,7 @@ package models.back;
 import enums.ProStatus;
 import models.BaseModel;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.Table;
 import play.Play;
 import utils.BaseUtils;
 import utils.ConfigUtils;
@@ -17,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Entity
+@Table(appliesTo = "Pro", comment = "开发后台-项目")
 public class Pro extends BaseModel {
     
     public String name;

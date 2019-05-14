@@ -3,14 +3,14 @@ package models.access;
 import models.BaseModel;
 import models.token.BaseOrganize;
 import models.token.BasePerson;
+import org.hibernate.annotations.Table;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "Authorization")
+@Table(appliesTo = "Authorization", comment = "人员授权")
 public class BaseAuthorization extends BaseModel {
     
     @ManyToOne
