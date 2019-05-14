@@ -6,6 +6,7 @@ import models.person.Person;
 import models.sso.SsoPerson;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.Table;
 import results.sso.PersonResult;
 import utils.SSOUtils;
 
@@ -14,6 +15,7 @@ import javax.persistence.ManyToOne;
 import java.util.List;
 
 @Entity
+@Table(appliesTo = "AccessToken", comment = "token")
 public class AccessToken extends BaseModel {
     
     public String accesstoken;
