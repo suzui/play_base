@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 import java.util.List;
 
 @Entity
-@Table(appliesTo = "AccessToken", comment = "token")
+@Table(appliesTo = "AccessToken", comment = "用户token")
 public class AccessToken extends BaseModel {
     
     public String accesstoken;
