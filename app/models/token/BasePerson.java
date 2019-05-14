@@ -11,7 +11,6 @@ import models.access.BaseRole;
 import models.person.Person;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.Table;
 import play.data.validation.MaxSize;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
@@ -23,7 +22,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(appliesTo = "Person", comment = "人员用户")
+@Table(name = "Person")
+@org.hibernate.annotations.Table(appliesTo = "Person", comment = "人员用户")
 public class BasePerson extends BaseModel {
     @Required
     @MinSize(2)
