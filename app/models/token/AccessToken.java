@@ -10,7 +10,6 @@ import results.sso.PersonResult;
 import utils.SSOUtils;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import java.util.List;
 
@@ -18,7 +17,7 @@ import java.util.List;
 public class AccessToken extends BaseModel {
     
     public String accesstoken;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     public BasePerson person;
     public String appVersion;
     public String appType;

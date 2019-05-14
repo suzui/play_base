@@ -3,16 +3,19 @@ package models.token;
 import models.BaseModel;
 import utils.BaseUtils;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.*;
 
 @Entity
 @Table(name = "Relation")
 public class BaseRelation extends BaseModel {
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     public BaseOrganize organize;//组织
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     public BasePerson person;//人员
     
     @Column(columnDefinition = DOUBLE + "'排序'")

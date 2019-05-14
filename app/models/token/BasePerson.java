@@ -95,7 +95,7 @@ public class BasePerson extends BaseModel {
     @Column(columnDefinition = BOOLEAN + "'是否初始超级管理员'")
     public Boolean origin = false;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     public BaseOrganize organize;//所属机构
     
     public <T extends BaseOrganize> T organize() {

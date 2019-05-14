@@ -5,7 +5,6 @@ import models.token.BaseOrganize;
 import models.token.BasePerson;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.List;
@@ -14,16 +13,16 @@ import java.util.List;
 @Table(name = "Authorization")
 public class BaseAuthorization extends BaseModel {
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     public BasePerson person;//人员
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     public BaseRole role;//角色
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     public BaseCrowd crowd;//范围
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     public BaseOrganize organize;//所属机构
     
     public <T extends BasePerson> T person() {

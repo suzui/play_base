@@ -49,17 +49,17 @@ public class BaseOrganize extends BaseModel {
     @Column(columnDefinition = DOUBLE + "'组织类型'")
     public OrganizeType type;//项目enum需定义
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     public BasePerson person;//组织负责人
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     public BaseOrganize parent;//父组织，根组织为null
     
     @Deprecated
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     public BaseOrganize organize;//组织机构 机构类型为机构本身
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     public BaseOrganize root;//根机构
     
     public <T extends BasePerson> T person() {

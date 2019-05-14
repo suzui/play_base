@@ -19,7 +19,7 @@ public class BaseRole extends BaseModel {
     @Column(columnDefinition = STRING_5000 + "'权限ids'")
     public String accessIds;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     public BaseOrganize organize;//所属机构
     
     public <T extends BaseOrganize> T organize() {
