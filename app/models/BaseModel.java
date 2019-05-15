@@ -9,6 +9,7 @@ import play.Logger;
 import play.db.jpa.Model;
 import utils.BaseUtils;
 
+import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
@@ -23,10 +24,13 @@ public class BaseModel extends Model {
     @Version
     public long version;
     
+    @Column(columnDefinition = BOOLEAN + "'逻辑删除标记'")
     public boolean deleted = false;
     
+    @Column(columnDefinition = LONG + "'初次创建时间'")
     public long createTime = System.currentTimeMillis();
     
+    @Column(columnDefinition = LONG + "'最后修改时间'")
     public long updateTime = System.currentTimeMillis();
     
     public static final String STRING = "varchar(255) comment ";
