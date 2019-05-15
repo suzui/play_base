@@ -95,6 +95,8 @@ public class BasePerson extends BaseModel {
     public Boolean increase = false;
     @Column(columnDefinition = BOOLEAN + "'是否初始超级管理员'")
     public Boolean origin = false;
+    @Column(columnDefinition = BOOLEAN + "'是否机构超级管理员'")
+    public Boolean admin = false;
     
     @ManyToOne
     public BaseOrganize organize;//所属机构
