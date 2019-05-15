@@ -178,10 +178,10 @@ public class BasePerson extends BaseModel {
     
     public static <T extends BasePerson> T findByUsername(String username, PersonType type) {
         BasePerson basePerson = BasePerson.find(defaultSql("username=? and type=?"), username, type).first();
-        if (basePerson == null) {
+        if (basePerson == null && isEmailLegal(username)) {
             basePerson = BasePerson.find(defaultSql("email=? and type=?"), username, type).first();
         }
-        if (basePerson == null) {
+        if (basePerson == null && isPhoneLegal(username)) {
             basePerson = BasePerson.find(defaultSql("phone=? and type=?"), username, type).first();
         }
         return (T) basePerson;
