@@ -34,6 +34,7 @@ public class BaseModel extends Model {
     public long updateTime = System.currentTimeMillis();
     
     public static final String STRING = "varchar(255) comment ";
+    public static final String STRING_10 = "varchar(10) comment ";
     public static final String STRING_1000 = "varchar(1000) comment ";
     public static final String STRING_2000 = "varchar(2000) comment ";
     public static final String STRING_3000 = "varchar(3000) comment ";
