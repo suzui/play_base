@@ -42,6 +42,15 @@ public class BaseController extends Controller {
     private static final String BODY = "body";
     private static Gson gson = new GsonBuilder().disableHtmlEscaping().create();
     
+    /**
+     * description: 接口基础信息记录
+     * date: 2019/5/16 5:11 PM
+     * version: 1.0
+     * author: suzui
+     *
+     * @param
+     * @return void
+     */
     @Before(priority = 0)
     static void api() {
         final Request request = Request.current();
