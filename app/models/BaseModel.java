@@ -46,6 +46,8 @@ public class BaseModel extends Model {
     public static final String STRING_TEXT = "longtext comment ";
     public static final String LONG = "bigint comment ";
     public static final String INTEGER = "int comment ";
+    public static final String SHORT = "smallint comment ";
+    public static final String BYTE = "tinyint comment ";
     public static final String FLOAT = "float comment ";
     public static final String DOUBLE = "double comment ";
     public static final String BOOLEAN = "tinyint(1) comment ";
